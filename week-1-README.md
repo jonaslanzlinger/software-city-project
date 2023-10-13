@@ -48,6 +48,11 @@ This picture displays the 3D visualization of a small Java repository:
 * Blocks are grouped (project)
 From this we could see which classes are fixated by the eyes the longest.
 
+## Issues & Proposal
+* I want to introduce Treshholds into the visualization (e.g. display a building red, if metric-X > 200), but that doesn't seem to be trivial to do on own customized metrics. In the standard metrics you can just add new Treshholds but in own metrics you need to code that into the scripting files. There is no real documentation for that.
+* Sonargraph in general is a great tool for analyzing and visualizing a software project. But since we want to introduce our own metrics it becomes a little bit clumsy.
+* As far as I know, multiple metrics are not supported by Sonargraph's Treemaps. If this is indeed the case I strongly propose to use a different tool. Since we only want to display biometric data that is annotated to the code-blocks or classes, I think the best way to do this is to reflext that on the collected data: E.g. "in class Dog.java the eye fixated on line 22 for 187ms" would translate to the data "Dog.java,22,187". Since we don't need to analyze the structure of the code, this would suffice. Therefore you could read that data, aggregate it and draw it (...or write into a file that can be imported by a visual drawing software).
+
 # ToDo's for week 2:
 * Investigate Sonargraph capabilities:
   * Explore visualization of multiple metrics simultaneously
