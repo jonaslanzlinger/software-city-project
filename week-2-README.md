@@ -130,7 +130,7 @@ I think the best approach would be to have a closer look at the actual biometric
 ___
 
 ### Prototype - Software City visualization tool
-Video Demo of this weeks prototype. It's still very rudimentary, but expanding on this is straightforward. First I wanted to explore what is possible and how the required functionalities can be implemented:
+Video Demo of this weeks prototype. It's still very rudimentary, but expanding on this is straightforward. First I wanted to explore what is possible and how the required functionalities can be implemented. The prototype displays the dummy data from week 1:
 
 ![software-city-prototype-week-2](https://github.com/jonaslanzlinger/software-city-project/assets/141398686/11da6d31-e722-493c-876a-f91d3050a9f8)
 
