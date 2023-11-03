@@ -1,4 +1,4 @@
-### Week 2
+# Week 2
 Week 2 focuses on formulating my own personal requirements for an ideal visualization tool in the context of software structure and biometric data about a specific software system.
 
 ___
