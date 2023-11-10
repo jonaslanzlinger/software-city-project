@@ -3,11 +3,11 @@ import {
 } from "./dummy_data";
 
 // calculate city dimensions
-let cityRectangleRatio = prompt("Enter dimension ratio of city:"); // columns : rows
+let cityRectangleRatio = prompt("Enter dimension ratio of city (e.g. '2' => 2:1 ratio):"); // columns : rows
 // let cityRectangleRatio = 2;
 
 // spread of objects
-let citySpread = prompt("Enter spread value of city:"); // tiles between objects
+let citySpread = prompt("Enter spread value of city (e.g. 1.5):"); // tiles between objects
 // let citySpread = 1.5;
 
 let rows = Math.sqrt(DUMMY_DATA.length / cityRectangleRatio);
