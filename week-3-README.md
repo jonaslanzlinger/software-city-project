@@ -39,7 +39,7 @@ In order to test the prototype:
 #### Demo Video
 Here is a video about the resulting prototype:
 
-![software-city-prototype-week-3]([https://github.com/jonaslanzlinger/software-city-project/assets/141398686/11da6d31-e722-493c-876a-f91d3050a9f8](https://github.com/jonaslanzlinger/software-city-project/blob/main/video-demos/software-city-prototype-week-3.gif))
+![software-city-prototype-week-3](https://github.com/jonaslanzlinger/software-city-project/blob/main/video-demos/software-city-prototype-week-3.gif)
 
 
 ## Next steps
