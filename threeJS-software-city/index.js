@@ -4,6 +4,7 @@ import {
 
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import * as dat from 'dat.gui';
 
 let cityRectangleRatio = prompt("Enter dimension ratio of city (e.g. '2' => 2:1 ratio):");
 let citySpread = prompt("Enter spread value of city (e.g. 1.5):");
@@ -97,6 +98,30 @@ DUMMY_DATA.forEach((obj, index) => {
     group.add(box);
 });
 scene.add(group);
+
+const gui = new dat.GUI();
+const options = {
+    thresholdValue: 0,
+    thresholdColor: '#FF0000'
+}
+
+gui.add(options, 'thresholdValue', 0, 6).onChange(value => {
+    options.thresholdValue = value;
+    group.children.forEach(e => {
+        if (e.scale.y >= options.thresholdValue) {
+            e.material.color.set(options.thresholdColor);
+        }
+    });
+});
+
+gui.addColor(options, 'thresholdColor').onChange(color => {
+    options.thresholdColor = color;
+    group.children.forEach(e => {
+        if (e.scale.y >= options.thresholdValue) {
+            e.material.color.set(options.thresholdColor);
+        }
+    });
+});
 
 function animate(time) {
     renderer.render(scene, camera);
