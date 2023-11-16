@@ -53,3 +53,15 @@ I think it makes sense to refine the prototype now. Here some ideas:
 Also building the microservice that analyzes the source code would be a next possible step.
 
 In general, I have to do a lot of refactoring of the prototype.
+
+# Update
+Played around with:
+* Lightning settings. Adjusts now depending on size of the dataset, spead of the buildings, or the dimension choice.
+* First additional visualization properties:
+  * thresholdValue
+  * thresholdColor
+* They are adjustable via the GUI provided in the interface
+
+Example screenshot of current state:
+<img width="1162" alt="software-city-prototype-week-3" src="https://github.com/jonaslanzlinger/software-city-project/assets/141398686/676e58b8-c8de-4c90-a878-c35ad88e274b">
+
