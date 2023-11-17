@@ -1,0 +1,17 @@
+{
+    "name": "visualizer",
+    "version": "1.0.0",
+    "description": "Software City Visualizer",
+    "main": "index.js",
+    "scripts": {
+        "start": "vite --port 3000"
+    },
+    "keywords": [],
+    "author": "Jonas Länzlinger",
+    "license": "ISC",
+    "dependencies": {
+        "dat.gui": "^0.7.9",
+        "three": "^0.140.2",
+        "vite": "^4.5.0"
+    }
+}
