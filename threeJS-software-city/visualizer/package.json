@@ -2,7 +2,7 @@
     "name": "visualizer",
     "version": "1.0.0",
     "description": "Software City Visualizer",
-    "main": "index.js",
+    "main": "index.html",
     "scripts": {
         "start": "vite --port 3000"
     },
