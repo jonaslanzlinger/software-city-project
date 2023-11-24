@@ -5,6 +5,15 @@ export class Building {
 
         // Initialize object
         this.buildingId = buildingId;
+        // this.buildingName = data.name;
+        // this.buildingGroupId = data.groupId;
+        // this.buildingLength = data.length;
+        // this.buildingWidth = data.width;
+        // this.buildingHeight = data.height;
+        // this.buildingShape = data.shape;
+        // this.buildingColor = data.color;
+        // this.buildingRelationships = data.relationships;
+        // this.buildingData = data.data;
         this.data = data;
 
         // Box
