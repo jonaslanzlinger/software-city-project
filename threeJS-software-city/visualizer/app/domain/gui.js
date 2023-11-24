@@ -2,26 +2,26 @@ import * as dat from 'dat.gui';
 
 export class GUI {
     constructor(group, highestBuilding) {
-        const gui = new dat.GUI();
-        const options = {
+        this.gui = new dat.GUI();
+        this.options = {
             thresholdValue: 0,
             thresholdColor: '#FF0000'
         }
 
-        gui.add(options, 'thresholdValue', 0, highestBuilding).onChange(value => {
-            options.thresholdValue = value;
+        this.gui.add(this.options, 'thresholdValue', 0, highestBuilding).onChange(value => {
+            this.options.thresholdValue = value;
             group.children.forEach(e => {
-                if (e.scale.y * 10 >= options.thresholdValue) {
-                    e.material.color.set(options.thresholdColor);
+                if (e.scale.y >= this.options.thresholdValue) {
+                    e.material.color.set(this.options.thresholdColor);
                 }
             });
         });
 
-        gui.addColor(options, 'thresholdColor').onChange(color => {
-            options.thresholdColor = color;
+        this.gui.addColor(this.options, 'thresholdColor').onChange(color => {
+            this.options.thresholdColor = color;
             group.children.forEach(e => {
-                if (e.scale.y * 10 >= options.thresholdValue) {
-                    e.material.color.set(options.thresholdColor);
+                if (e.scale.y >= this.options.thresholdValue) {
+                    e.material.color.set(this.options.thresholdColor);
                 }
             });
         });

@@ -3,12 +3,12 @@ import * as THREE from 'three';
 
 import { Building } from '../../domain/building';
 import { MouseControls } from '../../domain/mouseControls';
-import { GUI } from 'dat.gui';
 import { ListOfBuildings } from '../../domain/listOfBuildings';
 import { Plane } from "../../domain/plane";
 import { LightSettings } from "../../domain/lightSettings";
 import { VisualControls } from "../../domain/VisualControls";
 import { Renderer } from "../../domain/renderer";
+import { GUI } from "../../domain/gui";
 
 export async function visualize(event, DATA) {
 
@@ -47,6 +47,7 @@ export async function visualize(event, DATA) {
     scene.add(lightSettings.getAmbientLight());
     scene.add(lightSettings.getDirectionalLight());
     scene.add(lightSettings.getDirectionalLightHelper());
+    scene.add(lightSettings.getDirectionalLightShadowHelper());
 
     const visualControls = new VisualControls(renderer.getRenderer(), longSide, shortSide, citySpread);
 

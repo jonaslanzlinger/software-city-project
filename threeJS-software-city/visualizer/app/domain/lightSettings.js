@@ -39,4 +39,8 @@ export class LightSettings {
         return this.directionalLightHelper;
     }
 
+    getDirectionalLightShadowHelper() {
+        return this.directionalLightShadowHelper;
+    }
+
 }
