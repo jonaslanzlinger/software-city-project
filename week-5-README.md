@@ -4,7 +4,7 @@ Last week I did make architectural style decision based on the system requiremen
 * visualizer
 * data-analyzer
 
-While last week this separation was already successful, I didn't really follow the Hexagonal Architecture style. This week I transformed the spaghetti-code into a more modularized manner by defining domain entities, services, and adapters. Now that the application is better structured, progress can be made more easily. I haven't implemented the beneficial traits of the Hexagonal Infrastructure yet (the abstraction of implementation with port/interfaces), therefore, I want to read into [this GitHub project](https://github.com/juanm4/hexagonal-architecture-frontend) or [this arctivle](https://connorsmyth.com/implementing-interface-in-javascript/) for a better understanding how to do that with JavaScript.
+While last week this separation was already successful, I didn't really follow the Hexagonal Architecture style. This week I transformed the spaghetti-code into a more modularized manner by defining domain entities, services, and adapters. Now that the application is better structured, progress can be made more easily. I haven't implemented the beneficial traits of the Hexagonal Infrastructure yet (the abstraction of implementation with port/interfaces), therefore, I want to read into [this GitHub project](https://github.com/juanm4/hexagonal-architecture-frontend) or [this arcticle](https://connorsmyth.com/implementing-interface-in-javascript/) for a better understanding how to do that with JavaScript.
 
 ## Presentation
 The slide-deck can be found here (possible to change): [PPP Slides](https://github.com/jonaslanzlinger/software-city-project/blob/main/week-5-slides.pptx)
