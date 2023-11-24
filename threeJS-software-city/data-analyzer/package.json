@@ -2,10 +2,10 @@
   "name": "data-analyzer",
   "version": "1.0.0",
   "description": "Data Analyzer for software metrics and more",
-  "main": "index.js",
+  "main": "./app/index.js",
   "scripts": {
-    "start": "node src/index.js",
-    "start:dev": "nodemon src/index.js"
+    "start": "node ./app/index.js",
+    "start:dev": "nodemon ./app/index.js"
   },
   "keywords": [],
   "author": "Jonas Länzlinger",
