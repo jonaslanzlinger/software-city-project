@@ -19,6 +19,8 @@ During the study on this project during the past weeks, I collected the most pre
 ## Modelling
 From these requirements I derived the following logical model, grouped up by the Bounded Contexts.
 
+![architecture-model](https://github.com/jonaslanzlinger/software-city-project/blob/main/video-demos/architecture-model.png)
+
 Choosing a distributed approach is a logical conclusion. Therefore, I will build the prototype in a Microservice Architectural style. By doing so, we have multiple loosely coupled services that can operate in isolation, good interoperability and since the services are straight forward there will be no complex interservice communication.
 Also because users want to use the Data Analyzer in isolation, decoupled from the Visualizer, it makes sense to separate those two services from each other. 
 
@@ -47,3 +49,5 @@ Additionally I refined the visualization service:
 * threshold color/value
 * Every building now is hoverable
 * Clicking on a building now prints the data of that building in the console log.
+
+![software-city-prototype-week-4](https://github.com/jonaslanzlinger/software-city-project/blob/main/video-demos/software-city-prototype-week-4.gif)
