@@ -5,7 +5,7 @@ document.getElementById('form').addEventListener('submit', async function (event
 
     let DATA;
 
-    const apiUrl = 'http://localhost:3001/';
+    const apiUrl = 'http://localhost:3001/api/';
     await fetch(apiUrl)
         .then(response => {
             if (!response.ok) {
@@ -20,9 +20,7 @@ document.getElementById('form').addEventListener('submit', async function (event
             console.error('Error:', error.message);
         });
 
-    // console.log(DATA);
-
-
+    console.log(DATA);
 
     visualize(event, DATA);
 

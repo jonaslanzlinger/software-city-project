@@ -20,9 +20,9 @@ export class MouseControls {
 
             const intersects = raycaster.intersectObjects(scene.children);
 
-            for (const obj of intersects) {
-                if (obj.object.geometry.type == "BoxGeometry") {
-                    console.log(obj.object.data);
+            for (const element of intersects) {
+                if (element.object.geometry.type == "BoxGeometry") {
+                    console.log(element.object);
                     break;
                 }
             }

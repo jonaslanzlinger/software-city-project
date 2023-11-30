@@ -9,6 +9,7 @@ import { LightSettings } from "../../domain/lightSettings";
 import { VisualControls } from "../../domain/VisualControls";
 import { Renderer } from "../../domain/renderer";
 import { GUI } from "../../domain/gui";
+import { normalizeToScale } from "../../domain/utils";
 
 export async function visualize(event, DATA) {
 
@@ -67,17 +68,27 @@ export async function visualize(event, DATA) {
     // Create Buildings
     const group = new THREE.Group();
     const listOfBuildings = new ListOfBuildings();
-    DATA.forEach((obj, index) => {
+    let buildingId = 0;
+    DATA.forEach((data, index) => {
+        console.log(data.avgEyeFixationDuration);
         listOfBuildings.addBuilding(
+
+            // Constructor for structure:
+            //    - className
+            //    - commentLinesOfCode
+            //    - javadocLinesOfCode
+            //    - linesOfCode
+            //    - avgEyeFixationDuration
             new Building(
-                obj.buildingId,
-                obj,
+                buildingId,
+                data,
                 citySpread * (index % shortSide),
-                obj.value / 10 / 2,
+                normalizeToScale(data.avgEyeFixationDuration) / 2,
                 Math.floor(index / shortSide) * citySpread,
-                obj.value / 10
+                normalizeToScale(data.avgEyeFixationDuration)
             )
         );
+        buildingId++;
     });
     listOfBuildings.list.forEach(building => {
         group.add(building.box);
