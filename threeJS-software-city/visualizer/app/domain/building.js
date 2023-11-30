@@ -1,43 +1,45 @@
 import * as THREE from 'three';
 
-export class Building {
+export class Building extends THREE.Mesh {
     constructor(buildingId, data, x_pos, y_pos, z_pos, height) {
+
+        const boxGeometry = new THREE.BoxGeometry();
+        const boxMaterial = new THREE.MeshPhongMaterial({ color: 0x00FF00 });
+        super(boxGeometry, boxMaterial);
+
+
+        "ch.unisg.tapas.auctionhouse.domain.ExecutorRegistry.ExecutorIdentifier"
 
         // Initialize object
         this.buildingId = buildingId;
-        this.buildingName = data.name;
-        this.buildingGroupId = data.groupId;
-        this.buildingLength = data.length;
-        this.buildingWidth = data.width;
-        this.buildingHeight = data.height;
-        this.buildingShape = data.shape;
-        this.buildingColor = data.color;
-        this.buildingRelationships = data.relationships;
-        this.buildingData = data.data;
-        this.data = data;
+        this.buildingName = data.className;
+        this.buildingGroupId = null;
+        this.buildingLength = null;
+        this.buildingWidth = null;
+        this.buildingHeight = data.avgEyeFixationDuration;
+        this.buildingShape = null;
 
-        // Box
-        const boxGeometry = new THREE.BoxGeometry();
-        const boxMaterial = new THREE.MeshPhongMaterial({ color: 0x00FF00 });
-        this.box = new THREE.Mesh(boxGeometry, boxMaterial);
+        if (this.buildingHeight > 700) {
+            this.material.color.set(0xFF0000);
+        }
+        this.buildingRelationships = data.relationships;
+        this.buildingData = data;
 
         // Position
-        this.box.position.x = x_pos;
-        this.box.position.y = y_pos;
-        this.box.position.z = z_pos;
+        this.position.x = x_pos;
+        this.position.y = y_pos;
+        this.position.z = z_pos;
 
         // Height
-        this.box.scale.y = height;
+        this.scale.y = height;
 
         // Shadows
-        this.box.castShadow = true;
-        this.box.receiveShadow = true;
-
-        this.box.data = data;
+        this.castShadow = true;
+        this.receiveShadow = true;
 
     }
 
     getHeight() {
-        return this.box.scale.y;
+        return this.scale.y;
     }
 }

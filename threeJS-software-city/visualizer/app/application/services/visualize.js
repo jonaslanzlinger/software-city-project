@@ -91,7 +91,7 @@ export async function visualize(event, DATA) {
         buildingId++;
     });
     listOfBuildings.list.forEach(building => {
-        group.add(building.box);
+        group.add(building);
     })
     console.log(listOfBuildings);
     scene.add(group);
