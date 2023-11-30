@@ -14,7 +14,7 @@ function initializeEndpoints(app) {
 
     app.get('/view/', (req, res) => {
         console.log(get());
-        res.render('index', { message: 'View Datastore.' });
+        res.render('index', { message: 'View Datastore.', data: [{ className: 'EyeFixation' }] });
     });
 
     app.post('/upload/', upload.single('file'), (req, res) => {
@@ -30,12 +30,12 @@ function initializeEndpoints(app) {
 
         console.log('File-upload processed.')
 
-        res.render('index', { message: 'File successfully uploaded.' });
+        res.render('index', { message: 'File successfully uploaded.', data: [{ className: 'EyeFixation' }] });
     });
 
     app.get('/clear-datastore/', (req, res) => {
         clearDataStore();
-        res.render('index', { message: 'Datastore cleared.' });
+        res.render('index', { message: 'Datastore cleared.', data: [{ className: 'EyeFixation' }] });
     });
 
     app.get('/api/', (req, res) => {
