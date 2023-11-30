@@ -27,22 +27,6 @@
         <form action="/clear-datastore/" method="delete" enctype="multipart/form-data">
             <button type="submit">Clear Datastore</button>
         </form>
-        <table>
-            <thead>
-                <tr>
-                    <th>Label1</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% data.forEach(item=> { %>
-                    <tr>
-                        <td>
-                            <%= item.className %>
-                        </td>
-                    </tr>
-                    <% }); %>
-            </tbody>
-        </table>
     </div>
 </body>
 

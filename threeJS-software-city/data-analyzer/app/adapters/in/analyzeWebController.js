@@ -9,12 +9,12 @@ const upload = multer({ storage: storage });
 function initializeEndpoints(app) {
 
     app.get('/', (req, res) => {
-        res.render('index', { message: null, data: [{ className: 'EyeFixation' }] });
+        res.render('index', { message: 'Data Analyzer' });
     });
 
     app.get('/view/', (req, res) => {
         console.log(get());
-        res.render('index', { message: 'View Datastore.', data: [{ className: 'EyeFixation' }] });
+        res.render('datastore', { message: 'View Datastore', data: get() });
     });
 
     app.post('/upload/', upload.single('file'), (req, res) => {
@@ -30,12 +30,12 @@ function initializeEndpoints(app) {
 
         console.log('File-upload processed.')
 
-        res.render('index', { message: 'File successfully uploaded.', data: [{ className: 'EyeFixation' }] });
+        res.render('index', { message: 'File successfully uploaded' });
     });
 
     app.get('/clear-datastore/', (req, res) => {
         clearDataStore();
-        res.render('index', { message: 'Datastore cleared.', data: [{ className: 'EyeFixation' }] });
+        res.render('index', { message: 'Datastore cleared' });
     });
 
     app.get('/api/', (req, res) => {

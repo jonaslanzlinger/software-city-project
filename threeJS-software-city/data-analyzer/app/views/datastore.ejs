@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Analyzer - Datastore</title>
+
+    <link rel="stylesheet" href="/datastore.css">
+</head>
+
+<body>
+<div>
+    <h2>
+        <p>
+            <%= message %>
+        </p>
+    </h2>
+    <button onclick="window.location.href='/'">Back</button>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Class Name</th>
+            <th>Comment Lines of Code</th>
+            <th>Javadoc Lines of Code</th>
+            <th>Lines of Code</th>
+            <th>Avg. Eye Fixation Duration</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% data.forEach(item=> { %>
+            <tr>
+            <td>
+                <%= item.className %>
+            </td>
+            <td>
+                <%= item.commentLinesOfCode %>
+            </td>
+            <td>
+                <%= item.javadocLinesOfCode %>
+            </td>
+            <td>
+                <%= item.linesOfCode %>
+            </td>
+            <td>
+                <%= item.avgEyeFixationDuration %>
+            </td>
+            </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</div>
+</body>
+
+</html>
