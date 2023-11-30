@@ -39,6 +39,7 @@ function setCsv(csv_data) {
 
 function clearDataStore() {
     memory_data = [];
+    console.log('Datastore cleared.');
 }
 
 module.exports = {

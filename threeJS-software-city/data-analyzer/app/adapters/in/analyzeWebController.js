@@ -9,7 +9,12 @@ const upload = multer({ storage: storage });
 function initializeEndpoints(app) {
 
     app.get('/', (req, res) => {
-        res.sendFile(path.join(__dirname, '../../static/test.html'));
+        res.render('index', { message: null, data: [{ className: 'EyeFixation' }] });
+    });
+
+    app.get('/view/', (req, res) => {
+        console.log(get());
+        res.render('index', { message: 'View Datastore.' });
     });
 
     app.post('/upload/', upload.single('file'), (req, res) => {
@@ -24,9 +29,13 @@ function initializeEndpoints(app) {
         setCsv(csvData);
 
         console.log('File-upload processed.')
-        res.send('File successfully uploaded');
 
+        res.render('index', { message: 'File successfully uploaded.' });
+    });
 
+    app.get('/clear-datastore/', (req, res) => {
+        clearDataStore();
+        res.render('index', { message: 'Datastore cleared.' });
     });
 
     app.get('/api/', (req, res) => {

@@ -8,9 +8,9 @@ const port = 3001;
 app.use(cors());
 app.use(bodyParser.json());
 
-
-// Serve static files from the 'static' directory
-app.use(express.static(path.join(__dirname, 'static')));
+app.use(express.static(path.join(__dirname, 'public')));
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
 app.listen(port, () => {
     console.log(`Data Analyzer service listening on port ${port}`);
