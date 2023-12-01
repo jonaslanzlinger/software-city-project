@@ -13,15 +13,22 @@ import { normalizeToScale } from "../../domain/utils";
 
 export async function visualize(event, DATA) {
 
+    // remove old canvas and gui
+    let canvasElement = document.getElementsByTagName('canvas');
+    if (canvasElement.length > 0) {
+        canvasElement[0].remove();
+    }
+    let guiElement = document.getElementsByClassName('dg ac');
+    if (guiElement.length > 0){
+        guiElement[0].remove();
+    }
+
     // Fetch Data first
     // let DATA = await fetchData();
 
     /**
      * START VISUALIZE
      */
-
-    // Hide Previous Screen
-    event.target.hidden = true;
 
     // Get Data from Form
     const form = event.target;

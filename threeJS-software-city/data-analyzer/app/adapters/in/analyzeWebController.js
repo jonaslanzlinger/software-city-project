@@ -52,6 +52,12 @@ function initializeEndpoints(app) {
         res.json({ message: 'Data received successfully', data: requestData });
     })
 
+    app.post('/api/setCsv/', (req, res) => {
+        const requestData = req.body.data;
+        setCsv(requestData);
+        res.json({ message: 'Data received successfully', data: requestData });
+    })
+
     app.delete('/api/', (req, res) => {
         clearDataStore();
 

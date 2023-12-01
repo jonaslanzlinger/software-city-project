@@ -1,6 +1,6 @@
 import { visualize } from '../../application/services/visualize';
 
-document.getElementById('form').addEventListener('submit', async function (event) {
+document.getElementById('dimensions-form').addEventListener('submit', async function (event) {
     event.preventDefault();
 
     let DATA;
@@ -17,10 +17,9 @@ document.getElementById('form').addEventListener('submit', async function (event
             DATA = data;
         })
         .catch(error => {
+            alert('Data Analyzer Service is not running...');
             console.error('Error:', error.message);
         });
-
-    console.log(DATA);
 
     visualize(event, DATA);
 
