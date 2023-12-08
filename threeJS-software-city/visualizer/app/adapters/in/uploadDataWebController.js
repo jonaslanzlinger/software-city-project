@@ -8,13 +8,17 @@ document.getElementById('upload-data-button').addEventListener('click', function
     reader.readAsText(file);
 
     reader.onload = function(event) {
-        var csvdata = event.target.result;
+        var csvData = event.target.result;
 
         const postData = {
-            data: csvdata
+            data: csvData
         }
 
-        const apiUrl = 'http://localhost:3001/api/setCsv/'
+        // Get the respective type of data
+        var fileFormat = document.getElementById('file-format').value;
+
+        const apiUrl = `http://localhost:3001/api/setCsv/${fileFormat}/`;
+        console.log(apiUrl);
 
         fetch(apiUrl, {
             method: 'POST',

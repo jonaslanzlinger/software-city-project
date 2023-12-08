@@ -52,9 +52,12 @@ function initializeEndpoints(app) {
         res.json({ message: 'Data received successfully', data: requestData });
     })
 
-    app.post('/api/setCsv/', (req, res) => {
+    app.post('/api/setCsv/:fileFormat/', (req, res) => {
+        const fileFormat = req.params.fileFormat;
+        console.log(fileFormat);
         const requestData = req.body.data;
-        setCsv(requestData);
+
+        setCsv(requestData, fileFormat);
         res.json({ message: 'Data received successfully', data: requestData });
     })
 

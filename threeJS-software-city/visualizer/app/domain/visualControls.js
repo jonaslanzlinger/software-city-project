@@ -19,7 +19,7 @@ export class VisualControls {
             shortSide * citySpread * 2,
             longSide * Math.max(2, citySpread),
             longSide * citySpread * 2);
-        this.orbit.target = new THREE.Vector3(shortSide * citySpread / 2, 0, longSide * citySpread / 2);
+        // this.orbit.target = new THREE.Vector3(shortSide * citySpread / 2, 0, longSide * citySpread / 2);
         this.orbit.update();
 
     }

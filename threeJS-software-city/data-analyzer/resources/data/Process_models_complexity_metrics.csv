@@ -1,0 +1,58 @@
+﻿filename,file_category,size,density,coefficient_connectivity,avg_connector,max_connector,separability,sequentiality,cyclicity,diameter,structuredness,depth,token_split,control_flow_complexity,connector_mismatch,connector_heterogeneity,cross_connectivity,cyclomatic_complexity,notes,,
+Task01train/Subprocess01J.bpmn,sub-process,19,0.061403509,1.105263158,3,3,0.352941176,0.19047619,0,15,1,2,1,5,0,0.918295834,0.143527543,7,sub-process used for the familiarization task,,
+Task01train/Subprocess01K.bpmn,sub-process,19,0.061403509,1.105263158,3,3,0.294117647,0.285714286,0,14,1,2,1,5,0,0.918295834,0.178470869,7,sub-process used for the familiarization task,,
+Task01train/Subprocess01L.bpmn,sub-process,19,0.061403509,1.105263158,3,3,0.352941176,0.19047619,0,15,1,2,1,5,0,0.918295834,0.115442928,7,sub-process used for the familiarization task,,
+Task01train/Task01train_Main.bpmn,main,5,0.2,0.8,0,0,1.333333333,1,0,5,1,0,0,0,0,0,0.5,3,,,Task02lex/p0464567911.bpmn
+Task02lex/p0464567911.bpmn,sub-process,19,0.061403509,1.105263158,3,3,0.294117647,0.19047619,0,14,1,2,1,5,0,0.918295834,0.12843838,7,,,
+Task02lex/p0464567912.bpmn,sub-process,19,0.061403509,1.105263158,3,3,0.352941176,0.19047619,0,15,1,2,1,5,0,0.918295834,0.143527543,7,,,
+Task02lex/p0464567913.bpmn,sub-process,19,0.061403509,1.105263158,3,3,0.352941176,0.19047619,0,15,1,2,1,5,0,0.918295834,0.132012129,7,,,
+Task02lex/Task02lex_Main.bpmn,main,5,0.2,0.8,0,0,1.333333333,1,0,5,1,0,0,0,0,0,0.5,3,,,Task03lex/p597924172.bpmn
+Task03lex/p597924171.bpmn,sub-process,19,0.061403509,1.105263158,3,3,0.294117647,0.238095238,0,13,1,2,1,5,0,0.918295834,0.127788607,7,,,
+Task03lex/p597924172.bpmn,sub-process,19,0.061403509,1.105263158,3,3,0.294117647,0.285714286,0,14,1,2,1,5,0,0.918295834,0.157678146,7,,,
+Task03lex/p597924173.bpmn,sub-process,19,0.061403509,1.105263158,3,3,0.294117647,0.285714286,0,14,1,2,1,5,0,0.918295834,0.145946141,8,,,
+Task03lex/Task03lex_Main.bpmn,main,5,0.2,0.8,0,0,1.333333333,1,0,5,1,0,0,0,0,0,0.5,3,,,Task04lex/p0562403563.bpmn
+Task04lex/p0562403561.bpmn,sub-process,19,0.061403509,1.105263158,3,3,0.235294118,0.238095238,0,14,1,2,1,5,0,0.918295834,0.140964551,8,,,
+Task04lex/p0562403562.bpmn,sub-process,19,0.061403509,1.105263158,3,3,0.235294118,0.285714286,0,15,1,2,1,5,0,0.918295834,0.121615768,7,,,
+Task04lex/p0562403563.bpmn,sub-process,19,0.061403509,1.105263158,3,3,0.294117647,0.238095238,0,14,1,2,1,5,0,0.918295834,0.178470869,7,,,
+Task04lex/Task04lex_Main.bpmn,main,5,0.2,0.8,0,0,1.333333333,1,0,5,1,0,0,0,0,0,0.5,3,,,Task06syn/p590028105.bpmn
+Task05syn/Subprocess05A.bpmn,sub-process,19,0.061403509,1.105263158,3,3,0.352941176,0.238095238,0,15,1,2,1,5,0,0.918295834,0.153238033,8,,,
+Task05syn/Subprocess05B.bpmn,sub-process,19,0.061403509,1.105263158,3,3,0.235294118,0.19047619,0,15,1,2,1,5,0,0.918295834,0.138401559,7,,,
+Task05syn/Subprocess05C.bpmn,sub-process,19,0.061403509,1.105263158,3,3,0.235294118,0.238095238,0,15,1,2,1,5,0,0.918295834,0.15782254,7,,,
+Task05syn/Task05syn_Main.bpmn,main,5,0.2,0.8,0,0,1.333333333,1,0,5,1,0,0,0,0,0,0.5,3,,,Task07syn/p0468353641.bpmn
+Task06syn/p590028105.bpmn,sub-process,19,0.061403509,1.105263158,3,3,0.352941176,0.19047619,0,15,1,2,1,5,0,0.918295834,0.121182586,7,,,
+Task06syn/p590028106.bpmn,sub-process,19,0.058479532,1.052631579,2.833333333,3,0.411764706,0.25,0,13,0.947368421,2,2,4,2,1,0.102339181,8,"deviating values for density, coefficient of connectivity, average connector, separability, sequentiality, structuredness, control flow complexity, connector mismatch, connector heterogeneity, cross connectivity are imputable to the ambiguity (a closing xor gateway without corresponding opening) - see analysis for the model below",,
+Task06syn/p590028106_ReversedWithJoin.bpmn,sub-process,19,0.061403509,1.105263158,3,3,0.352941176,0.19047619,0,15,1,2,1,5,0,0.918295834,0.117464443,7,"this model is the same as the above without the ambiguity, i.e., with the control flow going from left to right (realizing an opening gateway) and with a closing xor gateway for the opening one; for this model, all metrics are in line with the other models - it was not used in the experiment but only to assess the metrics values",,
+Task06syn/p590028107.bpmn,sub-process,19,0.061403509,1.105263158,3,3,0.352941176,0.285714286,0,14,1,2,1,5,0,0.918295834,0.114143383,7,,,
+Task06syn/Task06syn_Main.bpmn,main,5,0.2,0.8,0,0,1.333333333,1,0,5,1,0,0,0,0,0,0.5,3,,,Task08sem/Subprocess08N.bpmn
+Task07syn/p0468353641.bpmn,sub-process,19,0.061403509,1.105263158,3,3,0.235294118,0.285714286,0,13,1,2,1,5,0,0.918295834,0.134719515,7,,,
+Task07syn/p0468353642.bpmn,sub-process,19,0.061403509,1.105263158,3,3,0.352941176,0.19047619,0,14,1,2,1,5,0,0.918295834,0.120496715,7,,,
+Task07syn/p0468353643.bpmn,sub-process,19,0.061403509,1.105263158,3,3,0.352941176,0.285714286,0,14,1,2,1,5,0,0.918295834,0.169446249,8,,,
+Task07syn/Task07syn_Main.bpmn,main,5,0.2,0.8,0,0,1.333333333,1,0,5,1,0,0,0,0,0,0.5,3,,,Task10sem/Subprocess10F.bpmn
+Task08sem/Subprocess08L.bpmn,sub-process,19,0.061403509,1.105263158,3,3,0.352941176,0.238095238,0,14,1,2,1,5,0,0.918295834,0.167208144,8,,,
+Task08sem/Subprocess08M.bpmn,sub-process,19,0.061403509,1.105263158,3,3,0.235294118,0.238095238,0,14,1,2,1,5,0,0.918295834,0.172659014,7,,,
+Task08sem/Subprocess08N.bpmn,sub-process,19,0.061403509,1.105263158,3,3,0.235294118,0.238095238,0,15,1,2,1,5,0,0.918295834,0.161287994,7,,,
+Task08sem/Task08sem_Main.bpmn,main,5,0.2,0.8,0,0,1.333333333,1,0,5,1,0,0,0,0,0,0.5,3,,,Task11prag/Subprocess11H.bpmn
+Task09sem/Subprocess09D.bpmn,sub-process,19,0.061403509,1.105263158,3,3,0.352941176,0.19047619,0,14,1,2,1,5,0,0.918295834,0.162876327,7,,,
+Task09sem/Subprocess09E.bpmn,sub-process,19,0.061403509,1.105263158,3,3,0.235294118,0.19047619,0,15,1,2,1,5,0,0.918295834,0.143852429,8,,,
+Task09sem/Subprocess09F.bpmn,sub-process,19,0.061403509,1.105263158,3,3,0.294117647,0.19047619,0,15,1,2,1,5,0,0.918295834,0.123673381,7,,,
+Task09sem/Task09sem_Main.bpmn,main,5,0.2,0.8,0,0,1.333333333,1,0,5,1,0,0,0,0,0,0.5,3,,,Task12prag/Subprocess12D.bpmn
+Task10sem/Subprocess10F.bpmn,sub-process,19,0.061403509,1.105263158,3,3,0.294117647,0.19047619,0,14,1,2,1,5,0,0.918295834,0.124539744,7,,,
+Task10sem/Subprocess10G.bpmn,sub-process,19,0.061403509,1.105263158,3,3,0.352941176,0.285714286,0,14,1,2,1,5,0,0.918295834,0.16255144,8,,,
+Task10sem/Subprocess10H.bpmn,sub-process,19,0.061403509,1.105263158,3,3,0.352941176,0.19047619,0,15,1,2,1,5,0,0.918295834,0.132012129,7,,,
+Task10sem/Task10sem_Main.bpmn,main,5,0.2,0.8,0,0,1.333333333,1,0,5,1,0,0,0,0,0,0.5,3,,,Training/SubprocessW.bpmn
+Task11prag/Subprocess11G.bpmn,sub-process,19,0.061403509,1.105263158,3,3,0.294117647,0.238095238,0,15,1,2,1,5,0,0.918295834,0.134611219,7,,,
+Task11prag/Subprocess11H.bpmn,sub-process,19,0.064327485,1.157894737,3.333333333,4,0.235294118,0.227272727,0,13,1,2,1,6,0,0.918295834,0.117263645,7,"deviating values for coefficient of connectivity, average connector, max connector, control flow complexity are imputable to ambiguity",,
+Task11prag/Subprocess11I.bpmn,sub-process,19,0.061403509,1.105263158,3,3,0.294117647,0.238095238,0,15,1,2,1,5,0,0.918295834,0.156342502,8,,,
+Task11prag/Task11prag_Main.bpmn,main,5,0.2,0.8,0,0,1.333333333,1,0,5,1,0,0,0,0,0,0.5,3,,,
+Task12prag/Subprocess12B.bpmn,sub-process,19,0.061403509,1.105263158,3,3,0.294117647,0.238095238,0,15,1,2,1,5,0,0.918295834,0.134611219,7,,,
+Task12prag/Subprocess12C.bpmn,sub-process,19,0.064327485,1.157894737,3.333333333,4,0.235294118,0.227272727,0,13,1,2,1,6,0,0.918295834,0.117263645,7,"deviating values for coefficient of connectivity, average connector, max connector, control flow complexity are imputable to ambiguity",,
+Task12prag/Subprocess12D.bpmn,sub-process,19,0.061403509,1.105263158,3,3,0.294117647,0.238095238,0,15,1,2,1,5,0,0.918295834,0.156342502,8,,,
+Task12prag/Task12prag_Main.bpmn,main,5,0.2,0.8,0,0,1.333333333,1,0,5,1,0,0,0,0,0,0.5,3,,,
+Task13prag/p0756432431.bpmn,sub-process,19,0.061403509,1.105263158,3,3,0.235294118,0.19047619,0,13,1,2,1,5,0,0.918295834,0.14240849,7,,,
+Task13prag/p0756432432.bpmn,sub-process,19,0.061403509,1.105263158,3,3,0.235294118,0.238095238,0,14,1,2,1,5,0,0.918295834,0.135802469,8,,,
+Task13prag/p0756432433.bpmn,sub-process,19,0.061403509,1.105263158,3,3,0.235294118,0.238095238,0,14,1,2,1,5,0,0.918295834,0.172659014,7,,,
+Task13prag/Task13prag_Main.bpmn,main,5,0.2,0.8,0,0,1.333333333,1,0,5,1,0,0,0,0,0,0.5,3,,,
+Training/SubprocessW.bpmn,sub-process,19,0.061403509,1.105263158,3,3,0.352941176,0.238095238,0,14,1,2,1,5,0,0.918295834,0.167208144,8,sub-process used in the initial training,,
+Training/SubprocessY.bpmn,sub-process,19,0.061403509,1.105263158,3,3,0.235294118,0.238095238,0,15,1,2,1,5,0,0.918295834,0.15782254,7,sub-process used in the initial training,,
+Training/SubprocessZ.bpmn,sub-process,19,0.061403509,1.105263158,3,3,0.235294118,0.238095238,0,15,1,2,1,5,0,0.918295834,0.15782254,7,sub-process used in the initial training,,
+Training/Training_Main.bpmn,main,5,0.2,0.8,0,0,1.333333333,1,0,5,1,0,0,0,0,0,0.5,3,,,

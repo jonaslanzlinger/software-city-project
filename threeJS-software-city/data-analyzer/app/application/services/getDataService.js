@@ -14,7 +14,22 @@ function set(data) {
     memory_data = data;
 }
 
-function setCsv(csv_data) {
+function setCsv(csv_data, fileFormat) {
+    memory_data = [];
+    switch (fileFormat){
+        case 'java-source-code':
+            setCsvJavaSourceCode(csv_data);
+            break;
+        case 'bpmn':
+            setCsvBpmn(csv_data);
+            break;
+        default:
+            console.log('No valid fileFormat!');
+            break;
+    }
+}
+
+function setCsvJavaSourceCode(csv_data){
     const lines = csv_data.split('\n');
 
     lines.forEach((line, index) => {
@@ -34,7 +49,31 @@ function setCsv(csv_data) {
 
         memory_data.push(jsonObject);
     })
-    console.log(memory_data);
+    // console.log(memory_data);
+}
+
+function setCsvBpmn(csv_data){
+    const lines = csv_data.split('\n');
+
+    const dataFields = lines.shift().split(',');
+    console.log(dataFields);
+
+    lines.forEach((line, index) => {
+        if (index === 0 && line.startsWith(',')) {
+            return;
+        }
+
+        // Structure of the Dataset
+        let lineElements = line.split(',');
+        const jsonObject = {};
+
+        for(let i = 0; i < dataFields.length; i++){
+            jsonObject[dataFields[i]] = lineElements[i];
+        }
+
+        memory_data.push(jsonObject);
+    })
+    // console.log(memory_data);
 }
 
 function clearDataStore() {
