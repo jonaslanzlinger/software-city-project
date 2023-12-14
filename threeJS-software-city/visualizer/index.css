@@ -127,3 +127,20 @@ option {
 select:focus, select:hover {
     border-color: #007bff;
 }
+
+.grouping-target {
+    background-color: #ffaa33;
+}
+
+.draggable {
+    background-color: #007bff;
+    padding: 5px;
+    color: white;
+    text-align: center;
+    line-height: 30px;
+    cursor: grab;
+}
+
+.draggable:hover {
+    background-color: #0056b3;
+}

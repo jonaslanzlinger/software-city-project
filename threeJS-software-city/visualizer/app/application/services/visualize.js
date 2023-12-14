@@ -85,6 +85,19 @@ export async function visualize(event, DATA) {
         buildingId++;
     });
 
+    // get all grouping columns
+    const groupingTarget = document.getElementById("groupingTarget");
+    const children = groupingTarget.children;
+
+    const groupingColumns = [];
+    for (let i = 0; i < children.length; i++) {
+        console.log(children[i]);
+        groupingColumns.add(children[i]);
+    }
+    console.log(groupingColumns);
+
+
+
     // determine the number of different groups
     const uniqueBuildingGroupIds = new Set();
     const groups = [];

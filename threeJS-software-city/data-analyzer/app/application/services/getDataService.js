@@ -3,11 +3,7 @@ const { DUMMY_DATA } = require('../../../resources/data/dummy_data');
 let memory_data = [];
 
 function get() {
-    if (memory_data.length == 0) {
-        return DUMMY_DATA
-    } else {
-        return memory_data;
-    }
+    return memory_data;
 }
 
 function set(data) {
@@ -15,7 +11,7 @@ function set(data) {
 }
 
 function setCsv(csv_data, fileFormat) {
-    memory_data = [];
+    // memory_data = [];
     switch (fileFormat){
         case 'java-source-code':
             setCsvJavaSourceCode(csv_data);
@@ -24,7 +20,8 @@ function setCsv(csv_data, fileFormat) {
             setCsvBpmn(csv_data);
             break;
         default:
-            console.log('No valid fileFormat!');
+            // console.log('No valid fileFormat!');
+            setCsvJavaSourceCode(csv_data);
             break;
     }
 }
