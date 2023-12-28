@@ -3,18 +3,13 @@ import {normalizeToScale} from "./utils";
 
 export class Building extends THREE.Mesh {
     constructor(buildingId, data) {
-
         const boxGeometry = new THREE.BoxGeometry();
         const boxMaterial = new THREE.MeshPhongMaterial({ color: 0x00FF00 });
         super(boxGeometry, boxMaterial);
 
         // Initialize object
         this.buildingId = buildingId;
-        // this.buildingName = data.className;
-
-        // TODO
-        // randomized groupId for testing
-        this.buildingGroupId = Math.floor(Math.random() * 38);
+        this.nodeName = data.className;
 
         // this.buildingLength = null;
         // this.buildingWidth = null;
@@ -25,7 +20,7 @@ export class Building extends THREE.Mesh {
             this.material.color.set(0xFF0000);
         }
         // this.buildingRelationships = data.relationships;
-        // this.buildingData = data;
+        this.buildingData = data;
 
         this.position.y = normalizeToScale(data.avgEyeFixationDuration) / 2;
 

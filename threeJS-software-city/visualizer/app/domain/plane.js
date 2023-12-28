@@ -1,17 +1,17 @@
 import * as THREE from 'three';
 
-export class Plane {
-
-    constructor(longSide, shortSide, citySpread) {
-        this.planeGeometry = new THREE.PlaneGeometry(longSide * citySpread * 8, shortSide * citySpread * 8);
-        this.planeMaterial = new THREE.MeshStandardMaterial({ color: 0xFFFFFF, side: THREE.DoubleSide });
-        this.plane = new THREE.Mesh(this.planeGeometry, this.planeMaterial);
-        this.plane.rotation.x = Math.PI / 2;
-        this.plane.rotation.z = Math.PI / 2;
-        this.plane.receiveShadow = true;
+export class Plane extends THREE.Group {
+    constructor(nodeName) {
+        super();
+        const groupGeometry = new THREE.BoxGeometry();
+        const groupMaterial = new THREE.MeshPhongMaterial({ color: 0x999999 });
+        const groupBox = new THREE.Mesh(groupGeometry, groupMaterial);
+        this.add(groupBox);
+        this.receiveShadow = true;
+        this.nodeName = nodeName;
     }
 
-    getPlane() {
-        return this.plane;
+    addChild(child){
+        this.add(child);
     }
 }
