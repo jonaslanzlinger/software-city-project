@@ -1,16 +1,11 @@
-import { fetchData } from "../../adapters/out/fetchDataWebController";
 import * as THREE from 'three';
 
-import { Building } from '../../domain/building';
-import { MouseControls } from '../../domain/mouseControls';
+import { MouseControls } from '../../domain/MouseControls';
 import { TreeOfBuildings } from '../../domain/TreeOfBuildings';
-import { Plane } from "../../domain/plane";
-import { LightSettings } from "../../domain/lightSettings";
+import { LightSettings } from "../../domain/LightSettings";
 import { VisualControls } from "../../domain/VisualControls";
-import { Renderer } from "../../domain/renderer";
-import { GUI } from "../../domain/gui";
-import { normalizeToScale } from "../../domain/utils";
-import index from "dat.gui";
+import { Renderer } from "../../domain/Renderer";
+import { GUI } from "../../domain/Gui";
 
 export async function visualize(event, DATA) {
 
@@ -48,15 +43,8 @@ export async function visualize(event, DATA) {
     const scene = new THREE.Scene();
 
     // Build AxesHelper
-    // const axesHelper = new THREE.AxesHelper(100);
-    // scene.add(axesHelper);
-
-    // Build Light Settings
-    const lightSettings = new LightSettings(longSide, shortSide, citySpread);
-    scene.add(lightSettings.getAmbientLight());
-    scene.add(lightSettings.getDirectionalLight());
-    // scene.add(lightSettings.getDirectionalLightHelper());
-    // scene.add(lightSettings.getDirectionalLightShadowHelper());
+    const axesHelper = new THREE.AxesHelper(100);
+    scene.add(axesHelper);
 
     const visualControls = new VisualControls(renderer.getRenderer(), longSide, shortSide, citySpread);
 
@@ -74,7 +62,15 @@ export async function visualize(event, DATA) {
         treeOfBuildings.addBuilding(data);
     });
     treeOfBuildings.buildTreeStructure();
-    scene.add(treeOfBuildings.vis(treeOfBuildings.baseNode));
+    scene.add(treeOfBuildings.putOnScreen(treeOfBuildings.baseNode));
+
+    const lightSettings = new LightSettings(
+        treeOfBuildings.baseNode.children[0].scale.x,
+        treeOfBuildings.getHighestBuilding(),
+        treeOfBuildings.baseNode.children[0].scale.z);
+    scene.add(lightSettings.getAmbientLight());
+    scene.add(lightSettings.getDirectionalLight());
+    scene.add(lightSettings.getDirectionalLightHelper());
 
     new GUI(scene, treeOfBuildings.getHighestBuilding());
     new MouseControls(document, visualControls.getCamera(), scene);

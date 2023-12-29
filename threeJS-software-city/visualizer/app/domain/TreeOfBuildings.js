@@ -1,14 +1,13 @@
-import {Building} from "./building";
-import * as THREE from "three";
-import {Plane} from "./plane";
+import {Building} from "./Building";
+import {Plane} from "./Plane";
 import {Mesh} from "three";
+import pack from "bin-pack"
 
 export class TreeOfBuildings {
 
     constructor() {
         this.list = [];
         this.baseNode = new Plane('project_base_node')
-        this.treeStructures = new Set();
     }
 
     getNextBuildingId(){
@@ -34,7 +33,8 @@ export class TreeOfBuildings {
             for (let j = 0; j < packagePathList.length; j++) {
                 nodeName = nodeName + '.' + packagePathList[j];
                 nodeName = nodeName.replace(/^\.+/, '');
-                if (this.getNodeByKey(this.baseNode, nodeName) === null) {
+                // create new node if node is not yet included OR node is a leaf
+                if (this.getNodeByKey(this.baseNode, nodeName) === null || j === packagePathList.length - 1) {
                     if (j === packagePathList.length - 1){
                         prevNode.addChild(building);
                     } else {
@@ -74,7 +74,7 @@ export class TreeOfBuildings {
         return max;
     }
 
-    vis(node){
+    putOnScreen(node){
         let children = [];
         for (let child of node.children){
             if(child instanceof Building){
@@ -83,36 +83,51 @@ export class TreeOfBuildings {
             if(child instanceof Mesh){
                 continue;
             }
-            let foundChild = this.vis(child);
+            let foundChild = this.putOnScreen(child);
             children.push(foundChild);
         }
 
-        let gridSize = 0;
-        while(children.length > gridSize ** 2){
-            gridSize += 1;
-        }
-
-        let biggestChild = 0;
+        // Bin Packing Algorithm in the method 'pack'
+        var bins = [];
         for(let child of children){
             if(child instanceof Building){
-                if (child.scale.x >= biggestChild){
-                    biggestChild = child.scale.x;
-                }
+                bins.push({
+                    uuid: child.uuid,
+                    width: child.buildingWidth,
+                    height: child.buildingLength });
             } else {
-                if (child.children[0].scale.x >= biggestChild){
-                    biggestChild = child.children[0].scale.x;
-                }
+                bins.push({
+                    uuid: child.uuid,
+                    width: child.children[0].scale.x,
+                    height: child.children[0].scale.z });
             }
         }
 
-        const layeredGrid = generateLayeredGrid(gridSize);
+        pack(bins, { inPlace: true });
 
-        const spreadOfElements = 0.3;
+        let maxX = 0;
+        let maxZ = 0;
+        // map back on the objects again
+        for(let bin of bins){
+            for(let child of children){
+                if(child instanceof Building){
+                    if(bin.uuid === child.uuid){
+                        child.position.x = bin.x + bin.width / 2;
+                        child.position.z = bin.y + bin.height / 2;
+                    }
+                } else {
+                    if(bin.uuid === child.uuid){
+                        child.position.x = bin.x + bin.width / 2;
+                        child.position.z = bin.y + bin.height / 2;
+                    }
+                }
+                if((bin.x + bin.width) >= maxX) { maxX = bin.x + bin.width; }
+                if((bin.y + bin.height) >= maxZ) { maxZ = bin.y + bin.height; }
+            }
+        }
+
         let deepestLevel = 0;
         for(const child of children){
-            let coords = layeredGrid.shift();
-            child.position.x = coords.x * (biggestChild + spreadOfElements);
-            child.position.z = coords.z * (biggestChild + spreadOfElements);
             if (child instanceof Plane){
                 if(child.children[0].position.y < deepestLevel){
                     deepestLevel = child.children[0].position.y;
@@ -120,38 +135,20 @@ export class TreeOfBuildings {
             }
         }
 
-        node.children[0].scale.x = biggestChild * (gridSize * 2 - 1) + ((gridSize * 2 - 1) * 0.5);
-        node.children[0].scale.z = biggestChild * (gridSize * 2 - 1) + ((gridSize * 2 - 1) * 0.5);
-        node.children[0].position.y = deepestLevel - 0.2;
+        node.children[0].scale.x = maxX + 0.5;
+        node.children[0].scale.z = maxZ + 0.5;
         node.children[0].scale.y = 0.2;
+        node.children[0].position.y = deepestLevel - 0.2;
 
-        return node;
-    }
-}
-
-class TreeNode {
-    constructor(parent, key, data) {
-        this.parent = parent;
-        this.key = key;
-        this.value = data;
-        this.children = [];
-    }
-}
-
-function generateLayeredGrid(size) {
-    const grid = [];
-
-    function addLayer(layer) {
-        for (let i = -layer; i <= layer; i++) {
-            for (let j = -layer; j <= layer; j++) {
-                if (Math.abs(i) === layer || Math.abs(j) === layer) {
-                    grid.push({ x: i, z: j });
-                }
+        for (let child of children){
+            if (child instanceof Building){
+                child.position.x -= maxX / 2;
+                child.position.z -= maxZ / 2;
+            } else if (child instanceof Plane){
+                child.position.x -= maxX / 2;
+                child.position.z -= maxZ / 2;
             }
         }
+        return node;
     }
-    for (let layer = 0; layer < size; layer++) {
-        addLayer(layer);
-    }
-    return grid;
 }
