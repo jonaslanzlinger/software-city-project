@@ -34,15 +34,15 @@ How could I overcome this problem? Or is it normal, that I would need to impleme
 new for every data type / format?
 
 ### Screenshots of current state
-![week-9&10-demo1.png](video-demos%2Fweek-9%2610-demo1.png)
-![week-9&10-demo2.png](video-demos%2Fweek-9%2610-demo2.png)
-![week-9&10-demo3.png](video-demos%2Fweek-9%2610-demo3.png)
-![week-9&10-demo4.png](video-demos%2Fweek-9%2610-demo4.png)
+<img src="video-demos%2Fweek-9%2610-demo1.png" width="700">
+<img src="video-demos%2Fweek-9%2610-demo2.png" width="500">
+<img src="video-demos%2Fweek-9%2610-demo3.png" width="250">
+<img src="video-demos%2Fweek-9%2610-demo4.png" width="700">
 
 ### Upcoming developments
 I have discovered the following problems with the current prototype that I will address in the coming week/weeks:
 * All buildings are on the y-axis=0. The grouping levels go below 0 in steps of 0.2. This introduces the problem of having
-'floating' elements like in this screenshot: ![week-9&10-floating-elements.png](video-demos%2Fweek-9%2610-floating-elements.png)
+'floating' elements like in this screenshot: <img src="video-demos%2Fweek-9%2610-floating-elements.png" width="500">
 * For now, the input fields 'Dimensions' and 'City Spread' don't have an effect. I think it would take
 quite some time to make the spread of the city adjustable with this 'bin-packing' algorithm.
 * The Grouping menu in the Nav-Bar doesn't do anything yet. Question is, if I should still implement this functionality.
