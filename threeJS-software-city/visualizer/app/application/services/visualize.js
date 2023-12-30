@@ -61,6 +61,7 @@ export async function visualize(event, DATA) {
     DATA.forEach(data => {
         treeOfBuildings.addBuilding(data);
     });
+
     treeOfBuildings.buildTreeStructure();
     scene.add(treeOfBuildings.putOnScreen(treeOfBuildings.baseNode));
 
