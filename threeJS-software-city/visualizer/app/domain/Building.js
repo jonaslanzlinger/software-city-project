@@ -1,45 +1,41 @@
 import * as THREE from 'three';
-import {normalizeHeightToScale} from "./Utils";
-import {normalizeWidthToScale} from "./Utils";
+import { JavaSourceCodeDataObject } from './JavaSourceCodeDataObject';
+import { BPMNDataObject } from './BPMNDataobject';
 
 export class Building extends THREE.Mesh {
-    constructor(buildingId, data) {
-        const boxGeometry = new THREE.BoxGeometry();
-        const boxMaterial = new THREE.MeshPhongMaterial({ color: 0xB5CB99 });
-        super(boxGeometry, boxMaterial);
+   constructor(buildingId, data, dataType) {
+      let dataObject;
+      switch (dataType) {
+         case 'java-source-code':
+            dataObject = new JavaSourceCodeDataObject(data);
+            break;
+         case 'bpmn':
+            dataObject = new BPMNDataObject(data);
+            break;
+         default:
+            dataObject = new JavaSourceCodeDataObject(data);
+            break;
+      }
 
-        this.buildingId = buildingId;
-        this.nodeName = data.className;
+      const boxGeometry = new THREE.BoxGeometry();
+      const boxMaterial = new THREE.MeshPhongMaterial(dataObject.buildingColor);
+      super(boxGeometry, boxMaterial);
 
-        if(data.linesOfCode !== undefined){
-            let width = normalizeWidthToScale(parseInt(data.linesOfCode));
-            this.buildingWidth = width;
-            this.buildingLength = width;
-            this.scale.x = width;
-            this.scale.z = width;
-        }
+      this.buildingId = buildingId;
+      this.buildingName = dataObject.buildingName;
+      this.buildingGroupingPath = dataObject.buildingGroupingPath;
+      this.scale.x = dataObject.buildingScaleX;
+      this.scale.z = dataObject.buildingScaleZ;
+      this.position.y = dataObject.buildingPositionY;
+      this.scale.y = dataObject.buildingScaleY;
+      this.material.color.set(dataObject.buildingColor);
+      this.buildingData = dataObject;
 
-        this.buildingHeight = data.avgEyeFixationDuration;
-        // this.buildingShape = null;
+      this.castShadow = true;
+      this.receiveShadow = true;
+   }
 
-        if (this.buildingHeight > 700) {
-            this.material.color.set(0xFF0000);
-        }
-        // this.buildingRelationships = data.relationships;
-        this.buildingData = data;
-
-        this.position.y = normalizeHeightToScale(data.avgEyeFixationDuration) / 2;
-
-        // Height
-        this.scale.y = normalizeHeightToScale(data.avgEyeFixationDuration);
-
-        // Shadows
-        this.castShadow = true;
-        this.receiveShadow = true;
-
-    }
-
-    getHeight() {
-        return this.scale.y;
-    }
+   getHeight() {
+      return this.scale.y;
+   }
 }

@@ -22,6 +22,13 @@
         <form action="/upload/" method="post" enctype="multipart/form-data">
             <label for="file">Choose a .csv file:</label>
             <input type="file" id="file" name="file" accept=".csv" required>
+
+            <label for="file-format">Select a type:</label>
+            <select id="file-format" name="file-format">
+                <option value="java-source-code">Java Source Code</option>
+                <option value="bpmn">BPMN</option>
+            </select>
+
             <button type="submit">Upload Data</button>
         </form>
         <form action="/clear-datastore/" method="delete" enctype="multipart/form-data">
