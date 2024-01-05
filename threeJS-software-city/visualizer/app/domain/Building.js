@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { JavaSourceCodeDataObject } from './JavaSourceCodeDataObject';
-import { BPMNDataObject } from './BPMNDataobject';
+import { BPMNDataObject } from './BPMNDataObject';
 
 export class Building extends THREE.Mesh {
    constructor(buildingId, data, dataType) {
@@ -29,7 +29,7 @@ export class Building extends THREE.Mesh {
       this.position.y = dataObject.buildingPositionY;
       this.scale.y = dataObject.buildingScaleY;
       this.material.color.set(dataObject.buildingColor);
-      this.buildingData = dataObject;
+      this.buildingData = dataObject.buildingData;
 
       this.castShadow = true;
       this.receiveShadow = true;

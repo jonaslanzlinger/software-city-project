@@ -23,9 +23,11 @@ export class TreeOfBuildings {
    }
 
    buildTreeStructure() {
+      console.log(this.list.length);
       // here, we build the actual N-ary tree structure
       for (let i = 0; i < this.list.length; i++) {
          let building = this.list[i];
+         console.log(building);
          let packagePathList = building.buildingGroupingPath.split('.');
          let prevNode = this.baseNode;
          let nodeName = '';

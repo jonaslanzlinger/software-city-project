@@ -3,7 +3,7 @@ import { normalizeHeightToScale, normalizeWidthToScale } from './Utils';
 export class BPMNDataObject {
    constructor(data) {
       this.buildingName = data.className;
-      this.buildingGroupingPath = data.className;
+      this.buildingGroupingPath = data.filename;
       if (data.linesOfCode !== undefined) {
          this.buildingScaleX = normalizeWidthToScale(
             parseInt(data.linesOfCode)
@@ -20,5 +20,7 @@ export class BPMNDataObject {
       if (this.buildingScaleY > 3) {
          this.buildingColor = 0xff0000;
       }
+
+      this.buildingData = data;
    }
 }
