@@ -7,7 +7,7 @@ import { VisualControls } from '../../domain/VisualControls';
 import { Renderer } from '../../domain/Renderer';
 import { GUI } from '../../domain/Gui';
 
-export async function visualize(event, DATA) {
+export async function visualize(event, DATA, metaphorSelection, citySelection) {
    let data = DATA.data;
    let dataType = DATA.dataType;
 
@@ -21,17 +21,9 @@ export async function visualize(event, DATA) {
       guiElement[0].remove();
    }
 
-   // Fetch Data first
-   // let DATA = await fetchData();
-
-   /**
-    * START VISUALIZE
-    */
-
-   // Get Data from Form
-   const form = event.target;
-   let cityRectangleRatio = form.elements.dimensions.value;
-   let citySpread = form.elements.citySpread.value;
+   let cityRectangleRatio =
+      citySelection.dimension === undefined || citySelection.dimension === '' ? 2 : citySelection.dimension;
+   let citySpread = citySelection.spread === undefined || citySelection.spread === '' ? 2 : citySelection.spread;
    let shortSide = Math.sqrt(data.length / cityRectangleRatio);
    let longSide = cityRectangleRatio * shortSide;
    shortSide = Math.round(shortSide);
@@ -45,29 +37,29 @@ export async function visualize(event, DATA) {
    const scene = new THREE.Scene();
 
    // Build AxesHelper
-   const axesHelper = new THREE.AxesHelper(100);
-   scene.add(axesHelper);
+   // const axesHelper = new THREE.AxesHelper(100);
+   // scene.add(axesHelper);
 
-   const visualControls = new VisualControls(
-      renderer.getRenderer(),
-      longSide,
-      shortSide,
-      citySpread
-   );
+   const visualControls = new VisualControls(renderer.getRenderer(), longSide, shortSide, citySpread);
 
    renderer.getRenderer().render(scene, visualControls.getCamera());
 
    window.onresize = () => {
       renderer.getRenderer().setPixelRatio(window.devicePixelRatio);
       renderer.getRenderer().setSize(window.innerWidth, window.innerHeight);
-      visualControls.getCamera().aspect =
-         window.innerWidth / window.innerHeight;
+      visualControls.getCamera().aspect = window.innerWidth / window.innerHeight;
       visualControls.getCamera().updateProjectionMatrix();
    };
 
+   // mockup of metaphorSelection data
+   // metaphorSelection = {
+   //    dimension: 'size',
+   //    height: 'diameter',
+   //    color: 'cyclomatic_complexity',
+   // };
    const treeOfBuildings = new TreeOfBuildings();
    data.forEach(entry => {
-      treeOfBuildings.addBuilding(entry, dataType);
+      treeOfBuildings.addBuilding(entry, dataType, metaphorSelection);
    });
 
    treeOfBuildings.buildTreeStructure();
@@ -80,7 +72,7 @@ export async function visualize(event, DATA) {
    );
    scene.add(lightSettings.getAmbientLight());
    scene.add(lightSettings.getDirectionalLight());
-   scene.add(lightSettings.getDirectionalLightHelper());
+   // scene.add(lightSettings.getDirectionalLightHelper());
 
    new GUI(scene, treeOfBuildings.getHighestBuilding());
    new MouseControls(document, visualControls.getCamera(), scene);

@@ -1,19 +1,20 @@
 import * as THREE from 'three';
 import { JavaSourceCodeDataObject } from './JavaSourceCodeDataObject';
 import { BPMNDataObject } from './BPMNDataObject';
+import { GenericDataObject } from './GenericDataObject';
 
 export class Building extends THREE.Mesh {
-   constructor(buildingId, data, dataType) {
+   constructor(buildingId, data, dataType, metaphorSelection) {
       let dataObject;
       switch (dataType) {
          case 'java-source-code':
-            dataObject = new JavaSourceCodeDataObject(data);
+            dataObject = new JavaSourceCodeDataObject(data, metaphorSelection);
             break;
          case 'bpmn':
-            dataObject = new BPMNDataObject(data);
+            dataObject = new BPMNDataObject(data, metaphorSelection);
             break;
          default:
-            dataObject = new JavaSourceCodeDataObject(data);
+            dataObject = new GenericDataObject(data, metaphorSelection);
             break;
       }
 

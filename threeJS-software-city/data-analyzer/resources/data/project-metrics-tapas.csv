@@ -1,3 +1,4 @@
+className,linesOfCode,linesOfComments,avgEyeFixationDuration
 ch.unisg.app.AppApplication,2.0,0.0,17.0
 ch.unisg.app.AppApplicationTests,0.0,0.0,6.0
 ch.unisg.app.HelloController,0.0,0.0,7.0

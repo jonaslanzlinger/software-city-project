@@ -17,17 +17,20 @@ export class TreeOfBuildings {
       return id;
    }
 
-   addBuilding(data, dataType) {
-      let newBuilding = new Building(this.getNextBuildingId(), data, dataType);
+   addBuilding(data, dataType, metaphorSelection) {
+      let newBuilding = new Building(
+         this.getNextBuildingId(),
+         data,
+         dataType,
+         metaphorSelection
+      );
       this.list.push(newBuilding);
    }
 
    buildTreeStructure() {
-      console.log(this.list.length);
       // here, we build the actual N-ary tree structure
       for (let i = 0; i < this.list.length; i++) {
          let building = this.list[i];
-         console.log(building);
          let packagePathList = building.buildingGroupingPath.split('.');
          let prevNode = this.baseNode;
          let nodeName = '';

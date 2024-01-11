@@ -1,17 +1,15 @@
-import { normalizeHeightToScale, normalizeWidthToScale } from './Utils';
-
-export class BPMNDataObject {
+export class GenericDataObject {
    constructor(data, metaphorSelection) {
-      this.buildingName = data.filename;
-      this.buildingGroupingPath = data.filename;
+      this.buildingName = data.className;
+      this.buildingGroupingPath = data.className;
       if (metaphorSelection.dimension !== undefined) {
-         this.buildingScaleX = parseInt(data[metaphorSelection.dimension]);
+         this.buildingScaleX = parseInt(data[metaphorSelection.dimension]) / 10;
       } else {
          this.buildingScaleX = 1;
       }
       this.buildingScaleZ = this.buildingScaleX;
       if (metaphorSelection.height !== undefined) {
-         this.buildingScaleY = parseInt(data[metaphorSelection.height]);
+         this.buildingScaleY = parseInt(data[metaphorSelection.height]) / 100;
       } else {
          this.buildingScaleY = 1;
       }

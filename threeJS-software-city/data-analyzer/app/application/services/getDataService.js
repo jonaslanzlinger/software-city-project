@@ -1,5 +1,3 @@
-const { DUMMY_DATA } = require("../../../resources/data/dummy_data");
-
 let memory_data = { data: [], dataType: "" };
 
 function getData() {
@@ -32,21 +30,18 @@ function setCsv(csv_data, fileFormat) {
 
 function setCsvJavaSourceCode(csv_data) {
   const lines = csv_data.split("\n");
+  let attributeNames = lines[0].split(",");
 
   lines.forEach((line, index) => {
-    if (index === 0 && line.startsWith(",")) {
+    if (index === 0) {
       return;
     }
 
-    // Structure of the Dataset
-    let lineElements = line.split(",");
-    const jsonObject = {
-      className: lineElements[0],
-      commentLinesOfCode: lineElements[1],
-      javadocLinesOfCode: lineElements[2],
-      linesOfCode: lineElements[3],
-      avgEyeFixationDuration: Math.random() * 685 + 65,
-    };
+    let jsonObject = {};
+    let attributes = line.split(",");
+    for (let i = 0; i < attributeNames.length; i++) {
+      jsonObject[attributeNames[i]] = attributes[i];
+    }
 
     memory_data.data.push(jsonObject);
     memory_data.dataType = "java-source-code";

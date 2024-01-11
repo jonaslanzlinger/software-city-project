@@ -18,27 +18,30 @@
     </style>
 
     <div class="navbar">
-        <div class="dropdown">
-            <button class="dropbtn">Dimensions</button>
-            <div class="dropdown-content">
-                <form id="dimensions-form">
 
-                    <!-- Dimensions -->
-                    <label for="dimensions">Dimensions:</label>
-                    <input type="text" id="dimensions" name="dimensions" placeholder="Enter dimensions">
-                    <br>
+        <button id="nav-btn-visualize">Visualize</button>
 
-                    <!-- City Spread -->
-                    <label for="citySpread">City Spread:</label>
-                    <input type="text" id="citySpread" name="citySpread" placeholder="Enter city spread">
-                    <br>
+<!--        <div class="dropdown">-->
+<!--            <button class="dropbtn">Dimensions</button>-->
+<!--            <div class="dropdown-content">-->
+<!--                <form id="dimensions-form">-->
 
-                    <!-- Submit Button -->
-                    <button type="submit">Visualize</button>
+<!--                    &lt;!&ndash; Dimensions &ndash;&gt;-->
+<!--                    <label for="dimensions">Dimensions:</label>-->
+<!--                    <input type="text" id="dimensions" name="dimensions" placeholder="Enter dimensions">-->
+<!--                    <br>-->
 
-                </form>
-            </div>
-        </div>
+<!--                    &lt;!&ndash; City Spread &ndash;&gt;-->
+<!--                    <label for="citySpread">City Spread:</label>-->
+<!--                    <input type="text" id="citySpread" name="citySpread" placeholder="Enter city spread">-->
+<!--                    <br>-->
+
+<!--                    &lt;!&ndash; Submit Button &ndash;&gt;-->
+<!--                    <button type="submit">Visualize</button>-->
+
+<!--                </form>-->
+<!--            </div>-->
+<!--        </div>-->
         <div class="dropdown">
             <button class="dropbtn">Data</button>
             <div class="dropdown-content">
@@ -70,8 +73,43 @@
         </div>
     </div>
 
+    <div id="metaphors-form" class="metaphors-form">
+        <div>
+            <label for="dimension-attribute-selection">Dimension:</label>
+            <select id="dimension-attribute-selection" name="dimension-attribute-selection">
+            </select>
+        </div>
+        <div>
+            <label for="height-attribute-selection">Height:</label>
+            <select id="height-attribute-selection" name="height-attribute-selection">
+            </select>
+        </div>
+        <div>
+            <label for="color-attribute-selection">Color:</label>
+            <select id="color-attribute-selection" name="color-attribute-selection">
+            </select>
+        </div>
+
+        <label for="city-dimension">City Dimension:</label>
+        <input type="text" id="city-dimension" name="city-dimension" placeholder="Enter City Dimension">
+
+        <label for="city-spread">City Spread:</label>
+        <input type="text" id="city-spread" name="city-spread" placeholder="Enter City Spread">
+
+        <button id="btn-go">Go!</button>
+    </div>
+
     <script type="module" src="./app/adapters/in/visualizeWebController.js"></script>
-    <script type="module" src="./app/adapters/in/uploadDataWebController.js"></script>
+    <script>
+        document.getElementById('nav-btn-visualize').addEventListener('click', event => {
+            let metaphorsForm = document.getElementById('metaphors-form');
+            if(metaphorsForm.style.display === 'none' || metaphorsForm.style.display === ''){
+                metaphorsForm.style.display = 'block';
+            } else {
+                metaphorsForm.style.display = 'none';
+            }
+        });
+    </script>
 
 </body>
 
