@@ -1,29 +1,73 @@
 import * as dat from 'dat.gui';
 
 export class GUI {
-    constructor(group, highestBuilding) {
-        this.gui = new dat.GUI();
-        this.options = {
-            thresholdValue: 0,
-            thresholdColor: '#FF0000'
-        }
-
-        this.gui.add(this.options, 'thresholdValue', 0, highestBuilding).onChange(value => {
-            this.options.thresholdValue = value;
-            group.children.forEach(e => {
-                if (e.scale.y >= this.options.thresholdValue) {
-                    e.material.color.set(this.options.thresholdColor);
-                }
+   constructor(group, treeOfBuildings) {
+      this.gui = new dat.GUI();
+      this.optionsThresholds = {
+         height: 0,
+         color: 0x000000,
+         apply: function () {
+            let height = this.height;
+            let color = this.color;
+            treeOfBuildings.list.forEach(building => {
+               if (building.originalScaleY >= height) {
+                  building.material.color.set(color);
+               }
             });
-        });
+         },
+      };
+      this.optionsHeightMetaphor = {
+         scale: 100,
+         normalize: 100,
+      };
 
-        this.gui.addColor(this.options, 'thresholdColor').onChange(color => {
-            this.options.thresholdColor = color;
-            group.children.forEach(e => {
-                if (e.scale.y >= this.options.thresholdValue) {
-                    e.material.color.set(this.options.thresholdColor);
-                }
-            });
-        });
-    }
+      let thresholdsFolder = this.gui.addFolder('Thresholds');
+      thresholdsFolder
+         .add(this.optionsThresholds, 'height', 0, treeOfBuildings.getHighestBuilding())
+         .name('Building Height');
+      thresholdsFolder.addColor(this.optionsThresholds, 'color').name('Color');
+      thresholdsFolder.add(this.optionsThresholds, 'apply').name('Apply!');
+      thresholdsFolder.open();
+
+      let metaphorsFolder = this.gui.addFolder('Metaphors');
+      metaphorsFolder.open();
+
+      let heightMetaphorFolder = metaphorsFolder.addFolder('Height');
+      heightMetaphorFolder
+         .add(this.optionsHeightMetaphor, 'scale', 1, 200)
+         .name('Scale (%)')
+         .onChange(e => {
+            let valueScale = e / 100 / (treeOfBuildings.getHighestBuilding() / 100);
+            let valueNormalize = this.optionsHeightMetaphor.normalize / 100;
+            this.calculateHeightMetaphor(valueScale, valueNormalize, treeOfBuildings);
+         });
+
+      heightMetaphorFolder
+         .add(this.optionsHeightMetaphor, 'normalize', 0, 200)
+         .name('Normalize (%)')
+         .onChange(e => {
+            let valueScale =
+               this.optionsHeightMetaphor.scale /
+               100 /
+               (treeOfBuildings.getHighestBuilding() / 100);
+            let valueNormalize = e / 100;
+            this.calculateHeightMetaphor(valueScale, valueNormalize, treeOfBuildings);
+         });
+      heightMetaphorFolder.open();
+   }
+
+   calculateHeightMetaphor(valueScale, valueNormalize, treeOfBuildings) {
+      let heightMean = treeOfBuildings.getHeightMean() * valueScale;
+      treeOfBuildings.list.forEach(building => {
+         let buildingHeight = building.originalScaleY * valueScale;
+         if (buildingHeight > heightMean) {
+            building.scale.y = heightMean + Math.pow(buildingHeight - heightMean, valueNormalize);
+            building.scale.y = Math.pow(buildingHeight, valueNormalize);
+         } else {
+            building.scale.y = heightMean - Math.pow(heightMean - buildingHeight, valueNormalize);
+            building.scale.y = Math.pow(buildingHeight, valueNormalize);
+         }
+         building.position.y = building.scale.y / 2 + 0.1;
+      });
+   }
 }

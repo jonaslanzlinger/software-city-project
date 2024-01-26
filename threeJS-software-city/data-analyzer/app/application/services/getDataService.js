@@ -23,7 +23,7 @@ function setCsv(csv_data, fileFormat) {
       break;
     default:
       // console.log('No valid fileFormat!');
-      setCsvJavaSourceCode(csv_data);
+      setCsvGeneric(csv_data);
       break;
   }
 }
@@ -65,6 +65,26 @@ function setCsvBPMN(csv_data) {
 
     memory_data.data.push(jsonObject);
     memory_data.dataType = "bpmn";
+  });
+}
+
+function setCsvGeneric(csv_data) {
+  const lines = csv_data.split("\n");
+  let attributeNames = lines[0].split(",");
+
+  lines.forEach((line, index) => {
+    if (index === 0) {
+      return;
+    }
+
+    let jsonObject = {};
+    let attributes = line.split(",");
+    for (let i = 0; i < attributeNames.length; i++) {
+      jsonObject[attributeNames[i]] = attributes[i];
+    }
+
+    memory_data.data.push(jsonObject);
+    memory_data.dataType = "generic";
   });
 }
 

@@ -11,69 +11,44 @@
 
 <body>
 
-    <style>
-        body {
-            margin: 0
-        }
-    </style>
-
-    <div class="navbar">
-
+    <div id="navbar" class="navbar">
+        <button id="nav-btn-upload">Upload</button>
+        <button id="nav-btn-grouping">Grouping</button>
         <button id="nav-btn-visualize">Visualize</button>
+    </div>
 
-<!--        <div class="dropdown">-->
-<!--            <button class="dropbtn">Dimensions</button>-->
-<!--            <div class="dropdown-content">-->
-<!--                <form id="dimensions-form">-->
-
-<!--                    &lt;!&ndash; Dimensions &ndash;&gt;-->
-<!--                    <label for="dimensions">Dimensions:</label>-->
-<!--                    <input type="text" id="dimensions" name="dimensions" placeholder="Enter dimensions">-->
-<!--                    <br>-->
-
-<!--                    &lt;!&ndash; City Spread &ndash;&gt;-->
-<!--                    <label for="citySpread">City Spread:</label>-->
-<!--                    <input type="text" id="citySpread" name="citySpread" placeholder="Enter city spread">-->
-<!--                    <br>-->
-
-<!--                    &lt;!&ndash; Submit Button &ndash;&gt;-->
-<!--                    <button type="submit">Visualize</button>-->
-
-<!--                </form>-->
-<!--            </div>-->
-<!--        </div>-->
-        <div class="dropdown">
-            <button class="dropbtn">Data</button>
-            <div class="dropdown-content">
-                <form id="upload-data-form">
-                    <label for="file">Choose a .csv file:</label>
-                    <input type="file" id="file" name="file" accept=".csv" required>
-
-                    <label for="file-format">Select a type:</label>
-                    <select id="file-format" name="file-format">
-                        <option value="java-source-code">Java Source Code</option>
-                        <option value="bpmn">BPMN</option>
-                    </select>
-
-                    <button id="upload-data-button" type="button">Upload Data</button>
-                </form>
+    <div id="grouping-form" class="metaphors-form">
+        <span class="btn-close">&times;</span>
+        <button class="dropbtn">Grouping</button>
+        <div class="dropdown-content">
+            <div class="grouping-source" id="groupingSource">
+                SourceGroup
             </div>
-        </div>
-        <div class="dropdown">
-            <button class="dropbtn">Grouping</button>
-            <div class="dropdown-content">
-                <div class="grouping-source" id="groupingSource">
-                    SourceGroup
-                </div>
-                <div class="grouping-target" id="groupingTarget">
-                    TargetGroup
-                </div>
+            <div class="grouping-target" id="groupingTarget">
+                TargetGroup
             </div>
-
         </div>
     </div>
 
+    <div id="upload-form" class="metaphors-form">
+        <span class="btn-close">&times;</span>
+        <form id="upload-data-form">
+            <label for="file">Choose a .csv file:</label>
+            <input type="file" id="file" name="file" accept=".csv" required>
+
+            <label for="file-format">Select a type:</label>
+            <select id="file-format" name="file-format">
+                <option value="java-source-code">Java Source Code</option>
+                <option value="bpmn">BPMN</option>
+                <option value="generic">Generic</option>
+            </select>
+
+            <button id="upload-data-button" type="button">Upload Data</button>
+        </form>
+    </div>
+
     <div id="metaphors-form" class="metaphors-form">
+        <span class="btn-close">&times;</span>
         <div>
             <label for="dimension-attribute-selection">Dimension:</label>
             <select id="dimension-attribute-selection" name="dimension-attribute-selection">
@@ -102,6 +77,8 @@
     <script type="module" src="./app/adapters/in/visualizeWebController.js"></script>
     <script>
         document.getElementById('nav-btn-visualize').addEventListener('click', event => {
+            document.getElementById('grouping-form').style.display = 'none';
+            document.getElementById('upload-form').style.display = 'none';
             let metaphorsForm = document.getElementById('metaphors-form');
             if(metaphorsForm.style.display === 'none' || metaphorsForm.style.display === ''){
                 metaphorsForm.style.display = 'block';
@@ -109,6 +86,41 @@
                 metaphorsForm.style.display = 'none';
             }
         });
+        document.getElementById('nav-btn-upload').addEventListener('click', event => {
+            document.getElementById('grouping-form').style.display = 'none';
+            document.getElementById('metaphors-form').style.display = 'none';
+            let metaphorsForm = document.getElementById('upload-form');
+            if(metaphorsForm.style.display === 'none' || metaphorsForm.style.display === ''){
+                metaphorsForm.style.display = 'block';
+            } else {
+                metaphorsForm.style.display = 'none';
+            }
+        });
+        document.getElementById('nav-btn-grouping').addEventListener('click', event => {
+            document.getElementById('upload-form').style.display = 'none';
+            document.getElementById('metaphors-form').style.display = 'none';
+            let metaphorsForm = document.getElementById('grouping-form');
+            if(metaphorsForm.style.display === 'none' || metaphorsForm.style.display === ''){
+                metaphorsForm.style.display = 'block';
+            } else {
+                metaphorsForm.style.display = 'none';
+            }
+        });
+        let closeButtons = document.getElementsByClassName('btn-close');
+        for(let i = 0; i < closeButtons.length; i++){
+            closeButtons[i].addEventListener('click', event => {
+                document.getElementById('grouping-form').style.display = 'none';
+                document.getElementById('upload-form').style.display = 'none';
+                document.getElementById('metaphors-form').style.display = 'none';
+            });
+        }
+        document.addEventListener('keydown', event => {
+            if(event.key === 'Escape'){
+                document.getElementById('grouping-form').style.display = 'none';
+                document.getElementById('upload-form').style.display = 'none';
+                document.getElementById('metaphors-form').style.display = 'none';
+            }
+        })
     </script>
 
 </body>

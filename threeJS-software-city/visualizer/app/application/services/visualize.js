@@ -22,8 +22,11 @@ export async function visualize(event, DATA, metaphorSelection, citySelection) {
    }
 
    let cityRectangleRatio =
-      citySelection.dimension === undefined || citySelection.dimension === '' ? 2 : citySelection.dimension;
-   let citySpread = citySelection.spread === undefined || citySelection.spread === '' ? 2 : citySelection.spread;
+      citySelection.dimension === undefined || citySelection.dimension === ''
+         ? 2
+         : citySelection.dimension;
+   let citySpread =
+      citySelection.spread === undefined || citySelection.spread === '' ? 2 : citySelection.spread;
    let shortSide = Math.sqrt(data.length / cityRectangleRatio);
    let longSide = cityRectangleRatio * shortSide;
    shortSide = Math.round(shortSide);
@@ -40,7 +43,12 @@ export async function visualize(event, DATA, metaphorSelection, citySelection) {
    // const axesHelper = new THREE.AxesHelper(100);
    // scene.add(axesHelper);
 
-   const visualControls = new VisualControls(renderer.getRenderer(), longSide, shortSide, citySpread);
+   const visualControls = new VisualControls(
+      renderer.getRenderer(),
+      longSide,
+      shortSide,
+      citySpread
+   );
 
    renderer.getRenderer().render(scene, visualControls.getCamera());
 
@@ -64,6 +72,7 @@ export async function visualize(event, DATA, metaphorSelection, citySelection) {
 
    treeOfBuildings.buildTreeStructure();
    scene.add(treeOfBuildings.putOnScreen(treeOfBuildings.baseNode));
+   treeOfBuildings.adjustChildrenLayerPositionY(treeOfBuildings.baseNode);
 
    const lightSettings = new LightSettings(
       treeOfBuildings.baseNode.children[0].scale.x,
@@ -74,7 +83,7 @@ export async function visualize(event, DATA, metaphorSelection, citySelection) {
    scene.add(lightSettings.getDirectionalLight());
    // scene.add(lightSettings.getDirectionalLightHelper());
 
-   new GUI(scene, treeOfBuildings.getHighestBuilding());
+   new GUI(scene, treeOfBuildings);
    new MouseControls(document, visualControls.getCamera(), scene);
 
    function animate(time) {

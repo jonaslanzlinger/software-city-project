@@ -1,7 +1,7 @@
 export class GenericDataObject {
    constructor(data, metaphorSelection) {
-      this.buildingName = data.className;
-      this.buildingGroupingPath = data.className;
+      this.buildingName = null;
+      this.buildingGroupingPath = '';
       if (metaphorSelection.dimension !== undefined) {
          this.buildingScaleX = parseInt(data[metaphorSelection.dimension]) / 10;
       } else {

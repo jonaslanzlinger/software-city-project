@@ -19,15 +19,9 @@ async function fetchDataFromDataVisualizer() {
 }
 
 function getMetaphorSelection() {
-   let dimensionAttributeSelection = document.getElementById(
-      'dimension-attribute-selection'
-   );
-   let heightAttributeSelection = document.getElementById(
-      'height-attribute-selection'
-   );
-   let colorAttributeSelection = document.getElementById(
-      'color-attribute-selection'
-   );
+   let dimensionAttributeSelection = document.getElementById('dimension-attribute-selection');
+   let heightAttributeSelection = document.getElementById('height-attribute-selection');
+   let colorAttributeSelection = document.getElementById('color-attribute-selection');
 
    return {
       dimension: dimensionAttributeSelection.value,
@@ -46,22 +40,20 @@ function getMetaphorSelection() {
 //       await visualize(event, DATA);
 //    });
 
-document
-   .getElementById('btn-go')
-   .addEventListener('click', async function (event) {
-      event.preventDefault();
+document.getElementById('btn-go').addEventListener('click', async function (event) {
+   event.preventDefault();
 
-      await fetchDataFromDataVisualizer();
+   await fetchDataFromDataVisualizer();
 
-      let metaphorSelection = getMetaphorSelection();
-      let citySelection = {
-         dimension: document.getElementById('city-dimension').value,
-         spread: document.getElementById('city-spread').value,
-      };
-      document.getElementById('metaphors-form').style.display = 'none';
+   let metaphorSelection = getMetaphorSelection();
+   let citySelection = {
+      dimension: document.getElementById('city-dimension').value,
+      spread: document.getElementById('city-spread').value,
+   };
+   document.getElementById('metaphors-form').style.display = 'none';
 
-      await visualize(event, DATA, metaphorSelection, citySelection);
-   });
+   await visualize(event, DATA, metaphorSelection, citySelection);
+});
 
 export function initGroupingMenu(data) {
    const groupingSource = document.getElementById('groupingSource');
@@ -101,15 +93,9 @@ export function initGroupingMenu(data) {
 }
 
 export function initMetaphorsAttributeList(data) {
-   let dimensionAttributeSelectionList = document.getElementById(
-      'dimension-attribute-selection'
-   );
-   let heightAttributeSelectionList = document.getElementById(
-      'height-attribute-selection'
-   );
-   let colorAttributeSelectionList = document.getElementById(
-      'color-attribute-selection'
-   );
+   let dimensionAttributeSelectionList = document.getElementById('dimension-attribute-selection');
+   let heightAttributeSelectionList = document.getElementById('height-attribute-selection');
+   let colorAttributeSelectionList = document.getElementById('color-attribute-selection');
 
    // Clear the lists
    dimensionAttributeSelectionList.replaceChildren();
@@ -140,47 +126,47 @@ export function getData() {
    return DATA;
 }
 
-document
-   .getElementById('upload-data-button')
-   .addEventListener('click', function (event) {
-      const fileInput = document.getElementById('file');
-      const file = fileInput.files[0];
+document.getElementById('upload-data-button').addEventListener('click', function (event) {
+   const fileInput = document.getElementById('file');
+   const file = fileInput.files[0];
 
-      var reader = new FileReader();
-      reader.readAsText(file);
+   var reader = new FileReader();
+   reader.readAsText(file);
 
-      reader.onload = function (event) {
-         var csvData = event.target.result;
+   reader.onload = function (event) {
+      var csvData = event.target.result;
 
-         const postData = {
-            data: csvData,
-         };
-
-         // Get the respective type of data
-         var fileFormat = document.getElementById('file-format').value;
-
-         const apiUrl = `http://localhost:3001/api/setCsv/${fileFormat}/`;
-
-         fetch(apiUrl, {
-            method: 'POST',
-            headers: {
-               'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(postData),
-         })
-            .then(response => response.json())
-            .then(async data => {
-               await fetchDataFromDataVisualizer();
-
-               initGroupingMenu(getData());
-               initMetaphorsAttributeList(getData());
-            })
-            .catch(error => {
-               alert('Data Analyzer Service is not running...');
-               console.error('Error:', error);
-            });
+      const postData = {
+         data: csvData,
       };
-   });
+
+      // Get the respective type of data
+      var fileFormat = document.getElementById('file-format').value;
+
+      const apiUrl = `http://localhost:3001/api/setCsv/${fileFormat}/`;
+
+      fetch(apiUrl, {
+         method: 'POST',
+         headers: {
+            'Content-Type': 'application/json',
+         },
+         body: JSON.stringify(postData),
+      })
+         .then(response => response.json())
+         .then(async data => {
+            await fetchDataFromDataVisualizer();
+
+            initGroupingMenu(getData());
+            initMetaphorsAttributeList(getData());
+            alert('Data successfully uploaded.');
+            document.getElementById('upload-form').style.display = 'none';
+         })
+         .catch(error => {
+            alert('Data Analyzer Service is not running...');
+            console.error('Error:', error);
+         });
+   };
+});
 
 let DATA;
 await fetchDataFromDataVisualizer();

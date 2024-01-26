@@ -39,7 +39,39 @@ body {
     color: white;
 }
 
+#nav-btn-upload {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 16px;
+    color: white;
+}
+
+#nav-btn-grouping {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 16px;
+    color: white;
+}
+
 #nav-btn-visualize:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+#nav-btn-upload:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+#nav-btn-grouping:hover {
     background-color: #ddd;
     color: black;
 }
@@ -171,4 +203,15 @@ select:focus, select:hover {
 
 .draggable:hover {
     background-color: #0056b3;
+}
+
+.btn-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 23px;
+}
+
+.btn-close:hover {
+    cursor: pointer;
 }

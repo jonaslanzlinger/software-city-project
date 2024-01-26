@@ -9,7 +9,7 @@ export class JavaSourceCodeDataObject {
       }
       this.buildingScaleZ = this.buildingScaleX;
       if (metaphorSelection.height !== undefined) {
-         this.buildingScaleY = parseInt(data[metaphorSelection.height]) / 100;
+         this.buildingScaleY = parseInt(data[metaphorSelection.height]);
       } else {
          this.buildingScaleY = 1;
       }

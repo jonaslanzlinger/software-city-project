@@ -1,6 +1,3 @@
 className,linesOfCode,linesOfComments,avgEyeFixationDuration
 a.a.a.a.a.a.a.TEST1,3,2,250
-a.a.a.a.a.a.a.TEST2,8,6,120
-a.a.a.a.a.a.a.TEST3,5,3,180
-a.a.a.a.a.a.a.TEST4,2,1,150
-a.a.a.a.a.a.a.TEST5,1,4,50
+a.a.TEST2,8,6,120

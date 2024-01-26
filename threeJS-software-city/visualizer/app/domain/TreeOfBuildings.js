@@ -7,23 +7,18 @@ export class TreeOfBuildings {
    constructor() {
       this.list = [];
       this.baseNode = new Plane('project_base_node');
+      this.buildingId = 1;
    }
 
    getNextBuildingId() {
-      let id = 1;
-      if (this.list.some(building => building.buildingId === id)) {
-         id++;
+      if (this.list.some(building => building.buildingId === this.buildingId)) {
+         this.buildingId++;
       }
-      return id;
+      return this.buildingId;
    }
 
    addBuilding(data, dataType, metaphorSelection) {
-      let newBuilding = new Building(
-         this.getNextBuildingId(),
-         data,
-         dataType,
-         metaphorSelection
-      );
+      let newBuilding = new Building(this.getNextBuildingId(), data, dataType, metaphorSelection);
       this.list.push(newBuilding);
    }
 
@@ -74,11 +69,19 @@ export class TreeOfBuildings {
    getHighestBuilding() {
       let max = 0;
       this.list.forEach(building => {
-         if (building.getHeight() >= max) {
-            max = building.getHeight();
+         if (building.originalScaleY >= max) {
+            max = building.originalScaleY;
          }
       });
       return max;
+   }
+
+   getHeightMean() {
+      let sum = 0;
+      for (let building of this.list) {
+         sum += building.originalScaleY;
+      }
+      return sum / this.list.length;
    }
 
    putOnScreen(node) {
@@ -112,6 +115,7 @@ export class TreeOfBuildings {
          }
       }
 
+      console.log(bins);
       pack(bins, { inPlace: true });
 
       let maxX = 0;
@@ -139,19 +143,19 @@ export class TreeOfBuildings {
          }
       }
 
-      let deepestLevel = 0;
-      for (const child of children) {
-         if (child instanceof Plane) {
-            if (child.children[0].position.y < deepestLevel) {
-               deepestLevel = child.children[0].position.y;
-            }
-         }
-      }
+      // let deepestLevel = 0;
+      // for (const child of children) {
+      //    if (child instanceof Plane) {
+      //       if (child.children[0].position.y < deepestLevel) {
+      //          deepestLevel = child.children[0].position.y;
+      //       }
+      //    }
+      // }
 
       node.children[0].scale.x = maxX + 0.5;
       node.children[0].scale.z = maxZ + 0.5;
       node.children[0].scale.y = 0.2;
-      node.children[0].position.y = deepestLevel - 0.2;
+      // node.children[0].position.y = deepestLevel - 0.2;
 
       for (let child of children) {
          if (child instanceof Building) {
@@ -163,5 +167,16 @@ export class TreeOfBuildings {
          }
       }
       return node;
+   }
+
+   adjustChildrenLayerPositionY(node) {
+      for (let child of node.children) {
+         if (child instanceof Plane) {
+            child.position.y = 0.2;
+            this.adjustChildrenLayerPositionY(child);
+         } else if (child instanceof Building) {
+            child.position.y += 0.1;
+         }
+      }
    }
 }
