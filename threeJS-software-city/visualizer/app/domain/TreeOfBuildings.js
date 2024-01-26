@@ -19,6 +19,15 @@ export class TreeOfBuildings {
 
    addBuilding(data, dataType, metaphorSelection) {
       let newBuilding = new Building(this.getNextBuildingId(), data, dataType, metaphorSelection);
+      for (let building of this.list) {
+         if (
+            building.buildingGroupingPath + building.buildingName ===
+            newBuilding.buildingGroupingPath + newBuilding.buildingName
+         ) {
+            building.buildingData.push(newBuilding.buildingData[0]);
+            return;
+         }
+      }
       this.list.push(newBuilding);
    }
 
@@ -178,5 +187,29 @@ export class TreeOfBuildings {
             child.position.y += 0.1;
          }
       }
+   }
+
+   getLowestTimestamp() {
+      let lowestTimestamp = 99999999999999999;
+      for (let building of this.list) {
+         for (let entry of building.buildingData) {
+            if (entry.timestamp < lowestTimestamp) {
+               lowestTimestamp = entry.timestamp;
+            }
+         }
+      }
+      return lowestTimestamp;
+   }
+
+   getHighestTimestamp() {
+      let highestTimestamp = 0;
+      for (let building of this.list) {
+         for (let entry of building.buildingData) {
+            if (entry.timestamp > highestTimestamp) {
+               highestTimestamp = entry.timestamp;
+            }
+         }
+      }
+      return highestTimestamp;
    }
 }

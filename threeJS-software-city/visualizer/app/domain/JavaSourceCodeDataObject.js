@@ -18,6 +18,7 @@ export class JavaSourceCodeDataObject {
       if (data[metaphorSelection.color] > 3) {
          this.buildingColor = 0xff0000;
       }
-      this.buildingData = data;
+      this.buildingData = [];
+      this.buildingData.push(data);
    }
 }
