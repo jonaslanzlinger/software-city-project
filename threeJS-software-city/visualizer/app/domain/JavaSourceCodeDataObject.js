@@ -3,7 +3,7 @@ export class JavaSourceCodeDataObject {
       this.buildingName = data.className;
       this.buildingGroupingPath = data.className;
       if (metaphorSelection.dimension !== undefined) {
-         this.buildingScaleX = parseInt(data[metaphorSelection.dimension]) / 10;
+         this.buildingScaleX = parseInt(data[metaphorSelection.dimension]);
       } else {
          this.buildingScaleX = 1;
       }
@@ -14,10 +14,9 @@ export class JavaSourceCodeDataObject {
          this.buildingScaleY = 1;
       }
       this.buildingPositionY = this.buildingScaleY / 2;
+
+      // set a default building color (this can be adjustable with the GUI in the top right corner)
       this.buildingColor = 0xb5cb99;
-      if (data[metaphorSelection.color] > 3) {
-         this.buildingColor = 0xff0000;
-      }
       this.buildingData = [];
       this.buildingData.push(data);
    }

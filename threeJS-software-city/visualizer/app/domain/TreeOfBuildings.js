@@ -124,7 +124,7 @@ export class TreeOfBuildings {
          }
       }
 
-      console.log(bins);
+      // console.log(bins);
       pack(bins, { inPlace: true });
 
       let maxX = 0;

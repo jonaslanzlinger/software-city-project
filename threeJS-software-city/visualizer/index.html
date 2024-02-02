@@ -6,6 +6,9 @@
     <meta name="visualizer" content="width=device-width, initial-scale=1.0">
     <title>Software City Visualizer</title>
 
+<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">-->
+<!--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>-->
+
     <link rel="stylesheet" href="index.css">
 
     <style>
@@ -50,7 +53,7 @@
     </div>
 
     <div id="grouping-form" class="metaphors-form">
-        <span class="btn-close">&times;</span>
+        <span class="btn-close"></span>
         <button class="dropbtn">Grouping</button>
         <div class="dropdown-content">
             <div class="grouping-source" id="groupingSource">
@@ -63,7 +66,7 @@
     </div>
 
     <div id="upload-form" class="metaphors-form">
-        <span class="btn-close">&times;</span>
+        <span class="btn-close"></span>
         <form id="upload-data-form">
             <label for="file">Choose a .csv file:</label>
             <input type="file" id="file" name="file" accept=".csv" required>
@@ -80,7 +83,7 @@
     </div>
 
     <div id="metaphors-form" class="metaphors-form">
-        <span class="btn-close">&times;</span>
+        <span class="btn-close"></span>
         <div>
             <label for="dimension-attribute-selection">Dimension:</label>
             <select id="dimension-attribute-selection" name="dimension-attribute-selection">
@@ -106,6 +109,11 @@
         <button id="btn-go">Go!</button>
     </div>
 
+    <div id="info-panel" class="w-25 metaphors-form">
+        <span class="btn-close"></span>
+        <div id="info-panel-div"></div>
+    </div>
+
     <div id="slider-container" class="slider-container">
         <div class="slider">
             <div class="slider-thumb"></div>
@@ -118,6 +126,7 @@
         document.getElementById('nav-btn-visualize').addEventListener('click', event => {
             document.getElementById('grouping-form').style.display = 'none';
             document.getElementById('upload-form').style.display = 'none';
+            document.getElementById('info-panel').style.display = 'none';
             let metaphorsForm = document.getElementById('metaphors-form');
             if(metaphorsForm.style.display === 'none' || metaphorsForm.style.display === ''){
                 metaphorsForm.style.display = 'block';
@@ -128,6 +137,7 @@
         document.getElementById('nav-btn-upload').addEventListener('click', event => {
             document.getElementById('grouping-form').style.display = 'none';
             document.getElementById('metaphors-form').style.display = 'none';
+            document.getElementById('info-panel').style.display = 'none';
             let metaphorsForm = document.getElementById('upload-form');
             if(metaphorsForm.style.display === 'none' || metaphorsForm.style.display === ''){
                 metaphorsForm.style.display = 'block';
@@ -138,6 +148,7 @@
         document.getElementById('nav-btn-grouping').addEventListener('click', event => {
             document.getElementById('upload-form').style.display = 'none';
             document.getElementById('metaphors-form').style.display = 'none';
+            document.getElementById('info-panel').style.display = 'none';
             let metaphorsForm = document.getElementById('grouping-form');
             if(metaphorsForm.style.display === 'none' || metaphorsForm.style.display === ''){
                 metaphorsForm.style.display = 'block';
@@ -151,6 +162,7 @@
                 document.getElementById('grouping-form').style.display = 'none';
                 document.getElementById('upload-form').style.display = 'none';
                 document.getElementById('metaphors-form').style.display = 'none';
+                document.getElementById('info-panel').style.display = 'none';
             });
         }
         document.addEventListener('keydown', event => {
@@ -158,37 +170,65 @@
                 document.getElementById('grouping-form').style.display = 'none';
                 document.getElementById('upload-form').style.display = 'none';
                 document.getElementById('metaphors-form').style.display = 'none';
+                document.getElementById('info-panel').style.display = 'none';
             }
-        })
+        });
+
+        dragElement(document.getElementById("info-panel"));
+        function dragElement(infoPanel) {
+            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+
+            infoPanel.onmousedown = dragMouseDown;
+
+            function dragMouseDown(e) {
+                e = e || window.event;
+                e.preventDefault();
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = closeDragElement;
+                document.onmousemove = elementDrag;
+            }
+
+            function elementDrag(e) {
+                e = e || window.event;
+                e.preventDefault();
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+
+                // Calculate new positions
+                let newX = infoPanel.offsetLeft - pos1;
+                let newY = infoPanel.offsetTop - pos2;
+
+                // Check boundaries
+                const windowWidth = window.innerWidth;
+                const windowHeight = window.innerHeight;
+
+                if (newX < 0) {
+                    newX = 0;
+                }
+                if (newX + infoPanel.offsetWidth > windowWidth) {
+                    newX = windowWidth - infoPanel.offsetWidth;
+                }
+                if (newY < 0) {
+                    newY = 0;
+                }
+                if (newY + infoPanel.offsetHeight > windowHeight) {
+                    newY = windowHeight - infoPanel.offsetHeight;
+                }
+
+                // Set the new position within boundaries
+                infoPanel.style.top = newY + "px";
+                infoPanel.style.left = newX + "px";
+            }
+
+            function closeDragElement() {
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
+        }
     </script>
-
-<!--    <script>-->
-<!--        document.getElementById('slider-container').style.display = 'none';-->
-<!--        const slider = document.querySelector('.slider');-->
-<!--        const thumb = document.querySelector('.slider-thumb');-->
-<!--        const valueDisplay = document.getElementById('slider-value');-->
-
-<!--        let isDragging = false;-->
-
-<!--        thumb.addEventListener('mousedown', () => {-->
-<!--            isDragging = true;-->
-<!--        });-->
-
-<!--        document.addEventListener('mouseup', () => {-->
-<!--            isDragging = false;-->
-<!--        });-->
-
-<!--        document.addEventListener('mousemove', (e) => {-->
-<!--            if (isDragging) {-->
-<!--                const mouseX = e.clientX - slider.getBoundingClientRect().left;-->
-<!--                const percent = (mouseX / slider.clientWidth) * 100;-->
-<!--                const newValue = Math.min(100, Math.max(0, percent));-->
-<!--                thumb.style.left = `${newValue}%`;-->
-<!--                valueDisplay.textContent = `2000-01-01T10:30:${Math.round(newValue)}:500`;-->
-<!--            }-->
-<!--        });-->
-<!--    </script>-->
-
 
 </body>
 

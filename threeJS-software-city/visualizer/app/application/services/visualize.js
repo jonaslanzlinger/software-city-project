@@ -6,16 +6,11 @@ import { LightSettings } from '../../domain/LightSettings';
 import { VisualControls } from '../../domain/VisualControls';
 import { Renderer } from '../../domain/Renderer';
 import { GUI } from '../../domain/Gui';
+import { max } from 'three/examples/jsm/nodes/shadernode/ShaderNodeBaseElements';
 
 let rendererList = [];
 
 function removeRenderer(renderer) {
-   // scene.traverse(object => {
-   //    if (object instanceof THREE.Mesh) {
-   //       object.geometry.dispose();
-   //       object.material.dispose();
-   //    }
-   // });
    renderer.dispose();
    // remove old canvas and gui
    let canvasElement = document.getElementsByTagName('canvas');
@@ -26,11 +21,6 @@ function removeRenderer(renderer) {
    if (guiElement.length > 0) {
       guiElement[0].remove();
    }
-
-   console.log(document);
-   // document.removeEventListener('mousedown');
-   // document.removeEventListener('mousedown', onMouseClick);
-   // document.removeEventListener('mousemove');
 }
 
 export async function visualize(event, DATA, metaphorSelection, citySelection) {
@@ -99,7 +89,7 @@ export async function visualize(event, DATA, metaphorSelection, citySelection) {
    );
    scene.add(lightSettings.getAmbientLight());
    scene.add(lightSettings.getDirectionalLight());
-   // scene.add(lightSettings.getDirectionalLightHelper());
+   scene.add(lightSettings.getDirectionalLightHelper());
 
    new GUI(scene, treeOfBuildings);
    new MouseControls(document, visualControls.getCamera(), scene);
@@ -144,18 +134,50 @@ export async function visualize(event, DATA, metaphorSelection, citySelection) {
          const millisecond = time.slice(14);
          valueDisplay.textContent = `${year}-${month}-${day}, ${hour}:${minute}:${second}.${millisecond}`;
 
+         let maxOccurrences = 0;
+         let maxTotalTime = 0;
+         for (let building of treeOfBuildings.list) {
+            let occurrences = 0;
+            let totalTime = 0;
+            for (let entry of building.buildingData) {
+               occurrences += 1;
+               totalTime += parseInt(entry.avgEyeFixationDuration);
+            }
+            if (occurrences > maxOccurrences) {
+               maxOccurrences = occurrences;
+            }
+            if (totalTime > maxTotalTime) {
+               maxTotalTime = totalTime;
+            }
+         }
          for (let building of treeOfBuildings.list) {
             let totalTime = 0;
+            let totalOccurrences = 0;
             for (let entry of building.buildingData) {
                if (entry.timestamp <= time) {
                   totalTime += parseInt(entry.avgEyeFixationDuration);
+                  totalOccurrences += 1;
                }
             }
             building.visible = totalTime > 0;
-            let color = building.material.color;
-            console.log(totalTime);
-            color.r = totalTime / 100;
-            building.material.color.set(color);
+            let color = building.material[0].color;
+            let ratio = (totalTime / maxTotalTime) * (50 / 100);
+            color.r = 0.5 + ratio;
+            color.g = 0.5 - ratio;
+            color.b = 0.5 - ratio;
+            building.material[0].color.set(color);
+            building.material[1].color.set(color);
+            building.material[3].color.set(color);
+            building.material[4].color.set(color);
+            building.material[5].color.set(color);
+
+            // set the rooftop color, depending on occurrences and the maxOccurrences
+            color = building.material[2].color;
+            ratio = (totalOccurrences / maxOccurrences) * (50 / 100);
+            color.r = 0.5 + ratio;
+            color.g = 0.5 - ratio;
+            color.b = 0.5 - ratio;
+            building.material[2].color.set(color);
          }
       }
    });

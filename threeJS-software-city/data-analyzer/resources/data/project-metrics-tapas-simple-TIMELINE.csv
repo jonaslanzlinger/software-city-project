@@ -1,5 +1,5 @@
 className,linesOfCode,linesOfComments,avgEyeFixationDuration,timestamp
-ch.unisg.testproject1.testpackage2.TEST5,3,5,80,20240101105820540
+ch.unisg.testproject1.testpackage2.TEST5,3,5,200,20240101105820540
 ch.unisg.testproject1.testpackage2.TEST10,3,5,20,20240101105820740
 ch.unisg.testproject1.testpackage2.TEST16,3,5,10,20240101105820840
 ch.unisg.testproject1.testpackage2.TEST24,2,0,2,20240101105820260

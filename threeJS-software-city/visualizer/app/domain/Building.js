@@ -25,7 +25,21 @@ export class Building extends THREE.Mesh {
          // polygonOffsetFactor: 0.1,
          // polygonOffsetUnits: 0.1,
       });
-      super(boxGeometry, boxMaterial);
+      const rooftopMaterial = new THREE.MeshPhongMaterial({
+         color: 0xffffff,
+      });
+
+      // set different materials for the rooftop side
+      const materials = [
+         boxMaterial,
+         boxMaterial,
+         rooftopMaterial,
+         boxMaterial,
+         boxMaterial,
+         boxMaterial,
+      ];
+
+      super(boxGeometry, materials);
 
       // here, we add the border of the box
       let geo = new THREE.EdgesGeometry(this.geometry);
@@ -45,7 +59,8 @@ export class Building extends THREE.Mesh {
       this.position.y = dataObject.buildingPositionY;
       this.originalScaleY = dataObject.buildingScaleY;
       this.scale.y = dataObject.buildingScaleY;
-      this.material.color.set(dataObject.buildingColor);
+      // TODO ???
+      // this.material.color.set(dataObject.buildingColor);
       this.buildingData = dataObject.buildingData;
 
       this.castShadow = true;
