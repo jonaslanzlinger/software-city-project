@@ -42,5 +42,5 @@ all the elements that don't belong to this element get removed from the screen.
 #### Roll-up:
 * This is the reversed function of the drill-down.
 
-
-[week-14-video-demo.mov](video-demos%2Fweek-14-video-demo.mov)
+### Demo Video
+![week-14-video-demo.gif](video-demos%2Fweek-14-video-demo.gif)
