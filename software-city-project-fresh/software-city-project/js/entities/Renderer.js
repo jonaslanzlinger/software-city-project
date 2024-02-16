@@ -1,0 +1,17 @@
+import * as THREE from "three";
+
+class Renderer {
+   constructor() {
+      this.renderer = new THREE.WebGLRenderer({ antialias: true });
+      this.renderer.setSize(window.innerWidth, window.innerHeight);
+      this.renderer.shadowMap.enabled = true;
+      this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      this.renderer.setClearColor(0x2a2a2a);
+   }
+
+   getRenderer() {
+      return this.renderer;
+   }
+}
+
+export { Renderer }
