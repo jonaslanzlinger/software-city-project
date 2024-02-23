@@ -147,6 +147,7 @@ buttonStartVisualize.addEventListener("click", e => {
    let treeOfBuildingsList = buildTreesOfBuildings(getData(), metaphorSelection);
    console.log(treeOfBuildingsList);
 
+   console.log("visualize");
    if (treeOfBuildingsList.length > 1) {
       newVisualize(treeOfBuildingsList);
    } else {
