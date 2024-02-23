@@ -54,7 +54,6 @@ class MouseControls {
                      newElement.innerHTML = `<strong>${entry}:</strong><br>${objInfo[entry]}`;
                      infoPanelDiv.appendChild(newElement);
                   }
-                  console.log(obj);
                   break;
                }
             }

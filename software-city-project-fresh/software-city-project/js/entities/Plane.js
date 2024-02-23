@@ -24,7 +24,7 @@ class Plane extends THREE.Group {
 
       this.add(groupBox);
 
-      this.receiveShadow = true;
+      // this.receiveShadow = true;
       this.nodeName = nodeName;
    }
 

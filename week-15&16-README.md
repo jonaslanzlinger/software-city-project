@@ -13,7 +13,7 @@ Following our meeting with Barbara and Amine, I dedicated the past two weeks to 
    * Lookahead: A possible path for further development could be to integrate the visualization tool into the Github pipeline
 
 
-## Todo's for next week
+## Todo's for the upcoming weeks
 * Schedule a meeting with Thierry for aligning what to write about
 * Making the prototype work for the BPMN model data aswell
 * Implement the visualization of the data in each of the cases:
@@ -22,6 +22,9 @@ Following our meeting with Barbara and Amine, I dedicated the past two weeks to 
       * Eye tracking: Show the eyeFixation per building over time (use timeline)
    * BPMN model data
       * Eye tracking: Show the eyeFixation per building over time (use timeline)
+* Integrate the tool into the Github Pipeline:
+   * Use Github Pages (github.io) for hosting the tool
+   * Use the Upload button for providing the individual commits
 
 ## Prototype
 I recreated the tool from scratch using a monolithic approach. Doing that, I focused also on refactoring the code and making the visualization of data more robust.

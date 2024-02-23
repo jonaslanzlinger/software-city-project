@@ -4,10 +4,11 @@ import { Mesh } from "three";
 import pack from "bin-pack";
 
 class TreeOfBuildings {
-   constructor() {
+   constructor(timestamp) {
       this.list = [];
       this.baseNode = new Plane("project_base_node");
       this.buildingId = 1;
+      this.timestamp = timestamp;
    }
 
    getNextBuildingId() {

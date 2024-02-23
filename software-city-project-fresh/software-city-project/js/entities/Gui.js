@@ -61,6 +61,10 @@ class Gui {
       heightMetaphorFolder.open();
    }
 
+   getGui() {
+      return this.gui;
+   }
+
    calculateHeightMetaphor(valueScale, valueNormalize, treeOfBuildings) {
       let heightMean = treeOfBuildings.getHeightMean() * valueScale;
       treeOfBuildings.list.forEach(building => {

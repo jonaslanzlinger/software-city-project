@@ -10,7 +10,10 @@ class Building extends THREE.Mesh {
          case "java-source-code":
             dataObject = new JavaSourceCodeDataObject(data, metaphorSelection, factors);
             break;
-         case "bpmn":
+         case "eye-tracking-java-source-code":
+            dataObject = new JavaSourceCodeDataObject(data, metaphorSelection, factors);
+            break;
+         case "eye-tracking-bpmn":
             dataObject = new BPMNDataObject(data, metaphorSelection, factors);
             break;
          default:

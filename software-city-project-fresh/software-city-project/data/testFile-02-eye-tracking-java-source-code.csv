@@ -1,0 +1,12 @@
+timestamp,className,linesOfCode,dependencies,methods,eyeFixationDuration
+20240215080312300,ch.unisg.app1.domain.Entity1,13,4,8,351
+20240215080313100,ch.unisg.app1.domain.Entity1,13,4,8,752
+20240215080313200,ch.unisg.app1.domain.Entity1,13,4,8,123
+20240215080313600,ch.unisg.app1.domain.Entity1,13,4,8,361
+20240215080313700,ch.unisg.app1.domain.Entity1,13,4,8,313
+20240215080312110,ch.unisg.app1.domain.Entity2,11,2,9,146
+20240215080312610,ch.unisg.app1.domain.Entity2,11,2,9,724
+20240215080312910,ch.unisg.app1.domain.Entity2,11,2,9,858
+20240215080313110,ch.unisg.app1.domain.Entity2,11,2,9,267
+20240215080313410,ch.unisg.app1.domain.Entity2,11,2,9,481
+20240215080313610,ch.unisg.app1.domain.Entity2,11,2,9,573

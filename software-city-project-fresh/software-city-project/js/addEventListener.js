@@ -1,8 +1,16 @@
-import { getData, setData } from "./data";
-import { visualize } from "./visualize";
+import { getData, setData, clearData } from "./data";
+import { Plane } from "./entities/Plane";
+import { buildTreesOfBuildings, newVisualize, visualize, removeAllRenderers, removeAllGuis } from "./visualize";
+import { formatDate } from "./utils";
 
 const buttonUpload = document.getElementById("button-upload");
 const buttonVisualize = document.getElementById("button-visualize");
+const buttonViewData = document.getElementById("button-view-data");
+const buttonClearData = document.getElementById("button-clear-data");
+
+const viewData = document.getElementById("view-data");
+const thead = document.getElementById("thead");
+const tbody = document.getElementById("tbody");
 
 const frameUpload = document.getElementById("frame-upload");
 const frameVisualize = document.getElementById("frame-visualize");
@@ -16,11 +24,14 @@ const colorAttributeSelection = document.getElementById("color-attribute-selecti
 
 const buttonUploadData = document.getElementById("button-upload-data");
 
-const alertSuccess = document.getElementById("alert-success");
-const buttonAlertClose = document.getElementById("button-alert-close");
+const alertSuccessUploadData = document.getElementById("alert-success-upload-data");
+const alertSuccessClearData = document.getElementById("alert-success-clear-data");
+const buttonAlertCloseUploadData = document.getElementById("button-alert-close-upload-data");
+const buttonAlertCloseClearData = document.getElementById("button-alert-close-clear-data");
 
 const buttonStartVisualize = document.getElementById("button-start-visualize");
 
+const sliderContainer = document.getElementById("slider-container");
 const sliderThumb = document.getElementById("slider-thumb");
 const slider = document.getElementById("slider");
 const valueDisplay = document.getElementById("slider-value");
@@ -43,6 +54,23 @@ buttonVisualize.addEventListener("click", () => {
    } else {
       frameVisualize.style.display = "none";
    }
+});
+
+buttonViewData.addEventListener("click", () => {
+   frameUpload.style.display = "none";
+   frameVisualize.style.display = "none";
+   frameInfo.style.display = "none";
+   removeAllRenderers();
+   removeAllGuis();
+   sliderContainer.style.display = "none";
+   viewData.style.display = "block";
+});
+
+buttonClearData.addEventListener("click", () => {
+   clearData();
+   alertSuccessClearData.style.display = "block";
+   $("#alert-success-clear-data").delay(2000).fadeOut(800);
+   buildTable();
 });
 
 for (let i = 0; i < buttonsClose.length; i++) {
@@ -85,14 +113,20 @@ buttonUploadData.addEventListener("click", e => {
          colorAttributeSelection.appendChild(newElement.cloneNode(true));
       })
 
-      alertSuccess.style.display = "block";
-      $("#alert-success").delay(2000).fadeOut(800);
+      alertSuccessUploadData.style.display = "block";
+      $("#alert-success-upload-data").delay(2000).fadeOut(800);
       frameUpload.style.display = "none";
+
+      buildTable();
    }
 });
 
-buttonAlertClose.addEventListener("click", () => {
-   alertSuccess.style.display = "none";
+buttonAlertCloseUploadData.addEventListener("click", () => {
+   alertSuccessUploadData.style.display = "none";
+});
+
+buttonAlertCloseClearData.addEventListener("click", () => {
+   alertSuccessClearData.style.display = "none";
 });
 
 buttonStartVisualize.addEventListener("click", e => {
@@ -108,8 +142,16 @@ buttonStartVisualize.addEventListener("click", e => {
       spread: document.getElementById("city-spread").value
    }
    frameVisualize.style.display = "none";
+   viewData.style.display = "none";
 
-   visualize(e, getData(), metaphorSelection, citySelection);
+   let treeOfBuildingsList = buildTreesOfBuildings(getData(), metaphorSelection);
+   console.log(treeOfBuildingsList);
+
+   if (treeOfBuildingsList.length > 1) {
+      newVisualize(treeOfBuildingsList);
+   } else {
+      visualize(treeOfBuildingsList, metaphorSelection);
+   }
 });
 
 let frameInfoOffsetLeft = 0, frameInfoOffsetTop = 0;
@@ -141,37 +183,85 @@ const dragFrameInfo = e => {
    frameInfo.style.top = newPosTop + "px";
 }
 
-const addSliderFunctionality = treeOfBuildings => {
-   const lowestTimestamp = treeOfBuildings.getLowestTimestamp();
-   const highestTimestamp = treeOfBuildings.getHighestTimestamp();
-   const deltaTimestamp = highestTimestamp - lowestTimestamp;
+const addSlider = (treeOfBuildingsList, scene) => {
+   // TODO make sure the list is in order!
+   let i = 0;
+   let displayedTreeOfBuildings = treeOfBuildingsList[i];
+
+   let lowestTimestamp = new Date(treeOfBuildingsList[i].timestamp);
+   let highestTimestamp = new Date(treeOfBuildingsList[treeOfBuildingsList.length - 1].timestamp);
+
+   let deltaMillis = highestTimestamp - lowestTimestamp;
+
+   valueDisplay.textContent = formatDate(lowestTimestamp);
+   sliderContainer.style.display = "block";
+
    let isDragging = false;
    let SliderOffsetLeft = 0;
+
    sliderThumb.addEventListener("mousedown", e => {
       isDragging = true;
       SliderOffsetLeft = e.clientX - sliderThumb.getBoundingClientRect().left;
    });
+
    document.addEventListener("mouseup", () => {
       isDragging = false;
       SliderOffsetLeft = 0;
    });
+
    document.addEventListener("mousemove", e => {
       if (isDragging) {
          const sliderProgressInPixel = e.clientX - slider.getBoundingClientRect().left - SliderOffsetLeft;
          let newSliderProgressInPixel = Math.min(slider.clientWidth - sliderThumb.clientWidth, Math.max(0, sliderProgressInPixel));
          sliderThumb.style.left = newSliderProgressInPixel + "px";
          let sliderProgress = newSliderProgressInPixel / (slider.clientWidth - sliderThumb.clientWidth);
-         let time =
-            parseInt(lowestTimestamp) + parseInt(sliderProgress * parseInt(deltaTimestamp));
-         time = time.toString();
-         const year = time.slice(0, 4);
-         const month = time.slice(4, 6);
-         const day = time.slice(6, 8);
-         const hour = time.slice(8, 10);
-         const minute = time.slice(10, 12);
-         const second = time.slice(12, 14);
-         const millisecond = time.slice(14);
-         valueDisplay.textContent = `${year}-${month}-${day}, ${hour}:${minute}:${second}.${millisecond}`;
+         let sliderTimestamp = new Date(lowestTimestamp.getTime() + parseInt(sliderProgress * deltaMillis));
+         valueDisplay.textContent = formatDate(sliderTimestamp);
+
+         const belowList = treeOfBuildingsList.filter(treeOfBuildings => new Date(treeOfBuildings.timestamp) <= sliderTimestamp);
+         const next = belowList.reduce((max, treeOfBuildings) => new Date(treeOfBuildings.timestamp) > new Date(max.timestamp) ? treeOfBuildings : max, treeOfBuildingsList[0]);
+         const newIndex = treeOfBuildingsList.findIndex(treeOfBuildings => treeOfBuildings === next);
+
+         if (newIndex !== i) {
+            i = newIndex;
+            scene.remove(...scene.children.filter(child => child instanceof Plane));
+            displayedTreeOfBuildings = next;
+            scene.add(displayedTreeOfBuildings.baseNode);
+         }
+      }
+   });
+}
+
+const addSliderEyeTracking = treeOfBuildings => {
+
+   const lowestTimestamp = treeOfBuildings.getLowestTimestamp();
+   const highestTimestamp = treeOfBuildings.getHighestTimestamp();
+   const deltaMillis = highestTimestamp - lowestTimestamp;
+
+   valueDisplay.textContent = formatDate(lowestTimestamp);
+   sliderContainer.style.display = "block";
+
+   let isDragging = false;
+   let SliderOffsetLeft = 0;
+
+   sliderThumb.addEventListener("mousedown", e => {
+      isDragging = true;
+      SliderOffsetLeft = e.clientX - sliderThumb.getBoundingClientRect().left;
+   });
+
+   document.addEventListener("mouseup", () => {
+      isDragging = false;
+      SliderOffsetLeft = 0;
+   });
+
+   document.addEventListener("mousemove", e => {
+      if (isDragging) {
+         const sliderProgressInPixel = e.clientX - slider.getBoundingClientRect().left - SliderOffsetLeft;
+         let newSliderProgressInPixel = Math.min(slider.clientWidth - sliderThumb.clientWidth, Math.max(0, sliderProgressInPixel));
+         sliderThumb.style.left = newSliderProgressInPixel + "px";
+         let sliderProgress = newSliderProgressInPixel / (slider.clientWidth - sliderThumb.clientWidth);
+         let sliderTimestamp = new Date(lowestTimestamp.getTime() + parseInt(sliderProgress * deltaMillis));
+         valueDisplay.textContent = formatDate(sliderTimestamp);
 
          let maxOccurrences = 0;
          let maxTotalTime = 0;
@@ -193,11 +283,12 @@ const addSliderFunctionality = treeOfBuildings => {
             let totalTime = 0;
             let totalOccurrences = 0;
             for (let entry of building.buildingData) {
-               if (entry.timestamp <= time) {
+               if (new Date(entry.timestamp) <= sliderTimestamp) {
                   totalTime += parseInt(entry.avgEyeFixationDuration);
                   totalOccurrences += 1;
                }
             }
+
             building.visible = totalTime > 0;
             let color = building.material[0].color;
             let ratio = (totalTime / maxTotalTime) * (50 / 100);
@@ -221,4 +312,43 @@ const addSliderFunctionality = treeOfBuildings => {
    });
 }
 
-export { addSliderFunctionality }
+const buildTable = () => {
+   while (thead.firstChild) {
+      thead.removeChild(thead.firstChild);
+   }
+   while (tbody.firstChild) {
+      tbody.removeChild(tbody.firstChild);
+   }
+
+   let data = getData();
+   let tr = document.createElement("tr");
+   data.attributeNames.forEach(attribute => {
+      let th = document.createElement("th");
+      th.innerText = attribute;
+      tr.appendChild(th);
+   });
+   thead.appendChild(tr);
+   data.data.forEach(entry => {
+      tr = document.createElement("tr");
+      for (let key in entry) {
+         let td = document.createElement("td");
+         if (key === "timestamp") {
+            td.innerText = formatDate(entry[key]);
+         } else {
+            td.innerText = entry[key];
+         }
+         tr.appendChild(td);
+      }
+      tbody.appendChild(tr);
+   });
+
+   if (data.data.length > 0) {
+      buttonClearData.style.display = "block";
+   } else {
+      buttonClearData.style.display = "none";
+   }
+
+   $("#table-data").DataTable();
+}
+
+export { addSlider, addSliderEyeTracking }

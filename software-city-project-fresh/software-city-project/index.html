@@ -10,80 +10,103 @@
   <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <link rel="stylesheet"
+    href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
+  <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js">
+  </script>
+  <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js">
+  </script>
   <title>Software City</title>
 </head>
 
 <body>
 
-  <div>
-    <div id="nav" class="container">
-      <button id="button-upload" class="btn btn-default">Upload</button>
-      <button id="button-visualize" class="btn btn-default">Visualize</button>
+  <div id="nav" class="container">
+    <button id="button-upload" class="btn btn-default">Upload</button>
+    <button id="button-visualize" class="btn btn-default">Visualize</button>
+    <button id="button-view-data" class="btn btn-default">View Data</button>
+  </div>
+
+  <div id="view-data" class="container">
+    <div id="view-data-scrollable" class="container">
+      <table id="table-data" class="table table-bordered table-striped table-hover">
+        <thead id="thead" class="thead-dark"></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+    <button id="button-clear-data" class="btn btn-default">Clear Data</button>
+  </div>
+
+  <div id="alert-success-upload-data" class="alert alert-success">
+    <button id="button-alert-close-upload-data" type="button" class="close"
+      data-dismiss="alert">&times;</button>
+    <strong>Success!</strong> Data Upload successfully completed.
+  </div>
+
+  <div id="alert-success-clear-data" class="alert alert-success">
+    <button id="button-alert-close-clear-data" type="button" class="close"
+      data-dismiss="alert">&times;</button>
+    <strong>Success!</strong> Data cleared.
+  </div>
+
+  <div id="frame-upload" class="container frame">
+    <i class="fa fa-times fa-lg button-close"></i>
+    <form id="form-upload">
+      <label for="file">Choose a .csv file:</label>
+      <input type="file" id="file" name="file" accept=".csv" required>
+      <label for="file-format">Select a type:</label>
+      <select id="file-format" name="file-format">
+        <option value="java-source-code">Java Source Code</option>
+        <option value="eye-tracking-java-source-code">Eye Tracking (Java Source Code)</option>
+        <option value="eye-tracking-bpmn">Eye Tracking (BPMN)</option>
+        <option value="generic">Generic</option>
+      </select>
+
+      <button id="button-upload-data" class="btn btn-default">Upload Data</button>
+    </form>
+  </div>
+
+  <div id="frame-visualize" class="container frame">
+    <i class="fa fa-times fa-lg button-close"></i>
+    <div>
+      <label for="dimension-attribute-selection">Dimension:</label>
+      <select id="dimension-attribute-selection" name="dimension-attribute-selection">
+      </select>
+    </div>
+    <div>
+      <label for="height-attribute-selection">Height:</label>
+      <select id="height-attribute-selection" name="height-attribute-selection">
+      </select>
+    </div>
+    <div>
+      <label for="color-attribute-selection">Color:</label>
+      <select id="color-attribute-selection" name="color-attribute-selection">
+      </select>
     </div>
 
-    <div id="alert-success" class="alert alert-success">
-      <button id="button-alert-close" type="button" class="close"
-        data-dismiss="alert">&times;</button>
-      <strong>Success!</strong> Data Upload successfully completed.
+    <label for="city-dimension">City Dimension:</label>
+    <input type="number" id="city-dimension" name="city-dimension"
+      placeholder="Enter City Dimension">
+
+    <label for="city-spread">City Spread:</label>
+    <input type="number" id="city-spread" name="city-spread" placeholder="Enter City Spread">
+
+    <button id="button-start-visualize" class="btn btn-default">Visualize</button>
+  </div>
+
+  <div id="frame-info" class="container frame">
+    <i class="fa fa-times fa-lg button-close"></i>
+    <div id="info-panel-div"></div>
+  </div>
+
+  <div id="slider-container">
+    <div id="slider">
+      <div id="slider-thumb"></div>
     </div>
+    <p id="slider-value">2024-01-01, 10:00:00:000</p>
+  </div>
 
-    <div id="frame-upload" class="container frame">
-      <i class="fa fa-times fa-lg button-close"></i>
-      <form id="form-upload">
-        <label for="file">Choose a .csv file:</label>
-        <input type="file" id="file" name="file" accept=".csv" required>
-        <label for="file-format">Select a type:</label>
-        <select id="file-format" name="file-format">
-          <option value="java-source-code">Java Source Code</option>
-          <option value="bpmn">BPMN</option>
-          <option value="generic">Generic</option>
-        </select>
-
-        <button id="button-upload-data" class="btn btn-default">Upload Data</button>
-      </form>
-    </div>
-
-    <div id="frame-visualize" class="container frame">
-      <i class="fa fa-times fa-lg button-close"></i>
-      <div>
-        <label for="dimension-attribute-selection">Dimension:</label>
-        <select id="dimension-attribute-selection" name="dimension-attribute-selection">
-        </select>
-      </div>
-      <div>
-        <label for="height-attribute-selection">Height:</label>
-        <select id="height-attribute-selection" name="height-attribute-selection">
-        </select>
-      </div>
-      <div>
-        <label for="color-attribute-selection">Color:</label>
-        <select id="color-attribute-selection" name="color-attribute-selection">
-        </select>
-      </div>
-
-      <label for="city-dimension">City Dimension:</label>
-      <input type="number" id="city-dimension" name="city-dimension"
-        placeholder="Enter City Dimension">
-
-      <label for="city-spread">City Spread:</label>
-      <input type="number" id="city-spread" name="city-spread" placeholder="Enter City Spread">
-
-      <button id="button-start-visualize" class="btn btn-default">Visualize</button>
-    </div>
-
-    <div id="frame-info" class="container frame">
-      <i class="fa fa-times fa-lg button-close"></i>
-      <div id="info-panel-div"></div>
-    </div>
-
-    <div id="slider-container">
-      <div id="slider">
-        <div id="slider-thumb"></div>
-      </div>
-      <p id="slider-value">2024-01-01, 10:00:00:000</p>
-    </div>
-
-    <script type="module" src="./js/addEventListener.js"></script>
+  <script type="module" src="./js/addEventListener.js"></script>
 
 </body>
 

@@ -1,8 +1,8 @@
 import * as THREE from 'three';
 
 class LightSettings {
-   constructor(x, y, z) {
-      this.ambientLight = new THREE.AmbientLight(0xffffff, 1);
+   constructor() {
+      this.ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
 
       this.directionalLight = new THREE.DirectionalLight(0xffffff, 1.0);
       this.directionalLight.position.set(50, 50, 50);

@@ -5,56 +5,55 @@ import { TreeOfBuildings } from "./entities/TreeOfBuildings";
 import { LightSettings } from "./entities/LightSettings";
 import { Gui } from "./entities/Gui";
 import { MouseControls } from "./entities/MouseControls";
-import { addSliderFunctionality } from "./addEventListener";
-import { calculateNormalizeFactors } from "./data";
+import { addSlider, addSliderEyeTracking } from "./addEventListener";
+import { calculateNormalizeFactors, getEpoques } from "./data";
 
-let rendererList = [];
+const buildTreesOfBuildings = (data, metaphorSelection) => {
 
-const removeRenderer = renderer => {
-   renderer.dispose();
-   let canvasElement = document.getElementsByTagName("canvas");
-   if (canvasElement.length > 0) {
-      canvasElement[0].remove();
+   let treeOfBuildingsList = [];
+
+   if (data.dataType === "java-source-code") {
+      let epoques = getEpoques();
+
+      for (let epoque in epoques) {
+         const treeOfBuildings = new TreeOfBuildings(epoque);
+         let factors = calculateNormalizeFactors(metaphorSelection);
+         epoques[epoque].forEach(entry => {
+            treeOfBuildings.addBuilding(entry, "java-source-code", metaphorSelection, factors);
+         });
+
+         treeOfBuildings.buildTreeStructure();
+         treeOfBuildings.putOnScreen(treeOfBuildings.baseNode);
+         treeOfBuildings.adjustChildrenLayerPositionY(treeOfBuildings.baseNode);
+         treeOfBuildingsList.push(treeOfBuildings);
+      }
+   } else {
+      const treeOfBuildings = new TreeOfBuildings();
+      let factors = calculateNormalizeFactors(metaphorSelection);
+      data.data.forEach(entry => {
+         treeOfBuildings.addBuilding(entry, data.dataType, metaphorSelection, factors);
+      });
+
+      treeOfBuildings.buildTreeStructure();
+      treeOfBuildings.putOnScreen(treeOfBuildings.baseNode);
+      treeOfBuildings.adjustChildrenLayerPositionY(treeOfBuildings.baseNode);
+      treeOfBuildingsList.push(treeOfBuildings);
    }
-   let guiElement = document.getElementsByClassName("dg ac");
-   if (guiElement.length > 0) {
-      guiElement[0].remove();
-   }
+   return treeOfBuildingsList;
 }
 
-const visualize = (e, data, metaphorSelection, citySelection) => {
-   for (let renderer of rendererList) {
-      removeRenderer(renderer.getRenderer());
-   }
-   rendererList = [];
+const newVisualize = treeOfBuildingsList => {
 
-   let cityRectangleRatio =
-      citySelection.dimension === undefined || citySelection.dimension === ""
-         ? 2
-         : citySelection.dimension;
-   let citySpread =
-      citySelection.spread === undefined || citySelection.spread === "" ? 2 : citySelection.spread;
-   let shortSide = Math.sqrt(data.data.length / cityRectangleRatio);
-   let longSide = cityRectangleRatio * shortSide;
-   shortSide = Math.round(shortSide);
-   longSide = Math.round(longSide);
+   removeAllRenderers();
+   removeAllGuis();
 
-   // Build Renderer
    const renderer = new Renderer();
    document.body.appendChild(renderer.getRenderer().domElement);
 
-   // Build Scene
    const scene = new THREE.Scene();
 
-   // Build AxesHelper
-   // const axesHelper = new THREE.AxesHelper(100);
-   // scene.add(axesHelper);
-
    const visualControls = new VisualControls(
-      renderer.getRenderer(),
-      longSide,
-      shortSide,
-      citySpread
+      renderer.getRenderer()
    );
 
    renderer.getRenderer().render(scene, visualControls.getCamera());
@@ -66,30 +65,18 @@ const visualize = (e, data, metaphorSelection, citySelection) => {
       visualControls.getCamera().updateProjectionMatrix();
    };
 
-   const treeOfBuildings = new TreeOfBuildings();
-   let factors = calculateNormalizeFactors(metaphorSelection);
-   data.data.forEach(entry => {
-      treeOfBuildings.addBuilding(entry, data.dataType, metaphorSelection, factors);
-   });
-
-   treeOfBuildings.buildTreeStructure();
-   scene.add(treeOfBuildings.putOnScreen(treeOfBuildings.baseNode));
-   treeOfBuildings.adjustChildrenLayerPositionY(treeOfBuildings.baseNode);
-
-   const lightSettings = new LightSettings(
-      treeOfBuildings.baseNode.children[0].scale.x,
-      treeOfBuildings.getHighestBuilding(),
-      treeOfBuildings.baseNode.children[0].scale.z
-   );
+   const lightSettings = new LightSettings();
    scene.add(lightSettings.getAmbientLight());
    scene.add(lightSettings.getDirectionalLight());
    scene.add(lightSettings.getDirectionalLightHelper());
 
-   new Gui(scene, treeOfBuildings);
    new MouseControls(document, visualControls.getCamera(), scene, renderer);
-   let sliderContainer = document.getElementById("slider-container");
-   sliderContainer.style.display = "block";
-   addSliderFunctionality(treeOfBuildings);
+
+   scene.add(treeOfBuildingsList[0].baseNode);
+
+   let gui = new Gui(scene, treeOfBuildingsList[0]);
+   guiList.push(gui);
+   addSlider(treeOfBuildingsList, scene);
 
    function animate(time) {
       renderer.getRenderer().render(scene, visualControls.getCamera());
@@ -99,4 +86,79 @@ const visualize = (e, data, metaphorSelection, citySelection) => {
    rendererList.push(renderer);
 }
 
-export { visualize }
+let rendererList = [];
+let guiList = [];
+
+const removeAllRenderers = () => {
+   for (let renderer of rendererList) {
+      removeRenderer(renderer.getRenderer());
+   }
+   rendererList = [];
+}
+
+const removeAllGuis = () => {
+   for (let gui of guiList) {
+      removeGui(gui.getGui());
+   }
+   guiList = [];
+}
+
+const removeRenderer = renderer => {
+   renderer.dispose();
+   let canvasElement = document.getElementsByTagName("canvas");
+   if (canvasElement.length > 0) {
+      canvasElement[0].remove();
+   }
+}
+
+const removeGui = gui => {
+   gui.destroy();
+}
+
+const visualize = (treeOfBuildingsList, metaphorSelection) => {
+   removeAllRenderers();
+   removeAllGuis();
+
+   const renderer = new Renderer();
+   document.body.appendChild(renderer.getRenderer().domElement);
+
+   const scene = new THREE.Scene();
+
+   const visualControls = new VisualControls(
+      renderer.getRenderer()
+   );
+
+   renderer.getRenderer().render(scene, visualControls.getCamera());
+
+   window.onresize = () => {
+      renderer.getRenderer().setPixelRatio(window.devicePixelRatio);
+      renderer.getRenderer().setSize(window.innerWidth, window.innerHeight);
+      visualControls.getCamera().aspect = window.innerWidth / window.innerHeight;
+      visualControls.getCamera().updateProjectionMatrix();
+   };
+
+   const lightSettings = new LightSettings();
+   scene.add(lightSettings.getAmbientLight());
+   scene.add(lightSettings.getDirectionalLight());
+   scene.add(lightSettings.getDirectionalLightHelper());
+
+   new MouseControls(document, visualControls.getCamera(), scene, renderer);
+
+   console.log(treeOfBuildingsList.length);
+   if (treeOfBuildingsList.length === 1) {
+      scene.add(treeOfBuildingsList[0].baseNode);
+
+      let gui = new Gui(scene, treeOfBuildingsList[0]);
+      addSliderEyeTracking(treeOfBuildingsList[0]);
+      guiList.push(gui);
+   }
+
+   function animate(time) {
+      renderer.getRenderer().render(scene, visualControls.getCamera());
+   }
+   renderer.getRenderer().setAnimationLoop(animate);
+
+   rendererList.push(renderer);
+}
+
+export { buildTreesOfBuildings, newVisualize, visualize, removeAllRenderers, removeAllGuis }
