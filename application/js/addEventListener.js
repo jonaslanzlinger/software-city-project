@@ -1,6 +1,6 @@
-import { getData, setData, clearData } from "./data";
+import { getData, setData, clearData, getEpoques } from "./data";
 import { Plane } from "./entities/Plane";
-import { buildTreesOfBuildings, newVisualize, visualize, removeAllRenderers, removeAllGuis } from "./visualize";
+import { buildTreesOfBuildings, visualize, removeAllRenderers, removeAllGuis } from "./visualize";
 import { formatDate } from "./utils";
 
 const buttonUpload = document.getElementById("button-upload");
@@ -145,14 +145,8 @@ buttonStartVisualize.addEventListener("click", e => {
    viewData.style.display = "none";
 
    let treeOfBuildingsList = buildTreesOfBuildings(getData(), metaphorSelection);
-   console.log(treeOfBuildingsList);
 
-   console.log("visualize");
-   if (treeOfBuildingsList.length > 1) {
-      newVisualize(treeOfBuildingsList);
-   } else {
-      visualize(treeOfBuildingsList, metaphorSelection);
-   }
+   visualize(treeOfBuildingsList, metaphorSelection);
 });
 
 let frameInfoOffsetLeft = 0, frameInfoOffsetTop = 0;
@@ -185,7 +179,6 @@ const dragFrameInfo = e => {
 }
 
 const addSlider = (treeOfBuildingsList, scene) => {
-   // TODO make sure the list is in order!
    let i = 0;
    let displayedTreeOfBuildings = treeOfBuildingsList[i];
 
@@ -234,6 +227,10 @@ const addSlider = (treeOfBuildingsList, scene) => {
 }
 
 const addSliderEyeTracking = treeOfBuildings => {
+
+   treeOfBuildings.list.forEach(building => {
+      building.visible = false;
+   });
 
    const lowestTimestamp = treeOfBuildings.getLowestTimestamp();
    const highestTimestamp = treeOfBuildings.getHighestTimestamp();

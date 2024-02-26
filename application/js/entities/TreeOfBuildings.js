@@ -2,6 +2,7 @@ import { Building } from "./Building";
 import { Plane } from "./Plane";
 import { Mesh } from "three";
 import pack from "bin-pack";
+import { colors } from "../colors";
 
 class TreeOfBuildings {
    constructor(timestamp) {
@@ -33,6 +34,8 @@ class TreeOfBuildings {
    }
 
    buildTreeStructure() {
+      let colorIndex = 0;
+
       // here, we build the actual N-ary tree structure
       for (let i = 0; i < this.list.length; i++) {
          let building = this.list[i];
@@ -51,6 +54,10 @@ class TreeOfBuildings {
                   prevNode.addChild(building);
                } else {
                   let newPlane = new Plane(nodeName);
+                  newPlane.children[0].material.color.set(colors[colorIndex++]);
+                  if (colorIndex === colors.length) {
+                     colorIndex = 0;
+                  }
                   prevNode.addChild(newPlane);
                   prevNode = newPlane;
                }

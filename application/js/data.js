@@ -65,12 +65,13 @@ const calculateNormalizeFactors = metaphorSelection => {
 const getEpoques = () => {
    let epoques = {};
    dataStore.data.forEach(entry => {
-      if (entry.timestamp in epoques) {
-         epoques[entry.timestamp].push(entry);
-      }
-      else {
+      if (!(entry.timestamp in epoques)) {
          epoques[entry.timestamp] = [];
-         epoques[entry.timestamp].push(entry);
+      }
+   });
+   dataStore.data.forEach(entry => {
+      for (let epoque in epoques) {
+         epoques[epoque].push(entry);
       }
    });
    return epoques;
