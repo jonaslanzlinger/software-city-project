@@ -48,12 +48,15 @@ body {
    max-width: 400px;
 }
 
-#frame-info {
+#frame-info,
+#frame-model-tree {
    cursor: pointer;
    resize: both;
    overflow: auto;
-   max-width: none;
+   max-width: 90%;
+   max-height: 90%;
    width: 400px;
+
 }
 
 label,

@@ -35,12 +35,17 @@ class TreeOfBuildings {
 
    buildTreeStructure() {
       let colorIndex = 0;
+      let colorListForModelTree = [];
 
+      var root = new TreeNode("root");
+      var tree = new TreeView(root);
+      console.log(this.list);
       // here, we build the actual N-ary tree structure
       for (let i = 0; i < this.list.length; i++) {
          let building = this.list[i];
          let packagePathList = building.buildingGroupingPath.split(".");
          let prevNode = this.baseNode;
+         let prevTreeNode = root;
          let nodeName = "";
          for (let j = 0; j < packagePathList.length; j++) {
             nodeName = nodeName + "." + packagePathList[j];
@@ -52,9 +57,18 @@ class TreeOfBuildings {
             ) {
                if (j === packagePathList.length - 1) {
                   prevNode.addChild(building);
+                  var newTreeNode = new TreeNode(nodeName.substring(nodeName.lastIndexOf(".") + 1));
+                  prevTreeNode.addChild(newTreeNode);
                } else {
                   let newPlane = new Plane(nodeName);
+                  var newTreeNode = new TreeNode(nodeName.substring(nodeName.lastIndexOf(".") + 1));
+                  prevTreeNode.addChild(newTreeNode);
+                  prevTreeNode = newTreeNode;
                   newPlane.children[0].material.color.set(colors[colorIndex++]);
+                  colorListForModelTree.push({
+                     element: newTreeNode.getUserObject(),
+                     color: colors[colorIndex - 1]
+                  });
                   if (colorIndex === colors.length) {
                      colorIndex = 0;
                   }
@@ -63,6 +77,23 @@ class TreeOfBuildings {
                }
             }
             prevNode = this.getNodeByKey(this.baseNode, nodeName);
+         }
+      }
+      var view = new TreeView(root, "#model-tree");
+      tree.setContainer(document.getElementById("model-tree"));
+      tree.reload();
+
+      // set colors of all ModelTree elements
+      let modelTreeElements = document.getElementsByClassName("tj_description");
+      for (let element of modelTreeElements) {
+         for (let colorListForModelTreeElement of colorListForModelTree) {
+            if (element.innerHTML.replace(/<span class=".*"><span>.*<\/span><\/span>/, "") === colorListForModelTreeElement.element) {
+               let r = colorListForModelTreeElement.color.r * 255;
+               let g = colorListForModelTreeElement.color.g * 255;
+               let b = colorListForModelTreeElement.color.b * 255;
+               element.style.background = `rgb(${r}, ${g}, ${b})`;
+               element.innerHTML = element.innerHTML.replace(/<span class=".*"><span>.*<\/span><\/span>/, "");
+            }
          }
       }
    }

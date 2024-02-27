@@ -7,6 +7,7 @@ const buttonUpload = document.getElementById("button-upload");
 const buttonVisualize = document.getElementById("button-visualize");
 const buttonViewData = document.getElementById("button-view-data");
 const buttonClearData = document.getElementById("button-clear-data");
+const buttonModelTree = document.getElementById("button-model-tree");
 
 const viewData = document.getElementById("view-data");
 const thead = document.getElementById("thead");
@@ -14,6 +15,7 @@ const tbody = document.getElementById("tbody");
 
 const frameUpload = document.getElementById("frame-upload");
 const frameVisualize = document.getElementById("frame-visualize");
+const frameModelTree = document.getElementById("frame-model-tree");
 const frameInfo = document.getElementById("frame-info");
 
 const buttonsClose = document.getElementsByClassName("button-close");
@@ -39,6 +41,7 @@ const valueDisplay = document.getElementById("slider-value");
 buttonUpload.addEventListener("click", () => {
    frameVisualize.style.display = "none";
    frameInfo.style.display = "none";
+   frameModelTree.style.display = "none";
    if (frameUpload.style.display === "none" || frameUpload.style.display === '') {
       frameUpload.style.display = "block";
    } else {
@@ -49,6 +52,7 @@ buttonUpload.addEventListener("click", () => {
 buttonVisualize.addEventListener("click", () => {
    frameUpload.style.display = "none";
    frameInfo.style.display = "none";
+   frameModelTree.style.display = "none";
    if (frameVisualize.style.display === "none" || frameVisualize.style.display === '') {
       frameVisualize.style.display = 'block';
    } else {
@@ -60,10 +64,22 @@ buttonViewData.addEventListener("click", () => {
    frameUpload.style.display = "none";
    frameVisualize.style.display = "none";
    frameInfo.style.display = "none";
+   frameModelTree.style.display = "none";
    removeAllRenderers();
    removeAllGuis();
    sliderContainer.style.display = "none";
    viewData.style.display = "block";
+});
+
+buttonModelTree.addEventListener("click", () => {
+   frameUpload.style.display = "none";
+   frameVisualize.style.display = "none";
+   frameInfo.style.display = "none";
+   if (frameModelTree.style.display === "none" || frameModelTree.style.display === '') {
+      frameModelTree.style.display = "block";
+   } else {
+      frameModelTree.style.display = "none";
+   }
 });
 
 buttonClearData.addEventListener("click", () => {
@@ -78,6 +94,7 @@ for (let i = 0; i < buttonsClose.length; i++) {
       frameUpload.style.display = "none";
       frameVisualize.style.display = "none";
       frameInfo.style.display = "none";
+      frameModelTree.style.display = "none";
    });
 }
 
@@ -86,6 +103,7 @@ document.addEventListener("keydown", e => {
       frameUpload.style.display = "none";
       frameVisualize.style.display = "none";
       frameInfo.style.display = "none";
+      frameModelTree.style.display = "none";
    }
 });
 
@@ -160,6 +178,17 @@ frameInfo.addEventListener("mousedown", e => {
    }
 });
 
+let frameModelTreeOffsetLeft = 0, frameModelTreeOffsetTop = 0;
+frameModelTree.addEventListener("mousedown", e => {
+   let rect = frameModelTree.getBoundingClientRect();
+   frameModelTreeOffsetLeft = e.clientX - (rect.left + rect.width / 2);
+   frameModelTreeOffsetTop = e.clientY - (rect.top + rect.height / 2);
+   document.onmouseup = removeDrag;
+   if (!(frameModelTreeOffsetLeft > (rect.width / 2 - 17) && frameModelTreeOffsetTop > (rect.height / 2 - 17))) {
+      document.onmousemove = dragFrameModelTree;
+   }
+});
+
 const removeDrag = e => {
    document.onmouseup = null;
    document.onmousemove = null;
@@ -176,6 +205,19 @@ const dragFrameInfo = e => {
    newPosTop = (newPosTop + rect.height / 2) > window.innerHeight ? window.innerHeight - rect.height / 2 : newPosTop;
    frameInfo.style.left = newPosLeft + "px";
    frameInfo.style.top = newPosTop + "px";
+}
+
+const dragFrameModelTree = e => {
+   e.preventDefault();
+   let rect = frameModelTree.getBoundingClientRect();
+   let newPosLeft = e.clientX - frameModelTreeOffsetLeft;
+   let newPosTop = e.clientY - frameModelTreeOffsetTop;
+   newPosLeft = (newPosLeft - rect.width / 2) < 0 ? rect.width / 2 : newPosLeft;
+   newPosTop = (newPosTop - rect.height / 2) < 0 ? rect.height / 2 : newPosTop;
+   newPosLeft = (newPosLeft + rect.width / 2) > window.innerWidth ? window.innerWidth - rect.width / 2 : newPosLeft;
+   newPosTop = (newPosTop + rect.height / 2) > window.innerHeight ? window.innerHeight - rect.height / 2 : newPosTop;
+   frameModelTree.style.left = newPosLeft + "px";
+   frameModelTree.style.top = newPosTop + "px";
 }
 
 const addSlider = (treeOfBuildingsList, scene) => {
