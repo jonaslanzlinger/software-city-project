@@ -7,6 +7,9 @@ import { Gui } from "./entities/Gui";
 import { MouseControls } from "./entities/MouseControls";
 import { addSlider, addSliderEyeTracking } from "./addEventListener";
 import { calculateNormalizeFactors, getEpoques } from "./data";
+import { Plane } from "./entities/Plane";
+import { Building } from "./entities/Building";
+
 
 const buildTreesOfBuildings = (data, metaphorSelection) => {
 
@@ -96,6 +99,9 @@ const visualize = treeOfBuildingsList => {
    removeAllRenderers();
    removeAllGuis();
 
+   let allPlanesAndBuildings = getAllPlanesAndBuildings(treeOfBuildingsList[0].baseNode);
+   //  createModelTree(allPlanesAndBuildings);
+
    const renderer = new Renderer();
    document.body.appendChild(renderer.getRenderer().domElement);
 
@@ -138,6 +144,104 @@ const visualize = treeOfBuildingsList => {
    renderer.getRenderer().setAnimationLoop(animate);
 
    rendererList.push(renderer);
+}
+
+const getAllPlanesAndBuildings = baseNode => {
+   let check = [baseNode]
+   let seen = []
+   let container = document.createElement("div");
+   let allNewElements = []
+
+   while (check.length > 0) {
+      let current = check.pop();
+      seen.push(current);
+      let filtered = current.children.filter(child => child instanceof Plane || child instanceof Building);
+      filtered.forEach(e => {
+         check.push(e);
+      })
+
+      let newElement = document.createElement("div");
+      newElement.id = current.uuid;
+
+      if (current instanceof Plane) {
+         if (current.nodeName.lastIndexOf(".") !== -1) {
+            newElement.innerText = current.nodeName.substring(current.nodeName.lastIndexOf(".") + 1);
+         } else {
+            newElement.innerText = current.nodeName;
+         }
+      } else {
+         if (current.buildingName.lastIndexOf(".") !== -1) {
+            newElement.innerText = current.buildingName.substring(current.buildingName.lastIndexOf(".") + 1);
+            newElement.style.display = "none";
+         } else {
+            newElement.innerText = current.buildingName;
+         }
+      }
+
+      newElement.classList.add("model-tree-element");
+
+      newElement.addEventListener("mouseenter", function () {
+         if (current instanceof Building) {
+            let color = current.material[0].color;
+            color.r *= 1.3;
+            color.g *= 1.3;
+            color.b *= 1.3;
+            current.material[0].color.set(color);
+            current.material[1].color.set(color);
+            current.material[3].color.set(color);
+            current.material[4].color.set(color);
+            current.material[5].color.set(color);
+            newElement.style.outline = "1px solid black";
+         } else {
+            let color = current.children[0].material.color;
+            color.r *= 1.3;
+            color.g *= 1.3;
+            color.b *= 1.3;
+            current.children[0].material.color.set(color);
+            newElement.style.outline = "1px solid black";
+         }
+      })
+
+      newElement.addEventListener("mouseleave", function () {
+         if (current instanceof Building) {
+            let color = current.material[0].color;
+            color.r /= 1.3;
+            color.g /= 1.3;
+            color.b /= 1.3;
+            current.material[0].color.set(color);
+            current.material[1].color.set(color);
+            current.material[3].color.set(color);
+            current.material[4].color.set(color);
+            current.material[5].color.set(color);
+            newElement.style.outline = "none";
+         } else {
+            let color = current.children[0].material.color;
+            color.r /= 1.3;
+            color.g /= 1.3;
+            color.b /= 1.3;
+            current.children[0].material.color.set(color);
+            newElement.style.outline = "none";
+         }
+      })
+
+      newElement.addEventListener("click", function () {
+         console.log("expand - " + newElement);
+      })
+
+      allNewElements.push(newElement);
+
+      if (current.nodeName !== "project_base_node") {
+         for (let i of allNewElements) {
+            if (i.id === current.parent.uuid) {
+               i.appendChild(newElement);
+            }
+         }
+      } else {
+         container.appendChild(newElement);
+      }
+   }
+   document.getElementById("model-tree").appendChild(container);
+   return seen;
 }
 
 export { buildTreesOfBuildings, visualize, removeAllRenderers, removeAllGuis }

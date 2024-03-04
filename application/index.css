@@ -137,3 +137,7 @@ i {
    top: 60px;
    max-width: 500px;
 }
+
+.model-tree-element {
+   box-sizing: border-box;
+}

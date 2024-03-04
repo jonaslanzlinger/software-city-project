@@ -63,6 +63,11 @@ class MouseControls {
       let previousHoverObject;
       let previousColor;
       renderer.getRenderer().domElement.addEventListener("mousemove", e => {
+         let allModelTreeElements = document.getElementsByClassName("model-tree-element");
+         for (let e of allModelTreeElements) {
+            e.style.outline = "none";
+         }
+
          const mouse = new THREE.Vector2();
          mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
          mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
@@ -118,6 +123,18 @@ class MouseControls {
                   color.g *= 1.3;
                   color.b *= 1.3;
                   obj.object.material.color.set(color);
+               }
+
+               for (let e of allModelTreeElements) {
+                  if (obj.object instanceof Building) {
+                     if (e.id === obj.object.uuid) {
+                        e.style.outline = "1px solid black";
+                     }
+                  } else {
+                     if (e.id === obj.object.parent.uuid) {
+                        e.style.outline = "1px solid black";
+                     }
+                  }
                }
                break;
             }
