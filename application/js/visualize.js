@@ -99,8 +99,7 @@ const visualize = treeOfBuildingsList => {
    removeAllRenderers();
    removeAllGuis();
 
-   let allPlanesAndBuildings = getAllPlanesAndBuildings(treeOfBuildingsList[0].baseNode);
-   //  createModelTree(allPlanesAndBuildings);
+   createModelTree(treeOfBuildingsList[0].baseNode);
 
    const renderer = new Renderer();
    document.body.appendChild(renderer.getRenderer().domElement);
@@ -146,7 +145,7 @@ const visualize = treeOfBuildingsList => {
    rendererList.push(renderer);
 }
 
-const getAllPlanesAndBuildings = baseNode => {
+const createModelTree = baseNode => {
    let check = [baseNode]
    let seen = []
    let container = document.createElement("div");
@@ -161,25 +160,64 @@ const getAllPlanesAndBuildings = baseNode => {
       })
 
       let newElement = document.createElement("div");
+      newElement.classList.add("model-tree-element");
       newElement.id = current.uuid;
 
       if (current instanceof Plane) {
+         newElement.type = "plane";
+         newElement.expanded = "true";
+
+         let folderElement = document.createElement("div");
+         folderElement.classList.add("model-tree-element");
+
          if (current.nodeName.lastIndexOf(".") !== -1) {
-            newElement.innerText = current.nodeName.substring(current.nodeName.lastIndexOf(".") + 1);
+            folderElement.innerText = "FOLDER: " + current.nodeName.substring(current.nodeName.lastIndexOf(".") + 1);
          } else {
-            newElement.innerText = current.nodeName;
+            folderElement.innerText = "FOLDER: " + current.nodeName;
          }
+         var dotCount = 0;
+         for (var i = 0; i < current.nodeName.length; i++) {
+            if (current.nodeName.charAt(i) === ".") {
+               dotCount++;
+            }
+         }
+         newElement.style.marginLeft = 10 * dotCount + "px";
+         folderElement.style.marginLeft = "10px";
+         newElement.appendChild(folderElement);
+
       } else {
+         newElement.type = "building";
+
          if (current.buildingName.lastIndexOf(".") !== -1) {
             newElement.innerText = current.buildingName.substring(current.buildingName.lastIndexOf(".") + 1);
-            newElement.style.display = "none";
          } else {
             newElement.innerText = current.buildingName;
          }
+         newElement.style.marginLeft = 20 + "px";
       }
 
-      newElement.classList.add("model-tree-element");
+      allNewElements.push(newElement);
 
+      if (current.nodeName !== "project_base_node") {
+         for (let i of allNewElements) {
+            if (i.id === current.parent.uuid) {
+               // console.log(i);
+               // console.log(current.parent);
+               if (i.type === "plane") {
+                  i.parentElement.appendChild(newElement);
+               } else {
+                  console.log("Building here");
+                  console.log(i);
+                  console.log(newElement);
+                  i.parentElement.appendChild(newElement);
+               }
+            }
+         }
+      } else {
+         container.appendChild(newElement);
+      }
+
+      // Listeners
       newElement.addEventListener("mouseenter", function () {
          if (current instanceof Building) {
             let color = current.material[0].color;
@@ -225,20 +263,14 @@ const getAllPlanesAndBuildings = baseNode => {
       })
 
       newElement.addEventListener("click", function () {
-         console.log("expand - " + newElement);
-      })
-
-      allNewElements.push(newElement);
-
-      if (current.nodeName !== "project_base_node") {
-         for (let i of allNewElements) {
-            if (i.id === current.parent.uuid) {
-               i.appendChild(newElement);
+         var children = newElement.childNodes;
+         console.log(newElement.parentNode);
+         for (var i = 0; i < children.length; i++) {
+            if (children[i].nodeType === 1) {
+               children[i].style.display = newElement.expanded === "true" ? "none" : "block";
             }
          }
-      } else {
-         container.appendChild(newElement);
-      }
+      })
    }
    document.getElementById("model-tree").appendChild(container);
    return seen;
