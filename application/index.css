@@ -138,6 +138,19 @@ i {
    max-width: 500px;
 }
 
+.frame-model-tree {
+   display: none;
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   background-color: #ddd;
+   padding: 20px;
+   border-radius: 1.5%;
+   box-shadow: 4px 4px 8px #888;
+   transform: translate(-50%, -50%);
+   max-width: 400px;
+}
+
 .model-tree-element {
    box-sizing: border-box;
 }

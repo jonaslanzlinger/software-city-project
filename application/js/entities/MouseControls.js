@@ -65,7 +65,7 @@ class MouseControls {
       renderer.getRenderer().domElement.addEventListener("mousemove", e => {
          let allModelTreeElements = document.getElementsByClassName("model-tree-element");
          for (let e of allModelTreeElements) {
-            e.style.outline = "none";
+            e.style.boxShadow = "none";
          }
 
          const mouse = new THREE.Vector2();
@@ -128,11 +128,11 @@ class MouseControls {
                for (let e of allModelTreeElements) {
                   if (obj.object instanceof Building) {
                      if (e.id === obj.object.uuid) {
-                        e.style.outline = "1px solid black";
+                        e.style.boxShadow = '0px 0px 4px rgba(0, 0, 0, 0.5)';
                      }
                   } else {
                      if (e.id === obj.object.parent.uuid) {
-                        e.style.outline = "1px solid black";
+                        e.style.boxShadow = '0px 0px 4px rgba(0, 0, 0, 0.5)';
                      }
                   }
                }

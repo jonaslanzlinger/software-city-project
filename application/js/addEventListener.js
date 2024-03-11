@@ -1,6 +1,6 @@
 import { getData, setData, clearData, getEpoques } from "./data";
 import { Plane } from "./entities/Plane";
-import { buildTreesOfBuildings, visualize, removeAllRenderers, removeAllGuis } from "./visualize";
+import { buildTreesOfBuildings, visualize, removeAllRenderers, removeAllGuis, createModelTree } from "./visualize";
 import { formatDate } from "./utils";
 
 const buttonUpload = document.getElementById("button-upload");
@@ -264,6 +264,7 @@ const addSlider = (treeOfBuildingsList, scene) => {
             displayedTreeOfBuildings = next;
             scene.add(displayedTreeOfBuildings.baseNode);
          }
+         createModelTree(displayedTreeOfBuildings.baseNode);
       }
    });
 }

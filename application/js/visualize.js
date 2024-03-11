@@ -25,11 +25,13 @@ const buildTreesOfBuildings = (data, metaphorSelection) => {
             treeOfBuildings.addBuilding(entry, "java-source-code", metaphorSelection, factors);
          });
 
+         let listOfVisibleBuildings = [];
          treeOfBuildings.list.forEach(building => {
             building.visible = false;
             building.buildingData.forEach(buildingData => {
                if (buildingData.timestamp == treeOfBuildings.timestamp) {
                   building.visible = true;
+                  listOfVisibleBuildings.push(building);
                   if (metaphorSelection.dimension !== undefined) {
                      building.scale.x = buildingData[metaphorSelection.dimension] * factors.dimension;
                   } else {
@@ -46,7 +48,8 @@ const buildTreesOfBuildings = (data, metaphorSelection) => {
             });
          });
 
-         treeOfBuildings.buildTreeStructure();
+         treeOfBuildings.buildTreeStructureWithList(listOfVisibleBuildings);
+         // treeOfBuildings.buildTreeStructure();
          treeOfBuildings.putOnScreen(treeOfBuildings.baseNode);
          treeOfBuildings.adjustChildrenLayerPositionY(treeOfBuildings.baseNode);
          treeOfBuildingsList.push(treeOfBuildings);
@@ -146,6 +149,11 @@ const visualize = treeOfBuildingsList => {
 }
 
 const createModelTree = baseNode => {
+   let modelTreeElement = document.getElementById("model-tree");
+   while (modelTreeElement.firstChild) {
+      modelTreeElement.removeChild(modelTreeElement.firstChild);
+   }
+
    let check = [baseNode]
    let seen = []
    let container = document.createElement("div");
@@ -169,20 +177,13 @@ const createModelTree = baseNode => {
 
          let folderElement = document.createElement("div");
          folderElement.classList.add("model-tree-element");
+         folderElement.style.fontWeight = "bold";
 
          if (current.nodeName.lastIndexOf(".") !== -1) {
-            folderElement.innerText = "FOLDER: " + current.nodeName.substring(current.nodeName.lastIndexOf(".") + 1);
+            folderElement.innerText = "\u25BF " + current.nodeName.substring(current.nodeName.lastIndexOf(".") + 1);
          } else {
-            folderElement.innerText = "FOLDER: " + current.nodeName;
+            folderElement.innerText = "\u25BF " + current.nodeName;
          }
-         var dotCount = 0;
-         for (var i = 0; i < current.nodeName.length; i++) {
-            if (current.nodeName.charAt(i) === ".") {
-               dotCount++;
-            }
-         }
-         newElement.style.marginLeft = 10 * dotCount + "px";
-         folderElement.style.marginLeft = "10px";
          newElement.appendChild(folderElement);
 
       } else {
@@ -193,7 +194,16 @@ const createModelTree = baseNode => {
          } else {
             newElement.innerText = current.buildingName;
          }
-         newElement.style.marginLeft = 20 + "px";
+         let colorPicker = document.createElement("input");
+         colorPicker.type = "color";
+         colorPicker.id = newElement.id;
+         colorPicker.value = 0xe66465;
+         newElement.innerHTML = newElement.innerText;
+         newElement.appendChild(colorPicker);
+         colorPicker.addEventListener("input", function () {
+            console.log("changed");
+            console.log(this.value);
+         });
       }
 
       allNewElements.push(newElement);
@@ -201,16 +211,13 @@ const createModelTree = baseNode => {
       if (current.nodeName !== "project_base_node") {
          for (let i of allNewElements) {
             if (i.id === current.parent.uuid) {
-               // console.log(i);
-               // console.log(current.parent);
-               if (i.type === "plane") {
-                  i.parentElement.appendChild(newElement);
+               i.appendChild(newElement);
+               if (newElement.type == "building") {
+                  newElement.style.marginLeft = "20px";
                } else {
-                  console.log("Building here");
-                  console.log(i);
-                  console.log(newElement);
-                  i.parentElement.appendChild(newElement);
+                  newElement.style.marginLeft = 20 + "px";
                }
+               break;
             }
          }
       } else {
@@ -218,62 +225,76 @@ const createModelTree = baseNode => {
       }
 
       // Listeners
-      newElement.addEventListener("mouseenter", function () {
-         if (current instanceof Building) {
-            let color = current.material[0].color;
-            color.r *= 1.3;
-            color.g *= 1.3;
-            color.b *= 1.3;
-            current.material[0].color.set(color);
-            current.material[1].color.set(color);
-            current.material[3].color.set(color);
-            current.material[4].color.set(color);
-            current.material[5].color.set(color);
-            newElement.style.outline = "1px solid black";
-         } else {
-            let color = current.children[0].material.color;
-            color.r *= 1.3;
-            color.g *= 1.3;
-            color.b *= 1.3;
-            current.children[0].material.color.set(color);
-            newElement.style.outline = "1px solid black";
+      if (newElement.type === "building" || newElement.type === "plane") {
+         let element = newElement;
+         if (newElement.type === "plane") {
+            element = newElement.childNodes[0];
          }
-      })
-
-      newElement.addEventListener("mouseleave", function () {
-         if (current instanceof Building) {
-            let color = current.material[0].color;
-            color.r /= 1.3;
-            color.g /= 1.3;
-            color.b /= 1.3;
-            current.material[0].color.set(color);
-            current.material[1].color.set(color);
-            current.material[3].color.set(color);
-            current.material[4].color.set(color);
-            current.material[5].color.set(color);
-            newElement.style.outline = "none";
-         } else {
-            let color = current.children[0].material.color;
-            color.r /= 1.3;
-            color.g /= 1.3;
-            color.b /= 1.3;
-            current.children[0].material.color.set(color);
-            newElement.style.outline = "none";
-         }
-      })
-
-      newElement.addEventListener("click", function () {
-         var children = newElement.childNodes;
-         console.log(newElement.parentNode);
-         for (var i = 0; i < children.length; i++) {
-            if (children[i].nodeType === 1) {
-               children[i].style.display = newElement.expanded === "true" ? "none" : "block";
+         element.addEventListener("mouseenter", function () {
+            if (current instanceof Building) {
+               let color = current.material[0].color;
+               color.r *= 1.3;
+               color.g *= 1.3;
+               color.b *= 1.3;
+               current.material[0].color.set(color);
+               current.material[1].color.set(color);
+               current.material[3].color.set(color);
+               current.material[4].color.set(color);
+               current.material[5].color.set(color);
+               element.style.boxShadow = '0px 0px 4px rgba(0, 0, 0, 0.5)';
+            } else {
+               let color = current.children[0].material.color;
+               color.r *= 1.3;
+               color.g *= 1.3;
+               color.b *= 1.3;
+               current.children[0].material.color.set(color);
+               element.style.boxShadow = '0px 0px 4px rgba(0, 0, 0, 0.5)';
             }
-         }
-      })
+         })
+
+         element.addEventListener("mouseleave", function () {
+            if (current instanceof Building) {
+               let color = current.material[0].color;
+               color.r /= 1.3;
+               color.g /= 1.3;
+               color.b /= 1.3;
+               current.material[0].color.set(color);
+               current.material[1].color.set(color);
+               current.material[3].color.set(color);
+               current.material[4].color.set(color);
+               current.material[5].color.set(color);
+               element.style.boxShadow = "none";
+            } else {
+               let color = current.children[0].material.color;
+               color.r /= 1.3;
+               color.g /= 1.3;
+               color.b /= 1.3;
+               current.children[0].material.color.set(color);
+               element.style.boxShadow = "none";
+            }
+         })
+
+         element.addEventListener("click", function () {
+            if (newElement.type === "building") {
+               console.log(newElement);
+            } else {
+               console.log(element.parentElement);
+               element.parentElement.expanded = element.parentElement.expanded === "true" ? "false" : "true";
+               element.innerText = element.parentElement.expanded === "true" ?
+                  "\u25BF " + element.innerText.substring(2) :
+                  "\u25B8 " + element.innerText.substring(2);
+               let childrenToToggle = element.parentElement.children;
+               for (let i = 1; i < childrenToToggle.length; i++) {
+                  childrenToToggle[i].style.display = childrenToToggle[i].style.display === "none" ? "block" : "none";
+               }
+            }
+         })
+      }
    }
-   document.getElementById("model-tree").appendChild(container);
+
+   modelTreeElement.appendChild(container);
+
    return seen;
 }
 
-export { buildTreesOfBuildings, visualize, removeAllRenderers, removeAllGuis }
+export { buildTreesOfBuildings, visualize, removeAllRenderers, removeAllGuis, createModelTree }
