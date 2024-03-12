@@ -153,4 +153,28 @@ i {
 
 .model-tree-element {
    box-sizing: border-box;
+   font-size: 10px;
+}
+
+input[type="color"] {
+   border: none;
+   border-radius: 50%;
+   width: 15px;
+   height: 15px;
+   margin-left: 10px;
+   background-color: transparent;
+}
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+   padding: 0px;
+   background-color: red;
+   border-radius: 50%;
+   width: 12px;
+   height: 12px;
+   margin-top: -11px;
+   cursor: pointer;
+}
+
+input[type="color"]::-webkit-color-swatch {
+   border: none;
 }

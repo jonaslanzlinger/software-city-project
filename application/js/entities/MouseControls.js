@@ -65,7 +65,8 @@ class MouseControls {
       renderer.getRenderer().domElement.addEventListener("mousemove", e => {
          let allModelTreeElements = document.getElementsByClassName("model-tree-element");
          for (let e of allModelTreeElements) {
-            e.style.boxShadow = "none";
+            e.style.color = "black";
+            // e.style.boxShadow = "none";
          }
 
          const mouse = new THREE.Vector2();
@@ -109,9 +110,9 @@ class MouseControls {
                // now, just make hovered elements brighter
                if (obj.object instanceof Building) {
                   let color = obj.object.material[0].color;
-                  color.r *= 1.3;
-                  color.g *= 1.3;
-                  color.b *= 1.3;
+                  color.r *= 1.4;
+                  color.g *= 1.4;
+                  color.b *= 1.4;
                   obj.object.material[0].color.set(color);
                   obj.object.material[1].color.set(color);
                   obj.object.material[3].color.set(color);
@@ -119,20 +120,22 @@ class MouseControls {
                   obj.object.material[5].color.set(color);
                } else {
                   let color = obj.object.material.color;
-                  color.r *= 1.3;
-                  color.g *= 1.3;
-                  color.b *= 1.3;
+                  color.r *= 1.4;
+                  color.g *= 1.4;
+                  color.b *= 1.4;
                   obj.object.material.color.set(color);
                }
 
                for (let e of allModelTreeElements) {
                   if (obj.object instanceof Building) {
                      if (e.id === obj.object.uuid) {
-                        e.style.boxShadow = '0px 0px 4px rgba(0, 0, 0, 0.5)';
+                        e.style.color = "blue";
+                        // e.style.boxShadow = '0px 0px 4px rgba(0, 0, 0, 0.5)';
                      }
                   } else {
                      if (e.id === obj.object.parent.uuid) {
-                        e.style.boxShadow = '0px 0px 4px rgba(0, 0, 0, 0.5)';
+                        e.children[0].style.color = "blue";
+                        // e.style.boxShadow = '0px 0px 4px rgba(0, 0, 0, 0.5)';
                      }
                   }
                }
