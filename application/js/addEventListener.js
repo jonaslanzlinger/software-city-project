@@ -331,26 +331,15 @@ const addSliderEyeTracking = treeOfBuildings => {
             }
 
             building.visible = totalTime > 0;
-            let color = building.material[0].color;
-            console.log(color);
-            let ratio = (totalTime / maxTotalTime) * (50 / 100);
-            // color.r = 0.5 + ratio;
-            // color.g = 0.5 - ratio;
-            // color.b = 0.5 - ratio;
-            color.r = ratio;
-            color.g = ratio;
-            color.b = ratio;
-            building.material[0].color.set(color);
-            building.material[1].color.set(color);
-            building.material[3].color.set(color);
-            building.material[4].color.set(color);
-            building.material[5].color.set(color);
+            let color = building.buildingBaseColor.clone();
+            let ratio = (totalTime / maxTotalTime);
+            color.r = color.r * ratio;
+            color.g = color.g * ratio;
+            color.b = color.b * ratio;
+            building.setBuildingColor(color);
 
             color = building.material[2].color;
             ratio = (totalOccurrences / maxOccurrences) * (50 / 100);
-            // color.r = 0.5 + ratio;
-            // color.g = 0.5 - ratio;
-            // color.b = 0.5 - ratio;
             color.r = ratio;
             color.g = ratio;
             color.b = ratio;
