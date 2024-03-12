@@ -42,21 +42,9 @@ body {
    left: 50%;
    background-color: #ddd;
    padding: 20px;
-   border-radius: 1.5%;
-   box-shadow: 4px 4px 8px #888;
+   box-shadow: 0px 0px 12px #555;
    transform: translate(-50%, -50%);
    max-width: 400px;
-}
-
-#frame-info,
-#frame-model-tree {
-   cursor: pointer;
-   resize: both;
-   overflow: auto;
-   max-width: 90%;
-   max-height: 90%;
-   width: 400px;
-
 }
 
 label,
@@ -138,22 +126,29 @@ i {
    max-width: 500px;
 }
 
-.frame-model-tree {
-   display: none;
-   position: absolute;
-   top: 50%;
+#frame-model-tree,
+#frame-info {
+   width: 350px;
+   height: 400px;
+   cursor: pointer;
+   resize: both;
+   overflow: auto;
+   max-width: unset;
+   left: 190px;
+   top: 260px;
+}
+
+#frame-info {
+   width: 400px;
+   height: 15%;
+   top: 90%;
    left: 50%;
-   background-color: #ddd;
-   padding: 20px;
-   border-radius: 0;
-   box-shadow: 4px 4px 8px #888;
-   transform: translate(-50%, -50%);
-   max-width: 400px;
 }
 
 .model-tree-element {
    box-sizing: border-box;
    font-size: 10px;
+   white-space: nowrap;
 }
 
 input[type="color"] {

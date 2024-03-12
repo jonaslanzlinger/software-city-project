@@ -72,10 +72,7 @@ buttonViewData.addEventListener("click", () => {
 });
 
 buttonModelTree.addEventListener("click", () => {
-   frameUpload.style.display = "none";
-   frameVisualize.style.display = "none";
-   frameInfo.style.display = "none";
-   if (frameModelTree.style.display === "none" || frameModelTree.style.display === '') {
+   if (frameModelTree.style.display === "none" || frameModelTree.style.display === "") {
       frameModelTree.style.display = "block";
    } else {
       frameModelTree.style.display = "none";
@@ -91,10 +88,20 @@ buttonClearData.addEventListener("click", () => {
 
 for (let i = 0; i < buttonsClose.length; i++) {
    buttonsClose[i].addEventListener("click", () => {
-      frameUpload.style.display = "none";
-      frameVisualize.style.display = "none";
-      frameInfo.style.display = "none";
-      frameModelTree.style.display = "none";
+      switch (buttonsClose[i].parentElement.id) {
+         case "frame-upload":
+            frameUpload.style.display = "none";
+            break;
+         case "frame-visualize":
+            frameVisualize.style.display = "none";
+            break;
+         case "frame-info":
+            frameInfo.style.display = "none";
+            break;
+         case "frame-model-tree":
+            frameModelTree.style.display = "none";
+            break;
+      }
    });
 }
 

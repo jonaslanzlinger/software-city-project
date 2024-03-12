@@ -259,7 +259,7 @@ const createModelTree = treeOfBuildingsList => {
                if (newElement.type == "building") {
                   newElement.style.marginLeft = "20px";
                } else {
-                  newElement.style.marginLeft = 20 + "px";
+                  newElement.style.marginLeft = 15 + "px";
                }
                break;
             }
@@ -325,13 +325,11 @@ const createModelTree = treeOfBuildingsList => {
          element.addEventListener("click", e => {
             if (e.target.type === "color") return;
             if (newElement.type === "building") {
-               console.log(newElement);
             } else {
                element.parentElement.expanded = element.parentElement.expanded === "true" ? "false" : "true";
                element.innerText = element.parentElement.expanded === "true" ?
                   element.innerText.replace("\u25B8", "\u25BF") :
                   element.innerText.replace("\u25BF", "\u25B8");
-               console.log(element);
                let childrenToToggle = element.parentElement.children;
                for (let i = 1; i < childrenToToggle.length; i++) {
                   if (childrenToToggle[i].type === "building") {
