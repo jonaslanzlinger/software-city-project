@@ -149,6 +149,7 @@ const visualize = treeOfBuildingsList => {
 }
 
 const createModelTree = treeOfBuildingsList => {
+   console.log(treeOfBuildingsList);
    let modelTreeElement = document.getElementById("model-tree");
    while (modelTreeElement.firstChild) {
       modelTreeElement.removeChild(modelTreeElement.firstChild);

@@ -270,6 +270,7 @@ const addSlider = (treeOfBuildingsList, scene) => {
 }
 
 const addSliderEyeTracking = treeOfBuildings => {
+
    treeOfBuildings.list.forEach(building => {
       building.visible = false;
    });
