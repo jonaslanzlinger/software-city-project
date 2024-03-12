@@ -149,7 +149,6 @@ const visualize = treeOfBuildingsList => {
 }
 
 const createModelTree = treeOfBuildingsList => {
-   console.log(treeOfBuildingsList);
    let modelTreeElement = document.getElementById("model-tree");
    while (modelTreeElement.firstChild) {
       modelTreeElement.removeChild(modelTreeElement.firstChild);
@@ -172,6 +171,11 @@ const createModelTree = treeOfBuildingsList => {
       newElement.classList.add("model-tree-element");
       newElement.id = current.uuid;
 
+      let colorPicker = document.createElement("input");
+      colorPicker.type = "color";
+      colorPicker.id = newElement.id;
+      colorPicker.value = "#ffffff";
+
       if (current instanceof Plane) {
          newElement.type = "plane";
          newElement.expanded = "true";
@@ -188,12 +192,11 @@ const createModelTree = treeOfBuildingsList => {
 
          folderElement.style.display = "flex";
          folderElement.style.alignItems = "center";
-         let colorPicker = document.createElement("input");
-         colorPicker.type = "color";
-         colorPicker.id = newElement.id;
-         colorPicker.value = "#ffffff";
+
          folderElement.appendChild(colorPicker);
+
          colorPicker.addEventListener("input", () => {
+            // can I replace this loop with just the 'current' object?
             for (let node of seen) {
                if (node.uuid === colorPicker.id) {
                   node.children[0].material.color.set(colorPicker.value);
@@ -213,34 +216,33 @@ const createModelTree = treeOfBuildingsList => {
          } else {
             newElement.innerText = current.buildingName;
          }
-         let colorPicker = document.createElement("input");
-         colorPicker.type = "color";
-         colorPicker.id = newElement.id;
-         colorPicker.value = "#ffffff";
+
          newElement.appendChild(colorPicker);
+
          colorPicker.addEventListener("input", () => {
+            // can I just replace this with the 'current' object?
             for (let node of seen) {
                if (node.uuid === colorPicker.id) {
                   if (node instanceof Building) {
+                     node.setBuildingBaseColor(new THREE.Color(colorPicker.value));
+                     // TODO HERE
                      // calculate the ratio between fassade and roof
-                     let colorRoof = current.material[2].color;
-                     let colorPickerRGB = [parseInt(colorPicker.value.substring(1, 3), 16) / 255,
-                     parseInt(colorPicker.value.substring(3, 5), 16) / 255,
-                     parseInt(colorPicker.value.substring(5, 7), 16) / 255];
-                     let ratioR = node.material[2].color.r / node.material[0].color.r;
-                     let ratioG = node.material[2].color.g / node.material[0].color.g;
-                     let ratioB = node.material[2].color.b / node.material[0].color.b;
-                     colorRoof.r = ratioR === 0 ? colorPickerRGB[0] : colorPickerRGB[0] * ratioR;
-                     colorRoof.g = ratioG === 0 ? colorPickerRGB[1] : colorPickerRGB[1] * ratioG;
-                     colorRoof.b = ratioB === 0 ? colorPickerRGB[2] : colorPickerRGB[2] * ratioB;
-                     node.material[0].color.set(colorPicker.value);
-                     node.material[1].color.set(colorPicker.value);
-                     node.material[2].color.set(colorRoof);
-                     node.material[3].color.set(colorPicker.value);
-                     node.material[4].color.set(colorPicker.value);
-                     node.material[5].color.set(colorPicker.value);
-                  } else {
-                     node.children[0].material.color.set(colorPicker.value);
+                     // let colorRoof = current.material[2].color;
+                     // let colorPickerRGB = [parseInt(colorPicker.value.substring(1, 3), 16) / 255,
+                     // parseInt(colorPicker.value.substring(3, 5), 16) / 255,
+                     // parseInt(colorPicker.value.substring(5, 7), 16) / 255];
+                     // let ratioR = node.material[2].color.r / node.material[0].color.r;
+                     // let ratioG = node.material[2].color.g / node.material[0].color.g;
+                     // let ratioB = node.material[2].color.b / node.material[0].color.b;
+                     // colorRoof.r = ratioR === 0 ? colorPickerRGB[0] : colorPickerRGB[0] * ratioR;
+                     // colorRoof.g = ratioG === 0 ? colorPickerRGB[1] : colorPickerRGB[1] * ratioG;
+                     // colorRoof.b = ratioB === 0 ? colorPickerRGB[2] : colorPickerRGB[2] * ratioB;
+                     // node.material[0].color.set(colorPicker.value);
+                     // node.material[1].color.set(colorPicker.value);
+                     // node.material[2].color.set(colorRoof);
+                     // node.material[3].color.set(colorPicker.value);
+                     // node.material[4].color.set(colorPicker.value);
+                     // node.material[5].color.set(colorPicker.value);
                   }
                }
             }

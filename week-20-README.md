@@ -13,3 +13,7 @@ ToDos next week:
    * do forward search
    * do backward search (which papers did cite this paper? they could be related...)
 * 1 day working on the prototype (work on the scenarios)
+
+Bugs:
+* When condensing a folder inside the model tree, the color picker disappears
+* 
