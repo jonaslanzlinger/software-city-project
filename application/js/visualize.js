@@ -9,7 +9,8 @@ import { addSlider, addSliderEyeTracking } from "./addEventListener";
 import { calculateNormalizeFactors, getEpoques } from "./data";
 import { Plane } from "./entities/Plane";
 import { Building } from "./entities/Building";
-
+// This is for VR Button
+import { VRButton } from "three/examples/jsm/webxr/VRButton";
 
 const buildTreesOfBuildings = (data, metaphorSelection) => {
 
@@ -139,6 +140,9 @@ const visualize = treeOfBuildingsList => {
    } else {
       addSlider(treeOfBuildingsList, scene);
    }
+
+   // TODO Uncomment this for VR button!
+   // document.body.appendChild(VRButton.createButton(renderer.getRenderer()));
 
    function animate(time) {
       renderer.getRenderer().render(scene, visualControls.getCamera());
