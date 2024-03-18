@@ -142,7 +142,7 @@ const visualize = treeOfBuildingsList => {
    }
 
    // TODO Uncomment this for VR button!
-   // document.body.appendChild(VRButton.createButton(renderer.getRenderer()));
+   document.body.appendChild(VRButton.createButton(renderer.getRenderer()));
 
    function animate(time) {
       renderer.getRenderer().render(scene, visualControls.getCamera());
