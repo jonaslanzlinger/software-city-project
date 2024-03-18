@@ -4,7 +4,7 @@ In this iteration the package model tree has been finished. Additionally I have 
 ## Test the prototype
 To see what I have implemented this week, you can try the following:
 * visit the prototype [here](https://jonaslanzlinger.github.io/software-city-project/)
-* upload [here](https://jonaslanzlinger.github.io/software-city-project/) file
+* upload [this](application/data/testFile-03-eye-tracking-java-source-code.csv) file
    * Select "Eye Tracking (Java Source Code)" as the upload type
 * Click on "Visualize"
 * Select "linesOfCode" for the "Dimension"
