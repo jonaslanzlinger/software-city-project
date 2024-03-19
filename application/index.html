@@ -112,6 +112,46 @@
     <p id="slider-value">2024-01-01, 10:00:00:000</p>
   </div>
 
+  <!-- loading instructions here -->
+  <div id="instructions" class="container">
+    <h1 style="text-align: center;">Software City App</h1>
+    <h2>Instructions</h2>
+    <div>
+      <h4>File Formats</h4>
+      <p>Choose a .csv file and select the type of data you are uploading. Every .csv file needs to
+        have the names of the attributes in the first line. The delimiter symbol is a comma (",").
+        The following types are supported:</p>
+      <ul>
+        <li>
+          <p style="font-weight: bold;">Java Source Code</p>
+          Provide at least the following attributes
+          <ul>
+            <li>className - {layer1.layer2.layer3. ...} - example:
+              ch.unisg.application1.package1.class1</li>
+            <li>timestamp - {YYYYMMDDHHmmssSSS} - example: 20240210114054572</li>
+          </ul>
+          <p>This type of data is used to visualize static Java source code. The timestamp is used
+            to map the code to a specific point in time. For each unique timestamp in the provided
+            data, the app will create an epoche with all the data points with the same timestamp.
+          </p>
+        </li>
+        <li>
+          <p style="font-weight: bold;">Eye Tracking (Java Source Code)</p>
+          Provide at least the following attributes
+          <ul>
+            <li>className - {layer1.layer2.layer3. ...} - example:
+              ch.unisg.application1.package1.class1</li>
+            <li>timestamp - {YYYYMMDDHHmmssSSS} - example: 20240210114054572</li>
+          </ul>
+          <p>This type of data is used to visualize an eye-tracking experiment. The timestamp is
+            used to map the code to a specific point in time. When the user looks on one element
+            for the first time, the element appears in the visualization. All eyeFixation times get
+            accumulated while traversing through time.</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+
   <script type="module" src="./js/addEventListener.js"></script>
 
 </body>

@@ -55,12 +55,12 @@
 
 * [ ] create representative Java Source Code .csv-file
 * [ ] create representative Eye Tracking (Java Source Code) .csv-file
-* [ ] add instructions page at startup of the website
+* [x] add instructions page at startup of the website
 * [x] remove automatical data upload at startup of the website
 * [x] fix issue: when collapsing a folder in the Model Tree, the color selection disappears
 * [x] fix issue: when selecting a color for a building, moving the timeline slider slightly changes the color
    * this is not an issue because we want that!
-* [ ] fix issue: when clicking on a building, the Info Panel only shows "[Object object]" in the "buildingData" section.
+* [x] fix issue: when clicking on a building, the Info Panel only shows "[Object object]" in the "buildingData" section.
 * [ ] IMPORTANT: Most functionalities work for "Eye Tracking (Java Source code)". Make it work also for "Java Source Code".
 
 

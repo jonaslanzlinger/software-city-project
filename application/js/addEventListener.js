@@ -117,6 +117,8 @@ document.addEventListener("keydown", e => {
 buttonUploadData.addEventListener("click", e => {
    e.preventDefault();
 
+   document.getElementById("instructions").style.display = "none";
+
    const file = document.getElementById("file").files[0];
 
    let reader = new FileReader();
@@ -427,6 +429,8 @@ const initialDataUpload = () => {
    buildTable();
 }
 
-initialDataUpload();
+// Toggle this for testing purposes (both lines!)
+// document.getElementById("instructions").style.display = "none";
+// initialDataUpload();
 
 export { addSlider, addSliderEyeTracking }

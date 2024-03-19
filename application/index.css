@@ -15,6 +15,16 @@ body {
    position: fixed;
 }
 
+#instructions {
+   width: 80%;
+   height: 80%;
+   padding-top: 80px;
+   margin-left: auto;
+   margin-right: auto;
+   text-align: start;
+   line-height: 2rem;
+}
+
 #view-data {
    position: absolute;
    margin: 65px auto;
