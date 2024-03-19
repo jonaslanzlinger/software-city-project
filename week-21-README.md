@@ -1,5 +1,57 @@
 # Week 21
 
+## User stories
+
+### US#1
+
+* The user is a new employee in some company. He is responsible for developing an internal java application. Because the application is huge, he needs an easy way of discovering the source code. Therefore, he want to find the most important packages and the biggest classes and get an overview of the general structure of the code. Especially he wants to investigate the class "WebLogger".
+
+* He decides to use the software city web application. Therefore, he visits the website: https://jonaslanzlinger.github.io/software-city-project/
+
+* Because he never used this app, he reads the instructions on the front-page. From these instructions he learned that he wants to do a "Java Source Code" analysis.
+
+* He creates a .csv-file as described in the instructions. His provided dataset includes at least the metrics "countAttributes", "countMethods", and "countDependencies".
+
+* First, he clicks on "Upload" and selects the newly created .csv-file. Also he selects the respective upload data type "Java Source Code". Finally he clicks on "Upload Data".
+
+* After receiving a confirmation that the upload was successful, he now wants to see the visualization. To do that, he clicks on "Visualize" in the navigation bar. He decides that he wants to display the "countAttributes" with the "Dimension"-metaphor - the "countMethods" with the "Height"-metaphor - the "countDependencies" with the "Color"-metaphor. The rest he leaves as it is. Clicking on "Visualize" creates the software city.
+
+* The user now can explore the source code. First he investigates how the software developed over time and moves through the timeline by dragging the slider at the top.
+
+* He opens the "Model Tree", searches the class "WebLogger", and marks this class in the color green.
+
+* Now that the class is marked, he has a clearer view at where this class is positioned and according to the "Dimension", "Height", and "Color" he can infer its size and how much it is entangled with other parts of the system.
+
+* The user clicks on the building and reads through the attributes this building has, because he wants to know the detailed numbers for the metrics.
+
+* Now the user has a clearer view of the source code and he can start working on this project.
+
+
+### US#2
+
+* The user is the team leader of the software engineering team in some company. Regularly he hires new employees that will work on his Java software project. Because this project has grown a lot in the last years, he suspects that the code is starting to become very complex and hard to understand. Therefore, he started to perform an eye-tracking experiment with new employees. They need to look at the source code and the eye-tracking sensor captures multiple different bio metrics such as "eyeFixationDuration". His goal is to know which parts in the source code are hard to understand. Specificaly he wants to have a closer look at the "ApplicationService" class, because he suspects that this class is a potential candidate for refactoring.
+
+* He decides to use the software city web application. Therefore, he visits the website: https://jonaslanzlinger.github.io/software-city-project/
+
+* Because he never used this app, he reads the instructions on the front-page. From these instructions he learned that he wants to do an "Eye Tracking (Java Source Code)" analysis.
+
+* He creates a .csv-file as described in the instructions. His provided dataset includes at least the metrics "linesOfCode", "countDependencies", and "eyeFixationDuration".
+
+* First, he clicks on "Upload" and selects the newly created .csv-file. Also he selects the respective upload data type "Eye Tracking (Java Source Code)". Finally he clicks on "Upload Data".
+
+* After receiving a confirmation that the upload was successful, he now wants to see the visualization. To do that, he clicks on "Visualize" in the navigation bar. He decides that he wants to display the "countDependencies" with the "Dimension"-metaphor - the "linesOfCode" with the "Height"-metaphor - the "eyeFixationDuration" with the "Color"-metaphor. The rest he leaves as it is. Clicking on "Visualize" creates the software city.
+
+* This visualization type holds only one version of the static source code but the timeline simulates the experiment. When hes moving through the timeline he can see how the colors of the buildings change. That means buildings that are dull, are not of much interest, but very bright buildings are the corresponding classes on which the user was looking for a long time.
+
+* He opens the "Model Tree", searches the class "ApplicationService", and marks this class in the color teal.
+
+* Now that the class is marked, he has a clearer view at where this class is positioned and according to the "Dimension", "Height", and "Color" he can infer its size, how much it is entangled with other parts of the system, and how the perception of this class to the user developed during the experiment.
+
+* The user clicks on the building and reads through the attributes this building has, because he wants to know the detailed numbers for the metrics.
+
+* Now he has some ideas where the source code could need some refactoring to make the first day of new employees a bit easier.
+
+
 ## Notes from Literature Research
 
 I have searched through a broad palette of papers and gathered the most important key takeaways.
