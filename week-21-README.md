@@ -62,6 +62,8 @@
    * this is not an issue because we want that!
 * [x] fix issue: when clicking on a building, the Info Panel only shows "[Object object]" in the "buildingData" section.
 * [ ] IMPORTANT: Most functionalities work for "Eye Tracking (Java Source code)". Make it work also for "Java Source Code".
+* [x] investivate on using VR with the visualization.
+   * I would need either an Oculus 2 VR or an Apple Vision Pro. With my PSVR2 goggles it can't work because the integrated web browser in the PS5 does not support WebGL, which is responsible for the graphics. Also connecting the PSVR2 goggles with my Macbook Pro does not work.
 
 
 ## Notes from Literature Research
