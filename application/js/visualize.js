@@ -153,7 +153,7 @@ const visualize = treeOfBuildingsList => {
 }
 
 const createModelTree = treeOfBuildingsList => {
-   console.log(treeOfBuildingsList);
+   // console.log(treeOfBuildingsList);
    let modelTreeElement = document.getElementById("model-tree");
    while (modelTreeElement.firstChild) {
       modelTreeElement.removeChild(modelTreeElement.firstChild);
@@ -331,9 +331,11 @@ const createModelTree = treeOfBuildingsList => {
             if (newElement.type === "building") {
             } else {
                element.parentElement.expanded = element.parentElement.expanded === "true" ? "false" : "true";
+               let colorPickerElement = element.children[0];
                element.innerText = element.parentElement.expanded === "true" ?
                   element.innerText.replace("\u25B8", "\u25BF") :
                   element.innerText.replace("\u25BF", "\u25B8");
+               element.appendChild(colorPickerElement);
                let childrenToToggle = element.parentElement.children;
                for (let i = 1; i < childrenToToggle.length; i++) {
                   if (childrenToToggle[i].type === "building") {
