@@ -404,7 +404,7 @@ setData("avgEyeFixationDuration,timestamp,className,linesOfCode,linesOfComments,
    "7,20240115090943338,ch.unisg.tapas.auctionhouse.adapter.common.clients.TapasMqttClient,37.0,36.0,87.0\n" +
    "10,20240115094023318,ch.unisg.tapas.auctionhouse.adapter.common.formats.AuctionJsonRepresentation,6.0,6.0,67.0\n" +
    "15,20240115095116902,ch.unisg.tapas.auctionhouse.adapter.common.formats.BidJsonRepresentation,12,12,22.0\n" +
-   "12,20240115094208874,ch.unisg.tapas.auctionhouse.adapter.common.formats.DelegateTaskJsonRepresentation,12,12,18.0 eye-tracking-java-source-code", "eye-tracking-java-source-code");
+   "12,20240115094208874,ch.unisg.tapas.auctionhouse.adapter.common.formats.DelegateTaskJsonRepresentation,12,12,18.0", "eye-tracking-java-source-code");
 
 dimensionAttributeSelection.replaceChildren();
 heightAttributeSelection.replaceChildren();
