@@ -50,9 +50,20 @@ class MouseControls {
                   }
 
                   for (const entry in objInfo) {
-                     let newElement = document.createElement("p");
-                     newElement.innerHTML = `<strong>${entry}:</strong><br>${objInfo[entry]}`;
-                     infoPanelDiv.appendChild(newElement);
+                     if (entry === "buildingData") {
+                        let newElement = document.createElement("p");
+                        newElement.innerHTML = `<strong>${entry}:</strong><br>`;
+                        for (const dataEntry of objInfo[entry]) {
+                           let dataElement = document.createElement("p");
+                           dataElement.innerText = JSON.stringify(dataEntry);
+                           newElement.appendChild(dataElement);
+                        }
+                        infoPanelDiv.appendChild(newElement);
+                     } else {
+                        let newElement = document.createElement("p");
+                        newElement.innerHTML = `<strong>${entry}:</strong><br>${objInfo[entry]}`;
+                        infoPanelDiv.appendChild(newElement);
+                     }
                   }
                   break;
                }

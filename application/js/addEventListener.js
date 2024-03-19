@@ -427,6 +427,6 @@ const initialDataUpload = () => {
    buildTable();
 }
 
-// initialDataUpload();
+initialDataUpload();
 
 export { addSlider, addSliderEyeTracking }
