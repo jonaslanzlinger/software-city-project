@@ -77,4 +77,24 @@ const getEpoques = () => {
    return epoques;
 }
 
-export { getData, setData, clearData, calculateNormalizeFactors, getEpoques }
+const getParticipants = () => {
+   let participants = [];
+   dataStore.data.forEach(entry => {
+      if (!participants.includes(entry.participant)) {
+         participants.push(entry.participant);
+      }
+   });
+   return participants;
+}
+
+const getTasks = () => {
+   let tasks = [];
+   dataStore.data.forEach(entry => {
+      if (!tasks.includes(entry.task)) {
+         tasks.push(entry.task);
+      }
+   });
+   return tasks;
+}
+
+export { getData, setData, clearData, calculateNormalizeFactors, getEpoques, getParticipants, getTasks }

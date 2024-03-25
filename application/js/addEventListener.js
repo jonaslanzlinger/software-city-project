@@ -1,4 +1,4 @@
-import { getData, setData, clearData, getEpoques } from "./data";
+import { getData, setData, clearData, getEpoques, getParticipants, getTasks } from "./data";
 import { Plane } from "./entities/Plane";
 import { buildTreesOfBuildings, visualize, removeAllRenderers, removeAllGuis, createModelTree } from "./visualize";
 import { formatDate } from "./utils";
@@ -145,6 +145,37 @@ buttonUploadData.addEventListener("click", e => {
       frameUpload.style.display = "none";
 
       buildTable();
+
+      if (getData().dataType === "eye-tracking-java-source-code") {
+         document.getElementById("participant-selection").style.display = "block";
+         document.getElementById("task-selection").style.display = "block";
+
+         getParticipants().forEach(participant => {
+            let newElement = document.createElement("option");
+            newElement.value = participant;
+            newElement.innerText = `participant - ${participant}`;
+            document.getElementById("participant-selection").appendChild(newElement);
+         });
+
+         getTasks().forEach(task => {
+            let newElement = document.createElement("option");
+            newElement.value = task;
+            newElement.innerText = `task - ${task}`;
+            document.getElementById("task-selection").appendChild(newElement);
+         });
+
+      } else {
+         let participantSelection = document.getElementById("participant-selection");
+         let taskSelection = document.getElementById("task-selection");
+
+         while (participantSelection.firstChild) {
+            participantSelection.removeChild(participantSelection.firstChild);
+         }
+
+         while (taskSelection.firstChild) {
+            taskSelection.removeChild(taskSelection.firstChild);
+         }
+      }
    }
 });
 
