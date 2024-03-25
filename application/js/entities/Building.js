@@ -23,13 +23,13 @@ class Building extends THREE.Mesh {
 
       const boxGeometry = new THREE.BoxGeometry();
       const boxMaterial = new THREE.MeshBasicMaterial({
-         color: 0xbdeaff,
+         color: 0x999999,
          polygonOffset: true,
          polygonOffsetFactor: 0.1,
          polygonOffsetUnits: 0.1,
       });
       const rooftopMaterial = new THREE.MeshBasicMaterial({
-         color: 0xffffff,
+         color: 0x999999,
       });
 
       // set different materials for the rooftop side

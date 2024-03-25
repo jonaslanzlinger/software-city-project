@@ -229,7 +229,14 @@ const dragFrameModelTree = e => {
    frameModelTree.style.top = newPosTop + "px";
 }
 
-const addSlider = (treeOfBuildingsList, scene) => {
+const addSlider = (treeOfBuildingsList, scene, listOfModelTrees) => {
+
+   let modelTreeElement = document.getElementById("model-tree");
+   while (modelTreeElement.firstChild) {
+      modelTreeElement.removeChild(modelTreeElement.firstChild);
+   }
+   modelTreeElement.appendChild(listOfModelTrees[0]);
+
    let i = 0;
    let displayedTreeOfBuildings = treeOfBuildingsList[i];
 
@@ -272,13 +279,23 @@ const addSlider = (treeOfBuildingsList, scene) => {
             scene.remove(...scene.children.filter(child => child instanceof Plane));
             displayedTreeOfBuildings = next;
             scene.add(displayedTreeOfBuildings.baseNode);
+
+            while (modelTreeElement.firstChild) {
+               modelTreeElement.removeChild(modelTreeElement.firstChild);
+            }
+            modelTreeElement.appendChild(listOfModelTrees[newIndex]);
          }
-         createModelTree(displayedTreeOfBuildings.baseNode);
       }
    });
 }
 
-const addSliderEyeTracking = treeOfBuildings => {
+const addSliderEyeTracking = (treeOfBuildings, listOfModelTrees) => {
+
+   let modelTreeElement = document.getElementById("model-tree");
+   while (modelTreeElement.firstChild) {
+      modelTreeElement.removeChild(modelTreeElement.firstChild);
+   }
+   modelTreeElement.appendChild(listOfModelTrees[0]);
 
    treeOfBuildings.list.forEach(building => {
       building.visible = false;
