@@ -90,8 +90,8 @@ const getParticipants = () => {
 const getTasks = () => {
    let tasks = [];
    dataStore.data.forEach(entry => {
-      if (!tasks.includes(entry.task)) {
-         tasks.push(entry.task);
+      if (!tasks.includes(entry.TaskId)) {
+         tasks.push(entry.TaskId);
       }
    });
    return tasks;

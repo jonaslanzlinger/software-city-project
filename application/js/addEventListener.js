@@ -157,6 +157,8 @@ buttonUploadData.addEventListener("click", e => {
             document.getElementById("participant-selection").appendChild(newElement);
          });
 
+         console.log(getTasks());
+
          getTasks().forEach(task => {
             let newElement = document.createElement("option");
             newElement.value = task;
@@ -201,6 +203,16 @@ buttonStartVisualize.addEventListener("click", e => {
    }
    frameVisualize.style.display = "none";
    viewData.style.display = "none";
+
+   // filter data depending on participant and task selection
+   let data = getData();
+   let participantSelection = document.getElementById("participant-selection").value;
+   let taskSelection = document.getElementById("task-selection").value;
+   if (getData().dataType === "eye-tracking-java-source-code") {
+      data = data.data.filter(entry => {
+         return entry.participant === participantSelection && entry.task === taskSelection;
+      });
+   }
 
    let treeOfBuildingsList = buildTreesOfBuildings(getData(), metaphorSelection);
 
