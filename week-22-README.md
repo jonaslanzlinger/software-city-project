@@ -17,8 +17,8 @@
 * [x] Java source code type is now working the same as the eye tracking data type
 * [x] Adopted the type eye tracking with BPMN data.
 * [x] If eye tracking BPMN is selected, when selecting the visualization parameters, users can now also input a participant and a task. the data will get filtered and the city is built only on that filtered data.
-* [x] Created a jupyter notebook to easily perform data preparation on the raw data: [readAndWriteFile.ipynb](/Users/jonaslanzlinger/programming/software-city-project/application/readAndWriteFile.ipynb)
-   * the output of this script based on the provided raw data can be found here: [out1.csv](/Users/jonaslanzlinger/programming/software-city-project/application/data/out1.csv)
+* [x] Created a jupyter notebook to easily perform data preparation on the raw data: [readAndWriteFile.ipynb](application/readAndWriteFile.ipynb)
+   * the output of this script based on the provided raw data can be found here: [out1.csv](application/data/out1.csv)
 
 ## ToDo's
 * The eye tracking BPMN does not work properly on the provided data. Somehow buildings disappear when sliding through the timeline
