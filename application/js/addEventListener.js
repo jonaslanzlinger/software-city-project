@@ -146,9 +146,11 @@ buttonUploadData.addEventListener("click", e => {
 
       buildTable();
 
-      if (getData().dataType === "eye-tracking-java-source-code") {
+      if (getData().dataType === "eye-tracking-bpmn") {
          document.getElementById("participant-selection").style.display = "block";
          document.getElementById("task-selection").style.display = "block";
+         document.getElementById("participant-selection-label").style.display = "block";
+         document.getElementById("task-selection-label").style.display = "block";
 
          getParticipants().forEach(participant => {
             let newElement = document.createElement("option");
@@ -156,8 +158,6 @@ buttonUploadData.addEventListener("click", e => {
             newElement.innerText = `participant - ${participant}`;
             document.getElementById("participant-selection").appendChild(newElement);
          });
-
-         console.log(getTasks());
 
          getTasks().forEach(task => {
             let newElement = document.createElement("option");
@@ -169,6 +169,11 @@ buttonUploadData.addEventListener("click", e => {
       } else {
          let participantSelection = document.getElementById("participant-selection");
          let taskSelection = document.getElementById("task-selection");
+
+         participantSelection.style.display = "none";
+         taskSelection.style.display = "none";
+         document.getElementById("participant-selection-label").style.display = "none";
+         document.getElementById("task-selection-label").style.display = "none";
 
          while (participantSelection.firstChild) {
             participantSelection.removeChild(participantSelection.firstChild);
@@ -208,9 +213,9 @@ buttonStartVisualize.addEventListener("click", e => {
    let data = getData();
    let participantSelection = document.getElementById("participant-selection").value;
    let taskSelection = document.getElementById("task-selection").value;
-   if (getData().dataType === "eye-tracking-java-source-code") {
-      data = data.data.filter(entry => {
-         return entry.participant === participantSelection && entry.task === taskSelection;
+   if (getData().dataType === "eye-tracking-bpmn") {
+      data.data = data.data.filter(entry => {
+         return entry.participant === participantSelection.toString() && entry.TaskId === taskSelection.toString();
       });
    }
 
@@ -364,58 +369,113 @@ const addSliderEyeTracking = (treeOfBuildings, listOfModelTrees) => {
       SliderOffsetLeft = 0;
    });
 
-   document.addEventListener("mousemove", e => {
-      if (isDragging) {
-         const sliderProgressInPixel = e.clientX - slider.getBoundingClientRect().left - SliderOffsetLeft;
-         let newSliderProgressInPixel = Math.min(slider.clientWidth - sliderThumb.clientWidth, Math.max(0, sliderProgressInPixel));
-         sliderThumb.style.left = newSliderProgressInPixel + "px";
-         let sliderProgress = newSliderProgressInPixel / (slider.clientWidth - sliderThumb.clientWidth);
-         let sliderTimestamp = new Date(lowestTimestamp.getTime() + parseInt(sliderProgress * deltaMillis));
-         valueDisplay.textContent = formatDate(sliderTimestamp);
+   if (getData().dataType === "eye-tracking-bpmn") {
+      document.addEventListener("mousemove", e => {
+         if (isDragging) {
+            const sliderProgressInPixel = e.clientX - slider.getBoundingClientRect().left - SliderOffsetLeft;
+            let newSliderProgressInPixel = Math.min(slider.clientWidth - sliderThumb.clientWidth, Math.max(0, sliderProgressInPixel));
+            sliderThumb.style.left = newSliderProgressInPixel + "px";
+            let sliderProgress = newSliderProgressInPixel / (slider.clientWidth - sliderThumb.clientWidth);
+            let sliderTimestamp = new Date(lowestTimestamp.getTime() + parseInt(sliderProgress * deltaMillis));
+            valueDisplay.textContent = formatDate(sliderTimestamp);
 
-         let maxOccurrences = 0;
-         let maxTotalTime = 0;
-         for (let building of treeOfBuildings.list) {
-            let occurrences = 0;
-            let totalTime = 0;
-            for (let entry of building.buildingData) {
-               occurrences += 1;
-               totalTime += parseInt(entry.avgEyeFixationDuration);
-            }
-            if (occurrences > maxOccurrences) {
-               maxOccurrences = occurrences;
-            }
-            if (totalTime > maxTotalTime) {
-               maxTotalTime = totalTime;
-            }
-         }
-         for (let building of treeOfBuildings.list) {
-            let totalTime = 0;
-            let totalOccurrences = 0;
-            for (let entry of building.buildingData) {
-               if (new Date(entry.timestamp) <= sliderTimestamp) {
-                  totalTime += parseInt(entry.avgEyeFixationDuration);
-                  totalOccurrences += 1;
+            let maxOccurrences = 0;
+            let maxTotalTime = 0;
+            for (let building of treeOfBuildings.list) {
+               let occurrences = 0;
+               let totalTime = 0;
+               for (let entry of building.buildingData) {
+                  occurrences += 1;
+                  totalTime += parseInt(entry.fixationDuration);
+               }
+               if (occurrences > maxOccurrences) {
+                  maxOccurrences = occurrences;
+               }
+               if (totalTime > maxTotalTime) {
+                  maxTotalTime = totalTime;
                }
             }
+            for (let building of treeOfBuildings.list) {
+               let totalTime = 0;
+               let totalOccurrences = 0;
+               for (let entry of building.buildingData) {
+                  if (new Date(entry.timestamp) <= sliderTimestamp) {
+                     totalTime += parseInt(entry.fixationDuration);
+                     totalOccurrences += 1;
+                  }
+               }
 
-            building.visible = totalTime > 0;
-            let color = building.buildingBaseColor.clone();
-            let ratio = (totalTime / maxTotalTime);
-            color.r = color.r * ratio;
-            color.g = color.g * ratio;
-            color.b = color.b * ratio;
-            building.setBuildingColor(color);
+               building.visible = totalTime > 0;
+               let color = building.buildingBaseColor.clone();
+               let ratio = (totalTime / maxTotalTime);
+               color.r = color.r * ratio;
+               color.g = color.g * ratio;
+               color.b = color.b * ratio;
+               building.setBuildingColor(color);
 
-            color = building.material[2].color;
-            ratio = (totalOccurrences / maxOccurrences) * (50 / 100);
-            color.r = ratio;
-            color.g = ratio;
-            color.b = ratio;
-            building.material[2].color.set(color);
+               color = building.material[2].color;
+               ratio = (totalOccurrences / maxOccurrences) * (50 / 100);
+               color.r = ratio;
+               color.g = ratio;
+               color.b = ratio;
+               building.material[2].color.set(color);
+            }
          }
-      }
-   });
+      });
+   } else {
+      document.addEventListener("mousemove", e => {
+         if (isDragging) {
+            const sliderProgressInPixel = e.clientX - slider.getBoundingClientRect().left - SliderOffsetLeft;
+            let newSliderProgressInPixel = Math.min(slider.clientWidth - sliderThumb.clientWidth, Math.max(0, sliderProgressInPixel));
+            sliderThumb.style.left = newSliderProgressInPixel + "px";
+            let sliderProgress = newSliderProgressInPixel / (slider.clientWidth - sliderThumb.clientWidth);
+            let sliderTimestamp = new Date(lowestTimestamp.getTime() + parseInt(sliderProgress * deltaMillis));
+            valueDisplay.textContent = formatDate(sliderTimestamp);
+
+            let maxOccurrences = 0;
+            let maxTotalTime = 0;
+            for (let building of treeOfBuildings.list) {
+               let occurrences = 0;
+               let totalTime = 0;
+               for (let entry of building.buildingData) {
+                  occurrences += 1;
+                  totalTime += parseInt(entry.avgEyeFixationDuration);
+               }
+               if (occurrences > maxOccurrences) {
+                  maxOccurrences = occurrences;
+               }
+               if (totalTime > maxTotalTime) {
+                  maxTotalTime = totalTime;
+               }
+            }
+            for (let building of treeOfBuildings.list) {
+               let totalTime = 0;
+               let totalOccurrences = 0;
+               for (let entry of building.buildingData) {
+                  if (new Date(entry.timestamp) <= sliderTimestamp) {
+                     totalTime += parseInt(entry.avgEyeFixationDuration);
+                     totalOccurrences += 1;
+                  }
+               }
+
+               building.visible = totalTime > 0;
+               let color = building.buildingBaseColor.clone();
+               let ratio = (totalTime / maxTotalTime);
+               color.r = color.r * ratio;
+               color.g = color.g * ratio;
+               color.b = color.b * ratio;
+               building.setBuildingColor(color);
+
+               color = building.material[2].color;
+               ratio = (totalOccurrences / maxOccurrences) * (50 / 100);
+               color.r = ratio;
+               color.g = ratio;
+               color.b = ratio;
+               building.material[2].color.set(color);
+            }
+         }
+      });
+   }
 }
 
 const buildTable = () => {

@@ -150,6 +150,8 @@ const visualize = treeOfBuildingsList => {
    renderer.getRenderer().setAnimationLoop(animate);
 
    rendererList.push(renderer);
+
+   console.log(treeOfBuildingsList);
 }
 
 const createModelTree = treeOfBuildingsList => {

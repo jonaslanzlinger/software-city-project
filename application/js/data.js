@@ -1,7 +1,8 @@
 let dataStore = {
    data: [],
    attributeNames: [],
-   dataType: ""
+   dataType: "",
+   selectedData: []
 };
 
 const getData = () => {
@@ -20,7 +21,12 @@ const setData = (data, dataType) => {
       let jsonObject = {};
       let values = line.split(",");
       for (let i = 0; i < attributeNames.length; i++) {
-         if (attributeNames[i] === "timestamp") {
+         if (attributeNames[i] === "Timestamp" && dataType === "eye-tracking-bpmn") {
+            let minute = parseInt(values[i].substring(0, 2));
+            let second = parseInt(values[i].substring(2, 6));
+            let millisecond = parseInt(values[i].substring(6, 9));
+            jsonObject["timestamp"] = new Date(2024, 1, 1, 8, minute, second, millisecond);
+         } else if (attributeNames[i] === "timestamp") {
             let year = parseInt(values[i].substring(0, 4));
             let month = parseInt(values[i].substring(4, 6)) - 1;
             let day = parseInt(values[i].substring(6, 8));
@@ -29,6 +35,8 @@ const setData = (data, dataType) => {
             let second = parseInt(values[i].substring(12, 14));
             let millisecond = parseInt(values[i].substring(14));
             jsonObject[attributeNames[i]] = new Date(year, month, day, hour, minute, second, millisecond);
+         } else if (attributeNames[i] === "Fixation Duration") {
+            jsonObject["fixationDuration"] = parseFloat(values[i].split(".")[0]);
          } else {
             jsonObject[attributeNames[i]] = values[i];
          }
@@ -97,4 +105,4 @@ const getTasks = () => {
    return tasks;
 }
 
-export { getData, setData, clearData, calculateNormalizeFactors, getEpoques, getParticipants, getTasks }
+export { getData as getData, setData, clearData, calculateNormalizeFactors, getEpoques, getParticipants, getTasks }
