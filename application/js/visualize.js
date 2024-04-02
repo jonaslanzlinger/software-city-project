@@ -6,7 +6,7 @@ import { LightSettings } from "./entities/LightSettings";
 import { Gui } from "./entities/Gui";
 import { MouseControls } from "./entities/MouseControls";
 import { addSlider, addSliderEyeTracking } from "./addEventListener";
-import { calculateNormalizeFactors, getEpoques } from "./data";
+import { calculateNormalizeFactors, getData, getEpoques } from "./data";
 import { Plane } from "./entities/Plane";
 import { Building } from "./entities/Building";
 // This is for VR Button
@@ -50,7 +50,6 @@ const buildTreesOfBuildings = (data, metaphorSelection) => {
          });
 
          treeOfBuildings.buildTreeStructureWithList(listOfVisibleBuildings);
-         // treeOfBuildings.buildTreeStructure();
          treeOfBuildings.putOnScreen(treeOfBuildings.baseNode);
          treeOfBuildings.adjustChildrenLayerPositionY(treeOfBuildings.baseNode);
          treeOfBuildingsList.push(treeOfBuildings);
@@ -150,8 +149,6 @@ const visualize = treeOfBuildingsList => {
    renderer.getRenderer().setAnimationLoop(animate);
 
    rendererList.push(renderer);
-
-   console.log(treeOfBuildingsList);
 }
 
 const createModelTree = treeOfBuildingsList => {

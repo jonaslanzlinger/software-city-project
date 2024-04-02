@@ -213,10 +213,12 @@ buttonStartVisualize.addEventListener("click", e => {
    let data = getData();
    let participantSelection = document.getElementById("participant-selection").value;
    let taskSelection = document.getElementById("task-selection").value;
-   if (getData().dataType === "eye-tracking-bpmn") {
+   if (data.dataType === "eye-tracking-bpmn") {
       data.data = data.data.filter(entry => {
-         return entry.participant === participantSelection.toString() && entry.TaskId === taskSelection.toString();
+         return entry.participant === participantSelection.toString() && entry.taskId === taskSelection.toString();
       });
+      // filter out all data that has no "Fixation Duration"
+      data.data = data.data.filter(entry => !Number.isNaN(entry.fixationDuration));
    }
 
    let treeOfBuildingsList = buildTreesOfBuildings(getData(), metaphorSelection);

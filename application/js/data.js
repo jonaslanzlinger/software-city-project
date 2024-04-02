@@ -12,6 +12,9 @@ const getData = () => {
 const setData = (data, dataType) => {
    const lines = data.split("\n");
    let attributeNames = lines[0].split(",");
+   attributeNames = attributeNames.map(attributeName => {
+      return attributeName.replace(" ", "").slice(0, 1).toLowerCase() + attributeName.replace(" ", "").slice(1);
+   });
 
    lines.forEach((line, index) => {
       if (index === 0) {
@@ -21,7 +24,7 @@ const setData = (data, dataType) => {
       let jsonObject = {};
       let values = line.split(",");
       for (let i = 0; i < attributeNames.length; i++) {
-         if (attributeNames[i] === "Timestamp" && dataType === "eye-tracking-bpmn") {
+         if (attributeNames[i] === "timestamp" && dataType === "eye-tracking-bpmn") {
             let minute = parseInt(values[i].substring(0, 2));
             let second = parseInt(values[i].substring(2, 6));
             let millisecond = parseInt(values[i].substring(6, 9));
@@ -35,13 +38,12 @@ const setData = (data, dataType) => {
             let second = parseInt(values[i].substring(12, 14));
             let millisecond = parseInt(values[i].substring(14));
             jsonObject[attributeNames[i]] = new Date(year, month, day, hour, minute, second, millisecond);
-         } else if (attributeNames[i] === "Fixation Duration") {
+         } else if (attributeNames[i] === "fixationDuration") {
             jsonObject["fixationDuration"] = parseFloat(values[i].split(".")[0]);
          } else {
             jsonObject[attributeNames[i]] = values[i];
          }
       }
-
       dataStore.data.push(jsonObject);
    });
 
@@ -98,8 +100,8 @@ const getParticipants = () => {
 const getTasks = () => {
    let tasks = [];
    dataStore.data.forEach(entry => {
-      if (!tasks.includes(entry.TaskId)) {
-         tasks.push(entry.TaskId);
+      if (!tasks.includes(entry.taskId)) {
+         tasks.push(entry.taskId);
       }
    });
    return tasks;
