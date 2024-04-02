@@ -24,12 +24,23 @@ const setData = (data, dataType) => {
       let jsonObject = {};
       let values = line.split(",");
       for (let i = 0; i < attributeNames.length; i++) {
-         if (attributeNames[i] === "timestamp" && dataType === "eye-tracking-bpmn") {
+         if (attributeNames[i] === "taskId" && dataType === "eye-tracking-bpmn") {
+            if (values[i] === undefined || values[i] === "") {
+               return;
+            }
+            jsonObject["taskId"] = values[i];
+         } else if (attributeNames[i] === "timestamp" && dataType === "eye-tracking-bpmn") {
+            if (values[i] === undefined) {
+               return;
+            }
             let minute = parseInt(values[i].substring(0, 2));
             let second = parseInt(values[i].substring(2, 6));
             let millisecond = parseInt(values[i].substring(6, 9));
             jsonObject["timestamp"] = new Date(2024, 1, 1, 8, minute, second, millisecond);
          } else if (attributeNames[i] === "timestamp") {
+            if (values[i] === undefined) {
+               return;
+            }
             let year = parseInt(values[i].substring(0, 4));
             let month = parseInt(values[i].substring(4, 6)) - 1;
             let day = parseInt(values[i].substring(6, 8));
@@ -39,6 +50,9 @@ const setData = (data, dataType) => {
             let millisecond = parseInt(values[i].substring(14));
             jsonObject[attributeNames[i]] = new Date(year, month, day, hour, minute, second, millisecond);
          } else if (attributeNames[i] === "fixationDuration") {
+            if (values[i] === undefined) {
+               return;
+            }
             jsonObject["fixationDuration"] = parseFloat(values[i].split(".")[0]);
          } else {
             jsonObject[attributeNames[i]] = values[i];

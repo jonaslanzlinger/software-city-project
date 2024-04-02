@@ -408,6 +408,7 @@ avgEyeFixationDuration,timestamp,className,linesOfCode,linesOfComments,someAttri
 15,20240115095200399,ch.unisg.tapasroster.roster.DependencyRuleTest,12,12,23.0
 15,20240115090405087,ch.unisg.tapasroster.roster.domain.Assignment,2.0,12,79.0
 3,20240115094858890,ch.unisg.tapasroster.roster.domain.AssignmentList,12,12,28.0
+2,20240115091658868,ch.unisg.tapas.auctionhouse.domain.Auction,61.0,38.0,1412
 6,20240115091606995,ch.unisg.tapasroster.roster.domain.AssignmentNotFoundError,12,12,2.0
 12,20240115093500702,ch.unisg.tapasroster.roster.domain.Executor,12,12,24.0
 5,20240115095014312,ch.unisg.tapasroster.roster.domain.ExecutorList,12,12,25.0
@@ -416,6 +417,7 @@ avgEyeFixationDuration,timestamp,className,linesOfCode,linesOfComments,someAttri
 5,20240115092409626,ch.unisg.tapasroster.TapasRosterApplicationTests,12,12,6.0
 4,20240115090249854,ch.unisg.tapastasks.common.SelfValidating,4.0,4.0,17.0
 2,20240115093145571,ch.unisg.tapastasks.TapasTasksApplication,12,12,8.0
+2,20240115091752868,ch.unisg.tapas.auctionhouse.domain.Auction,61.0,38.0,1412
 9,20240115092338526,ch.unisg.tapastasks.TapasTasksApplicationTests,12,12,6.0
 12,20240115091346049,ch.unisg.tapastasks.tasks.adapter.in.formats.StatusJsonRepresentation,13.0,11.0,31.0
 11,20240115093137739,ch.unisg.tapastasks.tasks.adapter.in.formats.TaskJsonPatchRepresentation,28.0,28.0,78.0
@@ -460,6 +462,7 @@ avgEyeFixationDuration,timestamp,className,linesOfCode,linesOfComments,someAttri
 15,20240115091443394,ch.unisg.tapastasks.tasks.application.service.RetrieveTaskFromTaskListService,2.0,12,212
 3,20240115095051521,ch.unisg.tapastasks.tasks.application.service.RetrieveTasksByStatusService,12,12,14.0
 9,20240115094246017,ch.unisg.tapastasks.tasks.archunit.Adapters,12,12,45.0
+2,20240115091952868,ch.unisg.tapas.auctionhouse.domain.Auction,61.0,38.0,1412
 5,20240115094518542,ch.unisg.tapastasks.tasks.archunit.ApplicationLayer,12,12,42.0
 4,20240115090347350,ch.unisg.tapastasks.tasks.archunit.ArchitectureElement,12,12,512
 7,20240115093216963,ch.unisg.tapastasks.tasks.archunit.HexagonalArchitecture,12,12,44.0
@@ -471,6 +474,7 @@ avgEyeFixationDuration,timestamp,className,linesOfCode,linesOfComments,someAttri
 14,20240115091157083,ch.unisg.app.AppApplicationTests,12,12,6.0
 5,20240115091442333,ch.unisg.app.HelloController,12,12,7.0
 4,20240115095427523,ch.unisg.app.NewExecutorController,1.0,12,67.0
+2,20240115092252868,ch.unisg.tapas.auctionhouse.domain.Auction,61.0,38.0,1412
 2,20240115090951311,ch.unisg.app.NewTaskController,5.0,12,97.0
 8,20240115094717823,ch.unisg.tapas.auctionhouse.adapter.common.clients.TapasMqttClient,37.0,36.0,87.0
 12,20240115092216866,ch.unisg.tapas.auctionhouse.adapter.common.formats.AuctionJsonRepresentation,6.0,6.0,67.0
@@ -502,6 +506,7 @@ avgEyeFixationDuration,timestamp,className,linesOfCode,linesOfComments,someAttri
 12,20240115093708638,ch.unisg.tapas.auctionhouse.application.handler.ExecutorAddedHandler,12,12,8.0
 3,20240115094808012,ch.unisg.tapas.auctionhouse.application.handler.ExecutorRemovedHandler,4.0,4.0,11.0
 9,20240115095728711,ch.unisg.tapas.auctionhouse.application.port.in.auctions.AuctionStartedEvent,3.0,3.0,12.0
+2,20240115092052868,ch.unisg.tapas.auctionhouse.domain.Auction,61.0,38.0,1412
 2,20240115095227277,ch.unisg.tapas.auctionhouse.application.port.in.auctions.LaunchAuctionCommand,112,112,28.0
 5,20240115090103477,ch.unisg.tapas.auctionhouse.application.port.in.auctions.PlaceBidForAuctionEvent,12,12,112
 8,20240115094149207,ch.unisg.tapas.auctionhouse.application.port.in.auctions.RetrieveAuctionQuery,3.0,3.0,12.0
@@ -520,6 +525,7 @@ avgEyeFixationDuration,timestamp,className,linesOfCode,linesOfComments,someAttri
 12,20240115094925168,ch.unisg.tapas.auctionhouse.domain.Auction,61.0,38.0,1412
 14,20240115093455691,ch.unisg.tapas.auctionhouse.domain.AuctionNotFoundError,12,12,1.0
 2,20240115093316841,ch.unisg.tapas.auctionhouse.domain.AuctionRegistry,41.0,41.0,84.0
+2,20240115092852868,ch.unisg.tapas.auctionhouse.domain.Auction,61.0,38.0,1412
 13,20240115090656253,ch.unisg.tapas.auctionhouse.domain.AuctionStartedEvent,3.0,3.0,112
 2,20240115091641191,ch.unisg.tapas.auctionhouse.domain.AuctionWonEvent,4.0,3.0,14.0
 9,20240115092114579,ch.unisg.tapas.auctionhouse.domain.Bid,22.0,11.0,39.0
@@ -545,6 +551,7 @@ avgEyeFixationDuration,timestamp,className,linesOfCode,linesOfComments,someAttri
 5,20240115094101963,ch.unisg.tapasexecutorcalculator.executorcalculator.domain.Executor,1.0,12,42.0
 4,20240115095756949,ch.unisg.tapasexecutorcalculator.executorcalculator.domain.ExecutorList,12,12,24.0
 2,20240115092430707,ch.unisg.tapasexecutorcalculator.executorcalculator.domain.Task,12,12,32.0
+2,20240115093052868,ch.unisg.tapas.auctionhouse.domain.Auction,61.0,38.0,1412
 6,20240115090216081,ch.unisg.tapasexecutorcalculator.TapasExecutorCalculatorApplication,12,12,6.0
 12,20240115095813567,ch.unisg.tapasexecutorcalculator.TapasExecutorPrinterApplicationTests,12,12,6.0
 10,20240115090242797,ch.unisg.tapasexecutorpool.executorpool.adapter.in.formats.ExecutorJsonRepresentation,1.0,12,312
@@ -570,6 +577,7 @@ avgEyeFixationDuration,timestamp,className,linesOfCode,linesOfComments,someAttri
 13,20240115091543687,ch.unisg.tapasexecutorpool.executorpool.application.service.RetrieveExecutorByIdService,12,12,22.0
 10,20240115090822532,ch.unisg.tapasexecutorpool.executorpool.application.service.RetrieveExecutorByTypeService,12,12,15.0
 4,20240115093056985,ch.unisg.tapasexecutorpool.executorpool.application.service.RetrieveExecutorByTypeServiceTest,4.0,12,41.0
+2,20240115091752868,ch.unisg.tapas.auctionhouse.domain.Auction,61.0,38.0,1412
 9,20240115092306929,ch.unisg.tapasexecutorpool.executorpool.DependencyRuleTest,12,12,24.0
 5,20240115091439620,ch.unisg.tapasexecutorpool.executorpool.domain.Executor,12,12,58.0
 15,20240115095330464,ch.unisg.tapasexecutorpool.executorpool.domain.ExecutorNotFoundError,12,12,1.0
@@ -577,6 +585,7 @@ avgEyeFixationDuration,timestamp,className,linesOfCode,linesOfComments,someAttri
 2,20240115093449068,ch.unisg.tapasexecutorpool.executorpool.domain.ExecutorTest,9.0,12,29.0
 12,20240115091104628,ch.unisg.tapasexecutorpool.TapasExecutorPoolApplication,12,12,7.0
 8,20240115092151356,ch.unisg.tapasexecutorpool.TapasExecutorPoolApplicationTests,12,12,6.0
+2,20240115092452868,ch.unisg.tapas.auctionhouse.domain.Auction,61.0,38.0,1412
 11,20240115094301447,ch.unisg.tapasexecutorprinter.executorcalculator.adapter.in.web.ReceiveAssignedTaskToExecutorWebControllerTest,5.0,12,412
 6,20240115095758714,ch.unisg.tapasexecutorprinter.executorprinter.adapter.in.formats.AssignedTaskToExecutorJsonRepresentation,12,12,16.0
 7,20240115091121449,ch.unisg.tapasexecutorprinter.executorprinter.adapter.in.formats.ExecutorJsonRepresentation,12,12,14.0
@@ -609,6 +618,7 @@ avgEyeFixationDuration,timestamp,className,linesOfCode,linesOfComments,someAttri
 11,20240115091748330,ch.unisg.tapasexecutorweatherman.TapasExecutorPrinterApplicationTests,12,12,6.0
 6,20240115094323244,ch.unisg.tapasexecutorweatherman.TapasExecutorWeathermanApplication,12,12,6.0
 3,20240115091957409,ch.unisg.tapasroster.common.SelfValidating,4.0,4.0,17.0
+2,20240115092652868,ch.unisg.tapas.auctionhouse.domain.Auction,61.0,38.0,1412
 6,20240115092209101,ch.unisg.tapasroster.roster.adapter.in.formats.AssignmentsJsonRepresentation,7.0,12,45.0
 14,20240115091912691,ch.unisg.tapasroster.roster.adapter.in.formats.ExecutorJsonRepresentation,12,12,212
 5,20240115095320756,ch.unisg.tapasroster.roster.adapter.in.formats.TaskEventJsonRepresentation,12,12,112
@@ -647,6 +657,7 @@ avgEyeFixationDuration,timestamp,className,linesOfCode,linesOfComments,someAttri
 9,20240115094049017,ch.unisg.tapasroster.roster.domain.ExecutorList,12,12,25.0
 10,20240115094410973,ch.unisg.tapasroster.roster.domain.Task,12,12,24.0
 2,20240115095127220,ch.unisg.tapasroster.TapasRosterApplication,12,12,6.0
+2,20240115092752868,ch.unisg.tapas.auctionhouse.domain.Auction,61.0,38.0,1412
 7,20240115094835226,ch.unisg.tapasroster.TapasRosterApplicationTests,12,12,6.0
 10,20240115092207820,ch.unisg.tapastasks.common.SelfValidating,4.0,4.0,17.0
 6,20240115092721241,ch.unisg.tapastasks.TapasTasksApplication,12,12,8.0
@@ -674,6 +685,7 @@ avgEyeFixationDuration,timestamp,className,linesOfCode,linesOfComments,someAttri
 13,20240115093153082,ch.unisg.tapastasks.tasks.adapter.out.web.PublishNewTaskAddedEventWebAdapter,4.0,12,35.0
 4,20240115094519231,ch.unisg.tapastasks.tasks.AddNewTaskToTaskListSystemTest,12,12,39.0
 3,20240115091231241,ch.unisg.tapastasks.tasks.application.handler.TaskAssignedHandler,12,12,16.0
+2,20240115092952868,ch.unisg.tapas.auctionhouse.domain.Auction,61.0,38.0,1412
 15,20240115094833707,ch.unisg.tapastasks.tasks.application.handler.TaskExecutedHandler,1.0,12,26.0
 8,20240115094006429,ch.unisg.tapastasks.tasks.application.handler.TaskStartedHandler,12,12,16.0
 11,20240115094838453,ch.unisg.tapastasks.tasks.application.port.in.AddNewTaskToTaskListCommand,12,12,19.0
@@ -921,3 +933,25 @@ avgEyeFixationDuration,timestamp,className,linesOfCode,linesOfComments,someAttri
 6,20240115091506964,ch.unisg.tapastasks.tasks.application.port.out.DelegatedTaskExecutedEvent,12,12,112
 14,20240115090313027,ch.unisg.tapastasks.tasks.application.port.out.NewTaskAddedEvent,12,12,12.0
 13,20240115091242332,ch.unisg.tapastasks.tasks.application.service.AddNewTaskToTaskListService,5.0,12,39.0
+8,20240115093848198,ch.unisg.tapasexecutorcalculator.executorcalculator.application.service.AssignedTaskToExecutorService,112,12,42.0
+8,20240115093948198,ch.unisg.tapasexecutorcalculator.executorcalculator.application.service.AssignedTaskToExecutorService,112,12,42.0
+8,20240115094048198,ch.unisg.tapasexecutorcalculator.executorcalculator.application.service.AssignedTaskToExecutorService,112,12,42.0
+8,20240115094148198,ch.unisg.tapasexecutorcalculator.executorcalculator.application.service.AssignedTaskToExecutorService,112,12,42.0
+8,20240115094248198,ch.unisg.tapasexecutorcalculator.executorcalculator.application.service.AssignedTaskToExecutorService,112,12,42.0
+8,20240115094348198,ch.unisg.tapasexecutorcalculator.executorcalculator.application.service.AssignedTaskToExecutorService,112,12,42.0
+8,20240115094448198,ch.unisg.tapasexecutorcalculator.executorcalculator.application.service.AssignedTaskToExecutorService,112,12,42.0
+8,20240115094548198,ch.unisg.tapasexecutorcalculator.executorcalculator.application.service.AssignedTaskToExecutorService,112,12,42.0
+8,20240115094648198,ch.unisg.tapasexecutorcalculator.executorcalculator.application.service.AssignedTaskToExecutorService,112,12,42.0
+8,20240115094748198,ch.unisg.tapasexecutorcalculator.executorcalculator.application.service.AssignedTaskToExecutorService,112,12,42.0
+8,20240115094848198,ch.unisg.tapasexecutorcalculator.executorcalculator.application.service.AssignedTaskToExecutorService,112,12,42.0
+8,20240115094948198,ch.unisg.tapasexecutorcalculator.executorcalculator.application.service.AssignedTaskToExecutorService,112,12,42.0
+8,20240115095048198,ch.unisg.tapasexecutorcalculator.executorcalculator.application.service.AssignedTaskToExecutorService,112,12,42.0
+8,20240115095148198,ch.unisg.tapasexecutorcalculator.executorcalculator.application.service.AssignedTaskToExecutorService,112,12,42.0
+25,20240115091619609,ch.unisg.tapasexecutorcalculator.executorcalculator.application.port.out.TaskUpdatedEvent,12,12,6.0
+25,20240115091719609,ch.unisg.tapasexecutorcalculator.executorcalculator.application.port.out.TaskUpdatedEvent,12,12,6.0
+25,20240115091819609,ch.unisg.tapasexecutorcalculator.executorcalculator.application.port.out.TaskUpdatedEvent,12,12,6.0
+25,20240115091919609,ch.unisg.tapasexecutorcalculator.executorcalculator.application.port.out.TaskUpdatedEvent,12,12,6.0
+25,20240115092019609,ch.unisg.tapasexecutorcalculator.executorcalculator.application.port.out.TaskUpdatedEvent,12,12,6.0
+25,20240115092119609,ch.unisg.tapasexecutorcalculator.executorcalculator.application.port.out.TaskUpdatedEvent,12,12,6.0
+25,20240115092219609,ch.unisg.tapasexecutorcalculator.executorcalculator.application.port.out.TaskUpdatedEvent,12,12,6.0
+25,20240115092319609,ch.unisg.tapasexecutorcalculator.executorcalculator.application.port.out.TaskUpdatedEvent,12,12,6.0

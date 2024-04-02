@@ -282,6 +282,11 @@ const createModelTree = treeOfBuildingsList => {
                   color.b *= 1.4;
                   current.material[0].color.set(color);
                   current.material[1].color.set(color);
+                  let roofColor = current.material[2].color;
+                  roofColor.r *= 1.4;
+                  roofColor.g *= 1.4;
+                  roofColor.b *= 1.4;
+                  current.material[2].color.set(roofColor);
                   current.material[3].color.set(color);
                   current.material[4].color.set(color);
                   current.material[5].color.set(color);
@@ -306,6 +311,11 @@ const createModelTree = treeOfBuildingsList => {
                   color.b /= 1.4;
                   current.material[0].color.set(color);
                   current.material[1].color.set(color);
+                  let roofColor = current.material[2].color;
+                  roofColor.r /= 1.4;
+                  roofColor.g /= 1.4;
+                  roofColor.b /= 1.4;
+                  current.material[2].color.set(roofColor);
                   current.material[3].color.set(color);
                   current.material[4].color.set(color);
                   current.material[5].color.set(color);

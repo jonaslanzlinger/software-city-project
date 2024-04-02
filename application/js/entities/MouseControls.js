@@ -73,6 +73,7 @@ class MouseControls {
 
       let previousHoverObject;
       let previousColor;
+      let previousRoofColor;
       renderer.getRenderer().domElement.addEventListener("mousemove", e => {
          let allModelTreeElements = document.getElementsByClassName("model-tree-element");
          for (let e of allModelTreeElements) {
@@ -93,6 +94,7 @@ class MouseControls {
             if (previousHoverObject.object instanceof Building) {
                previousHoverObject.object.material[0].color.set(previousColor);
                previousHoverObject.object.material[1].color.set(previousColor);
+               previousHoverObject.object.material[2].color.set(previousRoofColor);
                previousHoverObject.object.material[3].color.set(previousColor);
                previousHoverObject.object.material[4].color.set(previousColor);
                previousHoverObject.object.material[5].color.set(previousColor);
@@ -107,6 +109,7 @@ class MouseControls {
                previousHoverObject = obj;
                if (previousHoverObject.object instanceof Building) {
                   previousColor = new THREE.Color(obj.object.material[0].color);
+                  previousRoofColor = new THREE.Color(obj.object.material[2].color);
                } else {
                   previousColor = new THREE.Color(obj.object.material.color);
                }
@@ -126,6 +129,11 @@ class MouseControls {
                   color.b *= 1.4;
                   obj.object.material[0].color.set(color);
                   obj.object.material[1].color.set(color);
+                  let roofColor = obj.object.material[2].color;
+                  roofColor.r *= 1.4;
+                  roofColor.g *= 1.4;
+                  roofColor.b *= 1.4;
+                  obj.object.material[2].color.set(roofColor);
                   obj.object.material[3].color.set(color);
                   obj.object.material[4].color.set(color);
                   obj.object.material[5].color.set(color);
