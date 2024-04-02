@@ -68,6 +68,10 @@ class Building extends THREE.Mesh {
          this.buildingBaseColor = color;
          this.setBuildingColor(color);
       };
+      this.setBuildingRoofColor = color => {
+         this.buildingRoofColor = color;
+         this.material[2].color.set(color);
+      }
       this.buildingColor = new THREE.Color(0x000000);
       this.setBuildingColor = color => {
          this.buildingColor = color;

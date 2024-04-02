@@ -242,6 +242,7 @@ const createModelTree = treeOfBuildingsList => {
                   if (node.uuid === colorPicker.id) {
                      if (node instanceof Building) {
                         node.setBuildingBaseColor(new THREE.Color(colorPicker.value));
+                        node.setBuildingRoofColor(new THREE.Color(colorPicker.value));
                         // TODO HERE
                         // calculate the ratio between fassade and roof
                         // let colorRoof = current.material[2].color;
@@ -293,15 +294,15 @@ const createModelTree = treeOfBuildingsList => {
             element.addEventListener("mouseenter", function () {
                if (current instanceof Building) {
                   let color = current.material[0].color;
-                  color.r *= 1.4;
-                  color.g *= 1.4;
-                  color.b *= 1.4;
+                  color.r *= 5;
+                  color.g *= 5;
+                  color.b *= 5;
                   current.material[0].color.set(color);
                   current.material[1].color.set(color);
                   let roofColor = current.material[2].color;
-                  roofColor.r *= 1.4;
-                  roofColor.g *= 1.4;
-                  roofColor.b *= 1.4;
+                  roofColor.r *= 5;
+                  roofColor.g *= 5;
+                  roofColor.b *= 5;
                   current.material[2].color.set(roofColor);
                   current.material[3].color.set(color);
                   current.material[4].color.set(color);
@@ -310,9 +311,9 @@ const createModelTree = treeOfBuildingsList => {
                   // element.style.boxShadow = '0px 0px 4px rgba(0, 0, 0, 0.5)';
                } else {
                   let color = current.children[0].material.color;
-                  color.r *= 1.4;
-                  color.g *= 1.4;
-                  color.b *= 1.4;
+                  color.r *= 1.5;
+                  color.g *= 1.5;
+                  color.b *= 1.5;
                   current.children[0].material.color.set(color);
                   element.style.color = "blue";
                   // element.style.boxShadow = '0px 0px 4px rgba(0, 0, 0, 0.5)';
@@ -322,15 +323,15 @@ const createModelTree = treeOfBuildingsList => {
             element.addEventListener("mouseleave", function () {
                if (current instanceof Building) {
                   let color = current.material[0].color;
-                  color.r /= 1.4;
-                  color.g /= 1.4;
-                  color.b /= 1.4;
+                  color.r /= 5;
+                  color.g /= 5;
+                  color.b /= 5;
                   current.material[0].color.set(color);
                   current.material[1].color.set(color);
                   let roofColor = current.material[2].color;
-                  roofColor.r /= 1.4;
-                  roofColor.g /= 1.4;
-                  roofColor.b /= 1.4;
+                  roofColor.r /= 5;
+                  roofColor.g /= 5;
+                  roofColor.b /= 5;
                   current.material[2].color.set(roofColor);
                   current.material[3].color.set(color);
                   current.material[4].color.set(color);
@@ -339,9 +340,9 @@ const createModelTree = treeOfBuildingsList => {
                   // element.style.boxShadow = "none";
                } else {
                   let color = current.children[0].material.color;
-                  color.r /= 1.4;
-                  color.g /= 1.4;
-                  color.b /= 1.4;
+                  color.r /= 1.5;
+                  color.g /= 1.5;
+                  color.b /= 1.5;
                   current.children[0].material.color.set(color);
                   element.style.color = "black";
                   // element.style.boxShadow = "none";

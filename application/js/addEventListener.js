@@ -415,12 +415,13 @@ const addSliderEyeTracking = (treeOfBuildings, listOfModelTrees) => {
                color.b = color.b * ratio;
                building.setBuildingColor(color);
 
-               color = building.material[2].color;
-               ratio = (totalOccurrences / maxOccurrences) * (50 / 100);
-               color.r = ratio;
-               color.g = ratio;
-               color.b = ratio;
-               building.material[2].color.set(color);
+               building.setBuildingRoofColor(color);
+               // color = building.material[2].color;
+               // ratio = (totalOccurrences / maxOccurrences) * 0.5;
+               // color.r = ratio;
+               // color.g = ratio;
+               // color.b = ratio;
+               // building.material[2].color.set(color);
             }
          }
       });
