@@ -1,6 +1,6 @@
 class JavaSourceCodeDataObject {
    constructor(data, metaphorSelection, factors) {
-      this.buildingName = data.className;
+      this.buildingName = data.className.split(".").pop();
       this.buildingGroupingPath = data.className;
       if (metaphorSelection.dimension !== undefined) {
          this.buildingScaleX = data[metaphorSelection.dimension] * factors.dimension;

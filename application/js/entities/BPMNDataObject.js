@@ -1,6 +1,6 @@
 class BPMNDataObject {
    constructor(data, metaphorSelection, factors) {
-      this.buildingName = data.tabName_element;
+      this.buildingName = data.tabName_element.split(";").pop();
       this.buildingGroupingPath = data.tabName_element;
       if (metaphorSelection.dimension !== undefined) {
          this.buildingScaleX = data[metaphorSelection.dimension] * factors.dimension;

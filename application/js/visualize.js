@@ -185,10 +185,18 @@ const createModelTree = treeOfBuildingsList => {
             folderElement.classList.add("model-tree-element");
             folderElement.style.fontWeight = "bold";
 
-            if (current.nodeName.lastIndexOf(".") !== -1) {
-               folderElement.innerText = "\u25BF " + current.nodeName.substring(current.nodeName.lastIndexOf(".") + 1);
+            if (getData().dataType === "eye-tracking-bpmn") {
+               if (current.nodeName.lastIndexOf(";") !== -1) {
+                  folderElement.innerText = "\u25BF " + current.nodeName.substring(current.nodeName.lastIndexOf(";") + 1);
+               } else {
+                  folderElement.innerText = "\u25BF " + current.nodeName;
+               }
             } else {
-               folderElement.innerText = "\u25BF " + current.nodeName;
+               if (current.nodeName.lastIndexOf(".") !== -1) {
+                  folderElement.innerText = "\u25BF " + current.nodeName.substring(current.nodeName.lastIndexOf(".") + 1);
+               } else {
+                  folderElement.innerText = "\u25BF " + current.nodeName;
+               }
             }
 
             folderElement.style.display = "flex";
@@ -212,10 +220,18 @@ const createModelTree = treeOfBuildingsList => {
             newElement.style.display = "flex";
             newElement.style.alignItems = "center";
 
-            if (current.buildingName.lastIndexOf(".") !== -1) {
-               newElement.innerText = current.buildingName.substring(current.buildingName.lastIndexOf(".") + 1);
+            if (getData().dataType === "eye-tracking-bpmn") {
+               if (current.buildingName.lastIndexOf(";") !== -1) {
+                  newElement.innerText = current.buildingName.substring(current.buildingName.lastIndexOf(";") + 1);
+               } else {
+                  newElement.innerText = current.buildingName;
+               }
             } else {
-               newElement.innerText = current.buildingName;
+               if (current.buildingName.lastIndexOf(".") !== -1) {
+                  newElement.innerText = current.buildingName.substring(current.buildingName.lastIndexOf(".") + 1);
+               } else {
+                  newElement.innerText = current.buildingName;
+               }
             }
 
             newElement.appendChild(colorPicker);
