@@ -2,6 +2,7 @@ import { getData, setData, clearData, getEpoques, getParticipants, getTasks } fr
 import { Plane } from "./entities/Plane";
 import { buildTreesOfBuildings, visualize, removeAllRenderers, removeAllGuis, createModelTree } from "./visualize";
 import { formatDate } from "./utils";
+import { getConfig, updateConfig, getMapping, updateMapping } from "./cookie_manager";
 
 const buttonUpload = document.getElementById("button-upload");
 const buttonVisualize = document.getElementById("button-visualize");
@@ -127,6 +128,12 @@ buttonUploadData.addEventListener("click", e => {
    reader.onload = e => {
       setData(e.target.result, document.getElementById("file-format").value);
 
+      // load config from cookie if possible
+      // if not, create a new config cookie
+      // TODO here
+      console.log(getConfig());
+
+
       dimensionAttributeSelection.replaceChildren();
       heightAttributeSelection.replaceChildren();
       colorAttributeSelection.replaceChildren();
@@ -209,10 +216,24 @@ buttonStartVisualize.addEventListener("click", e => {
    frameVisualize.style.display = "none";
    viewData.style.display = "none";
 
-   // filter data depending on participant and task selection
    let data = getData();
    let participantSelection = document.getElementById("participant-selection").value;
    let taskSelection = document.getElementById("task-selection").value;
+
+   // TODO here
+   // update the mapping of attributeName to metaphor
+   const mapping = {
+      "dimension": metaphorSelection.dimension,
+      "height": metaphorSelection.height,
+      "color": metaphorSelection.color,
+      "participantSelection": participantSelection,
+      "taskSelection": taskSelection
+   }
+   if (mapping !== getMapping()) {
+      updateMapping(mapping);
+   }
+
+   // filter data depending on participant and task selection
    if (data.dataType === "eye-tracking-bpmn") {
       data.data = data.data.filter(entry => {
          return entry.participant === participantSelection.toString() && entry.taskId === taskSelection.toString();

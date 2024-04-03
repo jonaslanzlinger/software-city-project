@@ -17,4 +17,5 @@ Key Takeaways:
 * Fix all bugs
 * Last things to implement:
    * implement a way to save configuration of the mapping between metaphor -> attribute, such that we don't have to hard code anything.
+      * because the tool is stateless and does not have a server where we can store configureations, I decided to store the config in the cookies with a default lifetime of 1 hour.
    * drag & drop moving around elements in the visualization.
