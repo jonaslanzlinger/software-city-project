@@ -63,6 +63,9 @@ class Building extends THREE.Mesh {
       this.originalScaleY = dataObject.buildingScaleY;
       this.scale.y = dataObject.buildingScaleY;
       this.buildingData = dataObject.buildingData;
+
+      this.metaphorSelection = metaphorSelection;
+
       this.buildingBaseColor = new THREE.Color(0x777777);
       this.setBuildingBaseColor = color => {
          this.buildingBaseColor = color;

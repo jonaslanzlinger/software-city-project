@@ -1,37 +1,77 @@
-// stores the mapping of participant -> attributeName, and taskId -> attributeName in a cookie
-const updateConfig = (config) => {
+import { v4 as uuidv4 } from 'uuid';
+
+// stores the config (groupingPath, timestamp, participant, taskId)
+const updateConfig = (attributeNames, config) => {
    const date = new Date();
    date.setTime(date.getTime() + (1 * 1 * 60 * 60 * 1000)); // 1 hour in milliseconds
    const expires = `expires=${date.toUTCString()}`;
-   document.cookie = `config=${JSON.stringify({ config })};path=/;${expires}`;
-}
+   const data = {
+      attributeNames,
+      config
+   };
+   const uuid = uuidv4();
+   let name = `config-${uuid}`;
 
-// returns the mapping of participant -> attributeName, and taskId -> attributeName
-const getConfig = () => {
-   const cookies = document.cookie.split('; ');
-   const config = cookies.find(cookie => cookie.startsWith('config='));
-   if (config) {
-      return JSON.parse(config.split('=')[1]);
+   // get config cookie where all attribute names are the same
+   let oldConfig = getConfig(attributeNames);
+   if (oldConfig.length > 0) {
+      name = oldConfig[0].split('=')[0];
    }
-   return {};
+   document.cookie = `${name}=${JSON.stringify(data)};path=/;${expires}`;
 }
 
-// stores the mapping of attributeName to metaphor selection in a cookie
-const updateMapping = (config) => {
+// returns the config where all attribute names are the same
+const getConfig = attributeNames => {
+   const cookies = document.cookie.split('; ');
+   // get all cookies that start with 'config-'
+   const configs = cookies.filter(cookie => cookie.startsWith('config-'));
+   // get now the config that has the same attribute names as the provided attributeNames parameter
+   configs.forEach(entry => {
+      const entryNamesSorted = JSON.parse(entry.split('=')[1]).attributeNames.sort().toString();
+      const attributeNamesSorted = attributeNames.sort().toString();
+
+      if (entryNamesSorted === attributeNamesSorted) {
+         return entry;
+      }
+   });
+   return configs;
+}
+
+// stores the mapping of metaphors to attributes
+const updateMapping = (attributeNames, mapping) => {
    const date = new Date();
    date.setTime(date.getTime() + (1 * 1 * 60 * 60 * 1000)); // 1 hour in milliseconds
    const expires = `expires=${date.toUTCString()}`;
-   document.cookie = `mapping=${JSON.stringify({ config })};path=/;${expires}`;
+   const data = {
+      attributeNames,
+      mapping
+   };
+   const uuid = uuidv4();
+   let name = `mapping-${uuid}`;
+
+   // get mapping cookie where all attribute names are the same
+   let oldMapping = getMapping(attributeNames);
+   if (oldMapping.length > 0) {
+      name = oldMapping[0].split('=')[0];
+   }
+   document.cookie = `${name}=${JSON.stringify(data)};path=/;${expires}`;
 }
 
-// returns the mapping of attributeName to metaphor selection
-const getMapping = () => {
+// returns the mapping where all attribute names are the same
+const getMapping = attributeNames => {
    const cookies = document.cookie.split('; ');
-   const mapping = cookies.find(cookie => cookie.startsWith('mapping='));
-   if (mapping) {
-      return JSON.parse(mapping.split('=')[1]);
-   }
-   return {};
+   // get all cookies that start with 'mapping-'
+   const mappings = cookies.filter(cookie => cookie.startsWith('mapping-'));
+   // get now the mapping that has the same attribute names as the provided attributeNames parameter
+   mappings.forEach(entry => {
+      const entryNamesSorted = JSON.parse(entry.split('=')[1]).attributeNames.sort().toString();
+      const attributeNamesSorted = attributeNames.sort().toString();
+
+      if (entryNamesSorted === attributeNamesSorted) {
+         return entry;
+      }
+   });
+   return mappings;
 }
 
 export { updateConfig, getConfig, updateMapping, getMapping };

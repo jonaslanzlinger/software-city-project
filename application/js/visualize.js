@@ -5,7 +5,7 @@ import { TreeOfBuildings } from "./entities/TreeOfBuildings";
 import { LightSettings } from "./entities/LightSettings";
 import { Gui } from "./entities/Gui";
 import { MouseControls } from "./entities/MouseControls";
-import { addSlider, addSliderEyeTracking } from "./addEventListener";
+import { addSlider, addSliderEyeTracking } from "./timeline";
 import { calculateNormalizeFactors, getData, getEpoques } from "./data";
 import { Plane } from "./entities/Plane";
 import { Building } from "./entities/Building";

@@ -67,7 +67,8 @@ select {
 }
 
 #button-upload-data,
-#button-start-visualize {
+#button-start-visualize,
+#button-save-config {
    margin-top: 10px;
 }
 
@@ -83,6 +84,21 @@ i {
 
 .button-close:hover {
    cursor: pointer;
+}
+
+#timeline-modes-container {
+   display: none;
+   position: absolute;
+   top: 1%;
+   left: 60%;
+   width: 100px;
+   margin: 0 auto;
+   text-align: center;
+}
+
+#window-width {
+   display: none;
+   width: 50px;
 }
 
 #slider-container {

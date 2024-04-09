@@ -23,9 +23,10 @@
 
   <div id="nav" class="container">
     <button id="button-upload" class="btn btn-default">Upload</button>
-    <button id="button-visualize" class="btn btn-default">Visualize</button>
-    <button id="button-view-data" class="btn btn-default">View Data</button>
-    <button id="button-model-tree" class="btn btn-default">Model Tree</button>
+    <button id="button-config" class="btn btn-default" disabled>Config</button>
+    <button id="button-visualize" class="btn btn-default" disabled>Visualize</button>
+    <button id="button-view-data" class="btn btn-default" disabled>View Data</button>
+    <button id="button-model-tree" class="btn btn-default" disabled>Model Tree</button>
   </div>
 
   <div id="view-data" class="container">
@@ -67,6 +68,35 @@
     </form>
   </div>
 
+  <div id="frame-config" class="container frame">
+    <i class="fa fa-times fa-lg button-close"></i>
+    <div>
+      <label for="groupingPath-selection" id="groupingPath-selection-label">groupingPath:</label>
+      <select id="groupingPath-selection" name="groupingPath-selection">
+      </select>
+    </div>
+
+    <div>
+      <label for="timestamp-selection" id="timestamp-selection-label">timestamp:</label>
+      <select id="timestamp-selection" name="timestamp-selection">
+      </select>
+    </div>
+
+    <div>
+      <label for="participant-selection" id="participant-selection-label">participant:</label>
+      <select id="participant-selection" name="participant-selection">
+      </select>
+    </div>
+
+    <div>
+      <label for="taskId-selection" id="taskId-selection-label">taskId:</label>
+      <select id="taskId-selection" name="taskId-selection">
+      </select>
+    </div>
+
+    <button id="button-save-config" class="btn btn-default">Save</button>
+  </div>
+
   <div id="frame-visualize" class="container frame">
     <i class="fa fa-times fa-lg button-close"></i>
     <div>
@@ -85,11 +115,11 @@
       </select>
     </div>
 
-    <label id="participant-selection-label" for="participant-selection">Participant:</label>
-    <select id="participant-selection"></select>
+    <label id="participant-label" for="participant">Participant:</label>
+    <select id="participant"></select>
 
-    <label id="task-selection-label" for="task-selection">Task:</label>
-    <select id="task-selection"></select>
+    <label id="taskId-label" for="taskId">Task:</label>
+    <select id="taskId"></select>
 
     <label for="city-dimension">City Dimension:</label>
     <input type="number" id="city-dimension" name="city-dimension"
@@ -117,6 +147,18 @@
     </div>
     <p id="slider-value">2024-01-01, 10:00:00:000</p>
   </div>
+
+  <div id="timeline-modes-container">
+    <label for="cumulative">Cumulative</label>
+    <input type="radio" id="cumulative" name="mode" value="cumulative" checked>
+
+    <label for="snapshots">Snapshots</label>
+    <input type="radio" id="snapshots" name="mode" value="snapshots">
+    <input type="number" id="window-width" min="0" max="100">
+
+  </div>
+
+
 
   <!-- loading instructions here -->
   <div id="instructions">
@@ -161,8 +203,7 @@
     </div>
   </div>
 
-
-  <script type="module" src="./js/addEventListener.js"></script>
+  <script type="module" src="./js/index.js"></script>
 
 </body>
 
