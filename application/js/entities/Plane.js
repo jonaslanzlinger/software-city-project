@@ -5,7 +5,8 @@ class Plane extends THREE.Group {
       super();
       const groupGeometry = new THREE.BoxGeometry();
       const groupMaterial = new THREE.MeshBasicMaterial({
-         color: 0xadadad,
+         // color: 0xadadad,
+         color: new THREE.Color("hsl(0, 0%, 40%)"),
          polygonOffset: true,
          polygonOffsetFactor: 0.1,
          polygonOffsetUnits: 0.1,
@@ -15,8 +16,9 @@ class Plane extends THREE.Group {
 
       let geo = new THREE.EdgesGeometry(groupBox.geometry);
       let mat = new THREE.LineBasicMaterial({
-         color: 0x000000,
-         opacity: 0.4,
+         // color: 0x000000,
+         color: new THREE.Color("hsl(0, 0%, 10%)"),
+         // opacity: 0.4,
          transparent: true,
       });
       let wireframe = new THREE.LineSegments(geo, mat);

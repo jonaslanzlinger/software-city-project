@@ -151,12 +151,6 @@ const addSliderEyeTracking = (treeOfBuildings, listOfModelTrees) => {
                building.setBuildingColor(color);
 
                building.setBuildingRoofColor(color);
-               // color = building.material[2].color;
-               // ratio = (totalOccurrences / maxOccurrences) * 0.5;
-               // color.r = ratio;
-               // color.g = ratio;
-               // color.b = ratio;
-               // building.material[2].color.set(color);
             }
          }
       });
@@ -242,7 +236,6 @@ const addSliderEyeTracking = (treeOfBuildings, listOfModelTrees) => {
 
                   } else if (timelineMode === "snapshots" && new Date(entry.timestamp) >= lowerWindowBounds && new Date(entry.timestamp) <= upperWindowBounds) {
 
-                     console.log(windowWidth.value);
                      heightSnapshotsValue += parseInt(entry[heightMetaphor]);
                      heightSnapshotsOccurences += 1;
 

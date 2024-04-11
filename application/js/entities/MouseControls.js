@@ -77,7 +77,7 @@ class MouseControls {
       renderer.getRenderer().domElement.addEventListener("mousemove", e => {
          let allModelTreeElements = document.getElementsByClassName("model-tree-element");
          for (let e of allModelTreeElements) {
-            e.style.color = "black";
+            e.style.color = new THREE.Color("hsl(0, 0%, 0%)");;
             // e.style.boxShadow = "none";
          }
 
@@ -114,48 +114,37 @@ class MouseControls {
                   previousColor = new THREE.Color(obj.object.material.color);
                }
 
-               // calculate complementary color
-               // color.r = 1 - color.r;
-               // color.g = 1 - color.g;
-               // color.b = 1 - color.b;
-
                // now, just make hovered elements brighter
                if (obj.object instanceof Building) {
                   let color = obj.object.material[0].color;
-                  let luminance = 0.299 * color.r + 0.587 * color.g + 0.114 * color.b;
-                  if (luminance >= 0.5) {
-                     color.r -= Math.max(0.3, 0.6 * (luminance - 0.5) ** 3);
-                     color.g -= Math.max(0.3, 0.6 * (luminance - 0.5) ** 3);
-                     color.b -= Math.max(0.3, 0.6 * (luminance - 0.5) ** 3);
+                  let hslColor = { h: 0, s: 0, l: 0 }
+                  color.getHSL(hslColor);
+                  if (hslColor.l >= 0.5) {
+                     hslColor.l -= 0.2;
                   } else {
-                     color.r += Math.max(0.1, 0.2 * (0.5 - luminance) ** 3);
-                     color.g += Math.max(0.1, 0.2 * (0.5 - luminance) ** 3);
-                     color.b += Math.max(0.1, 0.2 * (0.5 - luminance) ** 3);
+                     hslColor.l += 0.2;
                   }
-                  obj.object.material[0].color.set(color);
-                  obj.object.material[1].color.set(color);
+                  obj.object.material[0].color.setHSL(hslColor.h, hslColor.s, hslColor.l);
+                  obj.object.material[1].color.setHSL(hslColor.h, hslColor.s, hslColor.l);
 
                   let roofColor = obj.object.material[2].color;
-                  let roofLuminance = 0.299 * roofColor.r + 0.587 * roofColor.g + 0.114 * roofColor.b;
-                  if (roofLuminance >= 0.5) {
-                     roofColor.r -= Math.max(0.3, 0.6 * (roofLuminance - 0.5) ** 3);
-                     roofColor.g -= Math.max(0.3, 0.6 * (roofLuminance - 0.5) ** 3);
-                     roofColor.b -= Math.max(0.3, 0.6 * (roofLuminance - 0.5) ** 3);
+                  let roofHslColor = { h: 0, s: 0, l: 0 }
+                  roofColor.getHSL(roofHslColor);
+                  if (roofHslColor.l >= 0.5) {
+                     roofHslColor.l -= 0.2;
                   } else {
-                     roofColor.r += Math.max(0.1, 0.2 * (0.5 - roofLuminance) ** 3);
-                     roofColor.g += Math.max(0.1, 0.2 * (0.5 - roofLuminance) ** 3);
-                     roofColor.b += Math.max(0.1, 0.2 * (0.5 - roofLuminance) ** 3);
+                     roofHslColor.l += 0.2;
                   }
-                  obj.object.material[2].color.set(roofColor);
-                  obj.object.material[3].color.set(color);
-                  obj.object.material[4].color.set(color);
-                  obj.object.material[5].color.set(color);
+                  obj.object.material[2].color.setHSL(roofHslColor.h, roofHslColor.s, roofHslColor.l);
+                  obj.object.material[3].color.setHSL(hslColor.h, hslColor.s, hslColor.l);
+                  obj.object.material[4].color.setHSL(hslColor.h, hslColor.s, hslColor.l);
+                  obj.object.material[5].color.setHSL(hslColor.h, hslColor.s, hslColor.l);
                } else {
                   let color = obj.object.material.color;
-                  color.r *= 1.5;
-                  color.g *= 1.5;
-                  color.b *= 1.5;
-                  obj.object.material.color.set(color);
+                  let hslColor = { h: 0, s: 0, l: 0 }
+                  color.getHSL(hslColor);
+                  hslColor.l += 0.2;
+                  obj.object.material.color.setHSL(hslColor.h, hslColor.s, hslColor.l);
                }
 
                for (let e of allModelTreeElements) {

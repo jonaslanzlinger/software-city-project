@@ -2,7 +2,6 @@ import { Building } from "./Building";
 import { Plane } from "./Plane";
 import { Mesh } from "three";
 import pack from "bin-pack";
-import { colors } from "../colors";
 import { getData } from "../data";
 
 class TreeOfBuildings {

@@ -23,13 +23,15 @@ class Building extends THREE.Mesh {
 
       const boxGeometry = new THREE.BoxGeometry();
       const boxMaterial = new THREE.MeshBasicMaterial({
-         color: 0x999999,
+         // color: 0x999999,
+         color: new THREE.Color("hsl(0, 100%, 50%)"),
          polygonOffset: true,
          polygonOffsetFactor: 0.1,
          polygonOffsetUnits: 0.1,
       });
       const rooftopMaterial = new THREE.MeshBasicMaterial({
-         color: 0x999999,
+         // color: 0x999999,
+         color: new THREE.Color("hsl(0, 100%, 50%)"),
       });
 
       // set different materials for the rooftop side
@@ -47,8 +49,9 @@ class Building extends THREE.Mesh {
       // here, we add the border of the box
       let geo = new THREE.EdgesGeometry(this.geometry);
       let mat = new THREE.LineBasicMaterial({
-         color: 0x000000,
-         opacity: 0.6,
+         // color: 0x000000,
+         color: new THREE.Color("hsl(0, 0%, 10%)"),
+         // opacity: 0.6,
          transparent: true,
       });
       let wireframe = new THREE.LineSegments(geo, mat);
@@ -66,7 +69,7 @@ class Building extends THREE.Mesh {
 
       this.metaphorSelection = metaphorSelection;
 
-      this.buildingBaseColor = new THREE.Color(0x777777);
+      this.buildingBaseColor = new THREE.Color("hsl(0, 0%, 30%)");
       this.setBuildingBaseColor = color => {
          this.buildingBaseColor = color;
          this.setBuildingColor(color);
@@ -75,7 +78,7 @@ class Building extends THREE.Mesh {
          this.buildingRoofColor = color;
          this.material[2].color.set(color);
       }
-      this.buildingColor = new THREE.Color(0x000000);
+      this.buildingColor = new THREE.Color("hsl(0, 0%, 30%)");
       this.setBuildingColor = color => {
          this.buildingColor = color;
          this.material[0].color.set(color);

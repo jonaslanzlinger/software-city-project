@@ -1,11 +1,12 @@
 import * as dat from "dat.gui";
+import * as THREE from "three";
 
 class Gui {
    constructor(group, treeOfBuildings) {
       this.gui = new dat.GUI();
       this.optionsThresholds = {
          height: 0,
-         color: 0x000000,
+         color: new THREE.Color("hsl(0, 0%, 0%)"),
          apply: function () {
             let height = this.height;
             let color = this.color;
