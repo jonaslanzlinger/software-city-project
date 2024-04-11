@@ -48,7 +48,8 @@ const processData = config => {
          let attributeName = dataStore.attributeNames[i];
 
          if (attributeName === config.groupingPath) {
-            jsonObject["groupingPath"] = entry[attributeName];
+            // if the dataType is java-source-code, replace the "." with ";"
+            jsonObject["groupingPath"] = entry[attributeName].replace(/\./g, ";")
          } else if (attributeName === config.timestamp) {
             let year = parseInt(entry[attributeName].substring(0, 4));
             let month = parseInt(entry[attributeName].substring(4, 6)) - 1;

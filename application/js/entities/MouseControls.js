@@ -3,11 +3,9 @@ import { Building } from "./Building";
 
 class MouseControls {
    constructor(document, camera, scene, renderer) {
-      this.addMouseInteractions(document, camera, scene, renderer);
       this.mousePosition = null;
-   }
 
-   addMouseInteractions(document, camera, scene, renderer) {
+      // add mouse listeners
       renderer.getRenderer().domElement.addEventListener("mousedown", e => {
          const mouse = new THREE.Vector2();
          mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
@@ -76,9 +74,9 @@ class MouseControls {
       let previousRoofColor;
       renderer.getRenderer().domElement.addEventListener("mousemove", e => {
          let allModelTreeElements = document.getElementsByClassName("model-tree-element");
-         for (let e of allModelTreeElements) {
-            e.style.color = new THREE.Color("hsl(0, 0%, 0%)");;
-            // e.style.boxShadow = "none";
+
+         for (let element of allModelTreeElements) {
+            element.style.color = "black";
          }
 
          const mouse = new THREE.Vector2();
@@ -147,23 +145,21 @@ class MouseControls {
                   obj.object.material.color.setHSL(hslColor.h, hslColor.s, hslColor.l);
                }
 
+               // highlight the corresponding modelTreeElement
                for (let e of allModelTreeElements) {
                   if (obj.object instanceof Building) {
                      if (e.id === obj.object.uuid) {
                         e.style.color = "blue";
-                        // e.style.boxShadow = '0px 0px 4px rgba(0, 0, 0, 0.5)';
                      }
                   } else {
                      if (e.id === obj.object.parent.uuid) {
                         e.children[0].style.color = "blue";
-                        // e.style.boxShadow = '0px 0px 4px rgba(0, 0, 0, 0.5)';
                      }
                   }
                }
                break;
             }
          }
-
       });
    }
 }

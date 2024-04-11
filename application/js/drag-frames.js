@@ -1,5 +1,9 @@
 
+const frameInfo = document.getElementById("frame-info");
+const frameModelTree = document.getElementById("frame-model-tree");
+
 let frameInfoOffsetLeft = 0, frameInfoOffsetTop = 0;
+
 frameInfo.addEventListener("mousedown", e => {
    let rect = frameInfo.getBoundingClientRect();
    frameInfoOffsetLeft = e.clientX - (rect.left + rect.width / 2);

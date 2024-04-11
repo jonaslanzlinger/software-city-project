@@ -185,18 +185,10 @@ const createModelTree = treeOfBuildingsList => {
             folderElement.classList.add("model-tree-element");
             folderElement.style.fontWeight = "bold";
 
-            if (getData().dataType === "eye-tracking-bpmn") {
-               if (current.nodeName.lastIndexOf(";") !== -1) {
-                  folderElement.innerText = "\u25BF " + current.nodeName.substring(current.nodeName.lastIndexOf(";") + 1);
-               } else {
-                  folderElement.innerText = "\u25BF " + current.nodeName;
-               }
+            if (current.nodeName.lastIndexOf(";") !== -1) {
+               folderElement.innerText = "\u25BF " + current.nodeName.substring(current.nodeName.lastIndexOf(";") + 1);
             } else {
-               if (current.nodeName.lastIndexOf(".") !== -1) {
-                  folderElement.innerText = "\u25BF " + current.nodeName.substring(current.nodeName.lastIndexOf(".") + 1);
-               } else {
-                  folderElement.innerText = "\u25BF " + current.nodeName;
-               }
+               folderElement.innerText = "\u25BF " + current.nodeName;
             }
 
             folderElement.style.display = "flex";
@@ -220,18 +212,10 @@ const createModelTree = treeOfBuildingsList => {
             newElement.style.display = "flex";
             newElement.style.alignItems = "center";
 
-            if (getData().dataType === "eye-tracking-bpmn") {
-               if (current.buildingName.lastIndexOf(";") !== -1) {
-                  newElement.innerText = current.buildingName.substring(current.buildingName.lastIndexOf(";") + 1);
-               } else {
-                  newElement.innerText = current.buildingName;
-               }
+            if (current.buildingName.lastIndexOf(";") !== -1) {
+               newElement.innerText = current.buildingName.substring(current.buildingName.lastIndexOf(";") + 1);
             } else {
-               if (current.buildingName.lastIndexOf(".") !== -1) {
-                  newElement.innerText = current.buildingName.substring(current.buildingName.lastIndexOf(".") + 1);
-               } else {
-                  newElement.innerText = current.buildingName;
-               }
+               newElement.innerText = current.buildingName;
             }
 
             newElement.appendChild(colorPicker);
@@ -243,24 +227,6 @@ const createModelTree = treeOfBuildingsList => {
                      if (node instanceof Building) {
                         node.setBuildingBaseColor(new THREE.Color(colorPicker.value));
                         node.setBuildingRoofColor(new THREE.Color(colorPicker.value));
-                        // TODO HERE
-                        // calculate the ratio between fassade and roof
-                        // let colorRoof = current.material[2].color;
-                        // let colorPickerRGB = [parseInt(colorPicker.value.substring(1, 3), 16) / 255,
-                        // parseInt(colorPicker.value.substring(3, 5), 16) / 255,
-                        // parseInt(colorPicker.value.substring(5, 7), 16) / 255];
-                        // let ratioR = node.material[2].color.r / node.material[0].color.r;
-                        // let ratioG = node.material[2].color.g / node.material[0].color.g;
-                        // let ratioB = node.material[2].color.b / node.material[0].color.b;
-                        // colorRoof.r = ratioR === 0 ? colorPickerRGB[0] : colorPickerRGB[0] * ratioR;
-                        // colorRoof.g = ratioG === 0 ? colorPickerRGB[1] : colorPickerRGB[1] * ratioG;
-                        // colorRoof.b = ratioB === 0 ? colorPickerRGB[2] : colorPickerRGB[2] * ratioB;
-                        // node.material[0].color.set(colorPicker.value);
-                        // node.material[1].color.set(colorPicker.value);
-                        // node.material[2].color.set(colorRoof);
-                        // node.material[3].color.set(colorPicker.value);
-                        // node.material[4].color.set(colorPicker.value);
-                        // node.material[5].color.set(colorPicker.value);
                      }
                   }
                }

@@ -37,12 +37,7 @@ class TreeOfBuildings {
       // here, we build the actual N-ary tree structure
       for (let i = 0; i < this.list.length; i++) {
          let building = this.list[i];
-         let packagePathList;
-         if (getData().dataType === "eye-tracking-bpmn") {
-            packagePathList = building.buildingGroupingPath.split(";");
-         } else {
-            packagePathList = building.buildingGroupingPath.split(".");
-         }
+         let packagePathList = building.buildingGroupingPath.split(";");
          let prevNode = this.baseNode;
          let nodeName = "";
          for (let j = 0; j < packagePathList.length; j++) {
@@ -50,8 +45,8 @@ class TreeOfBuildings {
                nodeName = nodeName + ";" + packagePathList[j];
                nodeName = nodeName.replace(/^;+/, "");
             } else {
-               nodeName = nodeName + "." + packagePathList[j];
-               nodeName = nodeName.replace(/^\.+/, "");
+               nodeName = nodeName + ";" + packagePathList[j];
+               nodeName = nodeName.replace(/^\;+/, "");
             }
             // create new node if node is not yet included OR node is a leaf
             if (
@@ -75,12 +70,12 @@ class TreeOfBuildings {
       // here, we build the actual N-ary tree structure
       for (let i = 0; i < listOfVisibleBuildings.length; i++) {
          let building = listOfVisibleBuildings[i];
-         let packagePathList = building.buildingGroupingPath.split(".");
+         let packagePathList = building.buildingGroupingPath.split(";");
          let prevNode = this.baseNode;
          let nodeName = "";
          for (let j = 0; j < packagePathList.length; j++) {
-            nodeName = nodeName + "." + packagePathList[j];
-            nodeName = nodeName.replace(/^\.+/, "");
+            nodeName = nodeName + ";" + packagePathList[j];
+            nodeName = nodeName.replace(/^\;+/, "");
             // create new node if node is not yet included OR node is a leaf
             if (
                this.getNodeByKey(this.baseNode, nodeName) === null ||
