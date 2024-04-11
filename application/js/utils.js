@@ -16,7 +16,7 @@ const rgbToHsl = (r, g, b) => {
    var h, s, l = (max + min) / 2;
 
    if (max == min) {
-      h = s = 0; // achromatic
+      h = s = 0;
    } else {
       var d = max - min;
       s = l > 0.5 ? d / (2 - max - min) : d / (max + min);

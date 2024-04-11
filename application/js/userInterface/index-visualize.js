@@ -1,4 +1,4 @@
-import { getData, getParticipants, getTasks } from "./data.js";
+import { getData, getParticipants, getTasks } from "../data.js";
 import { buildTreesOfBuildings, visualize } from "./visualize.js";
 import { getMapping, updateMapping } from "./cookie_manager.js";
 

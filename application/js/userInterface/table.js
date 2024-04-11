@@ -1,5 +1,5 @@
-import { getData } from "./data.js";
-import { formatDate } from "./utils.js";
+import { getData } from "../data.js";
+import { formatDate } from "../utils.js";
 
 
 const buttonClearData = document.getElementById("button-clear-data");

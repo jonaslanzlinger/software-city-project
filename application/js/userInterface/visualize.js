@@ -1,14 +1,14 @@
 import * as THREE from "three";
-import { Renderer } from "./entities/Renderer";
-import { VisualControls } from "./entities/VisualControls";
-import { TreeOfBuildings } from "./entities/TreeOfBuildings";
-import { LightSettings } from "./entities/LightSettings";
-import { Gui } from "./entities/Gui";
-import { MouseControls } from "./entities/MouseControls";
-import { addSlider, addSliderEyeTracking } from "./timeline";
-import { calculateNormalizeFactors, getData, getEpoques } from "./data";
-import { Plane } from "./entities/Plane";
-import { Building } from "./entities/Building";
+import { Renderer } from "../visualization/Renderer";
+import { VisualControls } from "../visualization/VisualControls";
+import { TreeOfBuildings } from "../visualization/TreeOfBuildings";
+import { LightSettings } from "../visualization/LightSettings";
+import { Gui } from "../visualization/Gui";
+import { MouseControls } from "../visualization/MouseControls";
+import { addSlider, addSliderEyeTracking } from "../visualization/timeline";
+import { calculateNormalizeFactors, getData, getEpoques } from "../data";
+import { Plane } from "../visualization/Plane";
+import { Building } from "../visualization/Building";
 // This is for VR Button
 import { VRButton } from "three/examples/jsm/webxr/VRButton";
 

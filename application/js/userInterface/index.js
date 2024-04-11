@@ -1,4 +1,4 @@
-import { getData, clearData, processData } from "./data";
+import { getData, clearData, processData } from "../data";
 import { removeAllRenderers, removeAllGuis } from "./visualize";
 import { updateConfig } from "./cookie_manager";
 import { uploadData } from "./index-upload";

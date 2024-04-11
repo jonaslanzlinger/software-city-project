@@ -1,6 +1,6 @@
-import { formatDate } from "./utils.js";
-import { getData } from "./data.js";
-import { Plane } from "./entities/Plane.js";
+import { formatDate } from "../utils.js";
+import { getData } from "../data.js";
+import { Plane } from "./Plane.js";
 
 const sliderContainer = document.getElementById("slider-container");
 const valueDisplay = document.getElementById("slider-value");

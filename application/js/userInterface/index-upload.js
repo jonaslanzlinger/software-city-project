@@ -1,4 +1,4 @@
-import { setData, getData, getParticipants, getTasks } from "./data.js";
+import { setData, getData, getParticipants, getTasks } from "../data.js";
 import { buildTable } from "./table.js";
 import { getConfig } from "./cookie_manager.js";
 
