@@ -1,3 +1,5 @@
+import { timestampToDate } from "./utils";
+
 let dataStore = {
    data: [],
    attributeNames: [],
@@ -51,14 +53,7 @@ const processData = config => {
             // if the dataType is java-source-code, replace the "." with ";"
             jsonObject["groupingPath"] = entry[attributeName].replace(/\./g, ";")
          } else if (attributeName === config.timestamp) {
-            let year = parseInt(entry[attributeName].substring(0, 4));
-            let month = parseInt(entry[attributeName].substring(4, 6)) - 1;
-            let day = parseInt(entry[attributeName].substring(6, 8));
-            let hour = parseInt(entry[attributeName].substring(8, 10));
-            let minute = parseInt(entry[attributeName].substring(10, 12));
-            let second = parseInt(entry[attributeName].substring(12, 14));
-            let millisecond = parseInt(entry[attributeName].substring(14));
-            jsonObject["timestamp"] = new Date(year, month, day, hour, minute, second, millisecond);
+            jsonObject["timestamp"] = timestampToDate(entry[attributeName]);
          } else if (attributeName === config.participant && dataStore.dataType !== "java-source-code") {
             jsonObject["participant"] = entry[attributeName];
          } else if (attributeName === config.taskId && dataStore.dataType !== "java-source-code") {

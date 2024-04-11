@@ -10,6 +10,14 @@ const formatDate = date => {
    return `${year}-${month}-${day}, ${hours}:${minutes}:${seconds}:${milliseconds}`;
 }
 
+/**
+ * Method to convert RGB to HSL
+ * 
+ * @param {number} r // between 0-255
+ * @param {number} g // between 0-255 
+ * @param {number} b // between 0-255 
+ * @returns {array[float]} // array of floats [h, s, l] where h is between 0-360, s is between 0-100 and l is between 0-100
+ */
 const rgbToHsl = (r, g, b) => {
    r /= 255, g /= 255, b /= 255;
    var max = Math.max(r, g, b), min = Math.min(r, g, b);
@@ -30,4 +38,22 @@ const rgbToHsl = (r, g, b) => {
    return [h * 360, s * 100, l * 100];
 }
 
-export { formatDate, rgbToHsl }
+/**
+ * Method to convert a timestamp to a date in the format "YYYY-MM-DD, HH:MM:SS:SSS"
+ * 
+ * @param {string} timestamp // timestamp in the format "YYYYMMDDHHmmssSSS"
+ * @returns {Date} // Date in the format "YYYY-MM-DD, HH:MM:SS:SSS"
+ */
+const timestampToDate = timestamp => {
+   let year = parseInt(timestamp.substring(0, 4));
+   // substraction of 1 because the month is zero-based
+   let month = parseInt(timestamp.substring(4, 6)) - 1;
+   let day = parseInt(timestamp.substring(6, 8));
+   let hour = parseInt(timestamp.substring(8, 10));
+   let minute = parseInt(timestamp.substring(10, 12));
+   let second = parseInt(timestamp.substring(12, 14));
+   let millisecond = parseInt(timestamp.substring(14));
+   return new Date(year, month, day, hour, minute, second, millisecond);
+}
+
+export { formatDate, rgbToHsl, timestampToDate }
