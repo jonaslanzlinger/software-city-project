@@ -11,6 +11,7 @@ const snapshotsRadio = document.getElementById("snapshots");
 const windowWidth = document.getElementById("window-width");
 
 const checkboxAggregated = document.getElementById("aggregated");
+const labelAggregated = document.getElementById("aggregated-label");
 
 // global variable for timeline mode
 let timelineMode = "cumulative";
@@ -261,10 +262,12 @@ const toggleTimelineMode = () => {
       windowWidth.style.display = "none";
       timelineMode = "cumulative";
       checkboxAggregated.style.display = "block";
+      labelAggregated.style.display = "block";
    } else {
       windowWidth.style.display = "block";
       timelineMode = "snapshots";
       checkboxAggregated.style.display = "none";
+      labelAggregated.style.display = "none";
    }
 }
 

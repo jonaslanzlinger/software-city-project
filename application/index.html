@@ -148,15 +148,18 @@
   </div>
 
   <div id="timeline-modes-container">
-    <label for="cumulative">Cumulative</label>
-    <input type="radio" id="cumulative" name="mode" value="cumulative" checked>
+    <div class="timeline-modes-subcontainer">
+      <label for="cumulative">Cumulative</label>
+      <input type="radio" id="cumulative" name="mode" value="cumulative" checked>
+      <label id="aggregated-label" for="aggregated">Aggregated</label>
+      <input type="checkbox" id="aggregated" name="aggregated" value="aggregated" checked>
+    </div>
 
-    <label for="snapshots">Snapshots</label>
-    <input type="radio" id="snapshots" name="mode" value="snapshots">
-    <input type="number" id="window-width" min="0" max="100">
-
-    <label for="aggregated">Aggregated</label>
-    <input type="checkbox" id="aggregated" name="aggregated" value="aggregated" checked>
+    <div class="timeline-modes-subcontainer">
+      <label for="snapshots">Snapshots</label>
+      <input type="radio" id="snapshots" name="mode" value="snapshots">
+      <input type="number" id="window-width" min="0" max="100">
+    </div>
   </div>
 
 

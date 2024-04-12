@@ -31,6 +31,7 @@ const buttonAlertCloseUploadData = document.getElementById("button-alert-close-u
 const buttonAlertCloseClearData = document.getElementById("button-alert-close-clear-data");
 
 const sliderContainer = document.getElementById("slider-container");
+const timelineModesContainer = document.getElementById("timeline-modes-container");
 
 buttonUpload.addEventListener("click", () => {
    frameConfig.style.display = "none";
@@ -76,6 +77,7 @@ buttonViewData.addEventListener("click", () => {
    frameModelTree.style.display = "none";
    removeRenderersAndGuis();
    sliderContainer.style.display = "none";
+   timelineModesContainer.style.display = "none";
    viewData.style.display = "block";
 });
 
@@ -95,7 +97,7 @@ buttonClearData.addEventListener("click", () => {
    toggleConfigAndViewDataButton(true);
    toggleVisualizeAndModelTreeButton(true);
    // hide table
-   document.getElementById("table-data").style.display = "none";
+   document.getElementById("view-data").style.display = "none";
 });
 
 buttonSaveConfig.addEventListener("click", () => {
