@@ -1,9 +1,9 @@
-import { getData, clearData, processData } from "../data";
-import { removeAllRenderers, removeAllGuis } from "./visualize";
-import { updateConfig } from "./cookie_manager";
-import { uploadData } from "./index-upload";
+import { clearData, processOriginalData } from "../data";
+import { removeRenderersAndGuis } from "../data";
+import { updateConfig } from "./cookieManager";
+import { uploadData } from "./upload";
 import { buildTable } from "./table";
-import { prepareFrame } from "./index-visualize";
+import { prepareVisualizeFrame } from "./visualize";
 
 const buttonUpload = document.getElementById("button-upload");
 const buttonConfig = document.getElementById("button-config");
@@ -74,8 +74,7 @@ buttonViewData.addEventListener("click", () => {
    frameVisualize.style.display = "none";
    frameInfo.style.display = "none";
    frameModelTree.style.display = "none";
-   removeAllRenderers();
-   removeAllGuis();
+   removeRenderersAndGuis();
    sliderContainer.style.display = "none";
    viewData.style.display = "block";
 });
@@ -109,11 +108,11 @@ buttonSaveConfig.addEventListener("click", () => {
    }
 
    // safe config in cookies_manager
-   updateConfig(getData().attributeNames, config);
+   updateConfig(config);
 
-   processData(config);
+   processOriginalData(config);
 
-   prepareFrame();
+   prepareVisualizeFrame();
 
    alertSuccessUploadData.style.display = "block";
    $("#alert-success-upload-data").delay(2000).fadeOut(800);

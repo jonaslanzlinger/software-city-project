@@ -1,6 +1,6 @@
-import { setData, getData, getParticipants, getTasks } from "../data.js";
+import { getParticipants, getTasks, getAttributeNames, setOriginalData, getDataType, getOriginalData } from "../data.js";
 import { buildTable } from "./table.js";
-import { getConfig } from "./cookie_manager.js";
+import { getConfig, getMapping } from "./cookieManager.js";
 
 const dimensionAttributeSelection = document.getElementById("dimension-attribute-selection");
 const heightAttributeSelection = document.getElementById("height-attribute-selection");
@@ -23,7 +23,7 @@ const uploadData = () => {
    reader.readAsText(file);
 
    reader.onload = e => {
-      setData(e.target.result, document.getElementById("file-format").value);
+      setOriginalData(e.target.result, document.getElementById("file-format").value);
 
       // populate the config dropdowns
       groupingPathSelection.replaceChildren();
@@ -31,7 +31,7 @@ const uploadData = () => {
       participantSelection.replaceChildren();
       taskIdSelection.replaceChildren();
 
-      getData().attributeNames.forEach(attributeName => {
+      getAttributeNames().forEach(attributeName => {
          const newElement = document.createElement("option");
          newElement.value = attributeName;
          newElement.innerText = attributeName;
@@ -43,9 +43,9 @@ const uploadData = () => {
 
       // load a config (if present for the attributes)
       // set the config dropdowns to the values of the config
-      let config = getConfig(getData().attributeNames);
+      let config = getConfig();
       if (config.length > 0) {
-         config = JSON.parse(getConfig(getData().attributeNames)[0].split('=')[1]).config;
+         config = JSON.parse(getConfig()[0].split('=')[1]).config;
          groupingPathSelection.value = config.groupingPath;
          timestampSelection.value = config.timestamp;
          participantSelection.value = config.participant;
@@ -53,7 +53,7 @@ const uploadData = () => {
       }
 
 
-      if (getData().dataType === "java-source-code") {
+      if (getDataType() === "java-source-code") {
          document.getElementById("participant-selection").style.display = "none";
          document.getElementById("participant-selection-label").style.display = "none";
          document.getElementById("taskId-selection").style.display = "none";
@@ -86,16 +86,17 @@ const uploadDataOld = () => {
    reader.readAsText(file);
 
    reader.onload = e => {
-      setData(e.target.result, document.getElementById("file-format").value);
+      setOriginalData(e.target.result, document.getElementById("file-format").value);
 
+      // TODO
       // load all mappings that have the same attribute names as the data
-      let mappings = getMappingsByAttributeNames(getData().attributeNames);
+      let mappings = getMapping();
 
       dimensionAttributeSelection.replaceChildren();
       heightAttributeSelection.replaceChildren();
       colorAttributeSelection.replaceChildren();
 
-      getData().attributeNames.forEach(attributeName => {
+      getAttributeNames().forEach(attributeName => {
          const newElement = document.createElement("option");
          newElement.value = attributeName;
          newElement.innerText = attributeName;
@@ -110,7 +111,7 @@ const uploadDataOld = () => {
 
       buildTable();
 
-      if (getData().dataType === "eye-tracking-bpmn") {
+      if (getDataType() === "eye-tracking-bpmn") {
          document.getElementById("participant-selection").style.display = "block";
          document.getElementById("task-selection").style.display = "block";
          document.getElementById("participant-selection-label").style.display = "block";

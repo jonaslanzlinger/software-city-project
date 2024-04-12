@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 
 class LightSettings {
+
    constructor() {
       this.ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
 
@@ -21,6 +22,7 @@ class LightSettings {
    getDirectionalLightHelper() {
       return this.directionalLightHelper;
    }
+
 }
 
 export { LightSettings }

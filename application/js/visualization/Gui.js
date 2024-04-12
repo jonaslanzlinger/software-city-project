@@ -1,25 +1,25 @@
 import * as dat from "dat.gui";
 import * as THREE from "three";
+import { addGui } from "../data";
+import { hexToRgb, rgbToHsl } from "../utils";
+import { Color } from "../Color";
 
-class Gui {
-   constructor(group, treeOfBuildings) {
-      this.gui = new dat.GUI();
+class Gui extends dat.GUI {
+
+   constructor(group, listTreeOfBuildings) {
+      super();
+
       this.optionsThresholds = {
          height: 0,
-         color: new THREE.Color("hsl(0, 0%, 0%)"),
+         color: "#00ff00",
          apply: function () {
-            let height = this.height;
-            let color = this.color;
-            treeOfBuildings.list.forEach(building => {
-               if (building.originalScaleY >= height) {
-                  building.material[0].color.set(color);
-                  building.material[1].color.set(color);
-                  building.material[2].color.set(color);
-                  building.material[3].color.set(color);
-                  building.material[4].color.set(color);
-                  building.material[5].color.set(color);
-               }
-            });
+            for (let treeOfBuildings of listTreeOfBuildings) {
+               treeOfBuildings.list.forEach(building => {
+                  if (building.originalScaleY >= this.height) {
+                     building.setBaseColor(rgbToHsl(hexToRgb(this.color)));
+                  }
+               });
+            }
          },
       };
       this.optionsHeightMetaphor = {
@@ -27,15 +27,15 @@ class Gui {
          normalize: 100,
       };
 
-      let thresholdsFolder = this.gui.addFolder("Thresholds");
+      let thresholdsFolder = this.addFolder("Thresholds");
       thresholdsFolder
-         .add(this.optionsThresholds, "height", 0, treeOfBuildings.getHighestBuilding())
-         .name("Building Height");
+         .add(this.optionsThresholds, "height", 0, listTreeOfBuildings[0].getHighestBuilding())
+         .name("Height");
       thresholdsFolder.addColor(this.optionsThresholds, "color").name("Color");
       thresholdsFolder.add(this.optionsThresholds, "apply").name("Apply!");
       thresholdsFolder.open();
 
-      let metaphorsFolder = this.gui.addFolder("Metaphors");
+      let metaphorsFolder = this.addFolder("Metaphors");
       metaphorsFolder.open();
 
       let heightMetaphorFolder = metaphorsFolder.addFolder("Height");
@@ -43,9 +43,9 @@ class Gui {
          .add(this.optionsHeightMetaphor, "scale", 1, 200)
          .name("Scale (%)")
          .onChange(e => {
-            let valueScale = e / 100 / (treeOfBuildings.getHighestBuilding() / 100);
+            let valueScale = e / 100 / (listTreeOfBuildings[0].getHighestBuilding() / 100);
             let valueNormalize = this.optionsHeightMetaphor.normalize / 100;
-            this.calculateHeightMetaphor(valueScale, valueNormalize, treeOfBuildings);
+            this.calculateHeightMetaphor(valueScale, valueNormalize, listTreeOfBuildings[0]);
          });
 
       heightMetaphorFolder
@@ -57,13 +57,12 @@ class Gui {
                100 /
                (treeOfBuildings.getHighestBuilding() / 100);
             let valueNormalize = e / 100;
-            this.calculateHeightMetaphor(valueScale, valueNormalize, treeOfBuildings);
+            this.calculateHeightMetaphor(valueScale, valueNormalize, listTreeOfBuildings[0]);
          });
       heightMetaphorFolder.open();
-   }
 
-   getGui() {
-      return this.gui;
+      // append this gui to the list of guis in the dataStore
+      addGui(this);
    }
 
    calculateHeightMetaphor(valueScale, valueNormalize, treeOfBuildings) {

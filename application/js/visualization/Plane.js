@@ -1,12 +1,12 @@
 import * as THREE from "three";
+import { Color } from "../Color";
 
 class Plane extends THREE.Group {
    constructor(nodeName) {
       super();
       const groupGeometry = new THREE.BoxGeometry();
       const groupMaterial = new THREE.MeshBasicMaterial({
-         // color: 0xadadad,
-         color: new THREE.Color("hsl(0, 0%, 40%)"),
+         color: new Color({ h: 0, s: 0, l: 0.4 }),
          polygonOffset: true,
          polygonOffsetFactor: 0.1,
          polygonOffsetUnits: 0.1,
@@ -16,9 +16,7 @@ class Plane extends THREE.Group {
 
       let geo = new THREE.EdgesGeometry(groupBox.geometry);
       let mat = new THREE.LineBasicMaterial({
-         // color: 0x000000,
-         color: new THREE.Color("hsl(0, 0%, 10%)"),
-         // opacity: 0.4,
+         color: new Color({ h: 0, s: 0, l: 0.1 }),
          transparent: true,
       });
       let wireframe = new THREE.LineSegments(geo, mat);
@@ -26,8 +24,17 @@ class Plane extends THREE.Group {
 
       this.add(groupBox);
 
-      // this.receiveShadow = true;
       this.nodeName = nodeName;
+
+      // Color
+      this.highlightPlane = () => {
+         this.children[0].material.color.setHSL(0, 0, 0.6);
+      }
+
+      this.notHighlightPlane = () => {
+         this.children[0].material.color.setHSL(0, 0, 0.4);
+      }
+
    }
 
    addChild(child) {

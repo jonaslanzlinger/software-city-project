@@ -1,65 +1,42 @@
 import { timestampToDate } from "./utils";
 
+
 let dataStore = {
-   data: [],
+   originalData: [],
    attributeNames: [],
    dataType: "",
-   selectedData: []
+   visualizationData: [],
+   listTreeOfBuildings: [],
+   listModelTrees: [],
+   listRenderers: [],
+   listGuis: []
 };
 
-const getData = () => {
-   return dataStore;
-}
 
-const setData = (data, dataType) => {
-   const lines = data.split("\n");
-   let attributeNames = lines[0].split(",");
+/**
+ * Method to process the originalData according to the config
+ * 
+ * @param {Object} config // the configuration of attributesNames to [groupingPath, timestamp, participant, taskId]
+ */
+const processOriginalData = config => {
 
-   // remove whitespaces and make first letter lowercase
-   attributeNames = attributeNames.map(attributeName => {
-      return attributeName.replace(" ", "").slice(0, 1).toLowerCase() + attributeName.replace(" ", "").slice(1);
-   });
-
-   // iterate over all lines and add them to the dataStore
-   lines.forEach((line, index) => {
-      // skip the first line (because this is the attribute names line)
-      if (index === 0) {
-         return;
-      }
-
-      // create a new object for each line
-      let jsonObject = {};
-      let values = line.split(",");
-      for (let i = 0; i < attributeNames.length; i++) {
-         jsonObject[attributeNames[i]] = values[i];
-      }
-      // add the object to the dataStore
-      dataStore.data.push(jsonObject);
-   });
-   // set the attribute names and the data type
-   dataStore.attributeNames = attributeNames;
-   dataStore.dataType = dataType;
-}
-
-const processData = config => {
-
-   // process / filter the data according to the config
-   dataStore.data.forEach(entry => {
-      let jsonObject = {};
+   let listDataObjects = [];
+   dataStore.originalData.forEach(entry => {
+      let dataObject = {}
       for (let i = 0; i < dataStore.attributeNames.length; i++) {
          let attributeName = dataStore.attributeNames[i];
 
          if (attributeName === config.groupingPath) {
             // if the dataType is java-source-code, replace the "." with ";"
-            jsonObject["groupingPath"] = entry[attributeName].replace(/\./g, ";")
+            dataObject["groupingPath"] = entry[attributeName].replace(/\./g, ";")
          } else if (attributeName === config.timestamp) {
-            jsonObject["timestamp"] = timestampToDate(entry[attributeName]);
+            dataObject["timestamp"] = timestampToDate(entry[attributeName]);
          } else if (attributeName === config.participant && dataStore.dataType !== "java-source-code") {
-            jsonObject["participant"] = entry[attributeName];
+            dataObject["participant"] = entry[attributeName];
          } else if (attributeName === config.taskId && dataStore.dataType !== "java-source-code") {
-            jsonObject["taskId"] = entry[attributeName];
+            dataObject["taskId"] = entry[attributeName];
          } else {
-            jsonObject[attributeName] = entry[attributeName];
+            dataObject[attributeName] = entry[attributeName];
          }
 
          // if the attribute is not defined, skip the entry
@@ -75,44 +52,42 @@ const processData = config => {
             }
          }
       }
-      dataStore.selectedData.push(jsonObject);
+      listDataObjects.push(dataObject);
    });
-   // TODO this part such that I keep the original data and original attribute names
-   dataStore.data = dataStore.selectedData;
-   dataStore.selectedData = [];
+
+   dataStore.originalData = listDataObjects;
+   dataStore.visualizationData = [];
    // now, save in the dataStore.attributeNames the new attribute names
-   dataStore.attributeNames = Object.keys(dataStore.data[0]);
+   dataStore.attributeNames = Object.keys(dataStore.originalData[0]);
 }
 
+/**
+ * Method to clear the dataStore
+ */
 const clearData = () => {
-   dataStore = {
-      data: [],
-      attributeNames: [],
-      dataType: ""
-   };
+   dataStore.originalData = [];
+   dataStore.attributeNames = [];
+   dataStore.dataType = "";
+   dataStore.visualizationData = [];
+   dataStore.listTreeOfBuildings = [];
+   dataStore.listModelTrees = [];
+   dataStore.listRenderers = [];
+   dataStore.listGuis = [];
 }
 
-const calculateNormalizeFactors = metaphorSelection => {
-   let maxDimensionValue = 0;
-   let maxHeightValue = 0;
-   dataStore.data.forEach(entry => {
-      maxDimensionValue = parseFloat(entry[metaphorSelection.dimension]) > maxDimensionValue ? parseFloat(entry[metaphorSelection.dimension]) : maxDimensionValue;
-      maxHeightValue = parseFloat(entry[metaphorSelection.height]) > maxHeightValue ? parseFloat(entry[metaphorSelection.height]) : maxHeightValue;
-   });
-
-   let dimensionFactor = 15 / maxDimensionValue;
-   let heightFactor = 15 / maxHeightValue;
-   return { dimension: dimensionFactor, height: heightFactor };
-}
-
+/**
+ * Method to retrieve the epoques (only used for the java-source-code data type)
+ * 
+ * @returns {Object} // the epoques
+ */
 const getEpoques = () => {
    let epoques = {};
-   dataStore.data.forEach(entry => {
+   dataStore.visualizationData.forEach(entry => {
       if (!(entry.timestamp in epoques)) {
          epoques[entry.timestamp] = [];
       }
    });
-   dataStore.data.forEach(entry => {
+   dataStore.visualizationData.forEach(entry => {
       for (let epoque in epoques) {
          epoques[epoque].push(entry);
       }
@@ -120,9 +95,14 @@ const getEpoques = () => {
    return epoques;
 }
 
+/**
+ * Method to retrieve the participants
+ * 
+ * @returns {Array} // the participants
+ */
 const getParticipants = () => {
    let participants = [];
-   dataStore.data.forEach(entry => {
+   dataStore.originalData.forEach(entry => {
       if (!participants.includes(entry.participant)) {
          participants.push(entry.participant);
       }
@@ -130,9 +110,14 @@ const getParticipants = () => {
    return participants;
 }
 
+/**
+ * Method to retrieve the tasks
+ * 
+ * @returns {Array} // the tasks
+ */
 const getTasks = () => {
    let tasks = [];
-   dataStore.data.forEach(entry => {
+   dataStore.originalData.forEach(entry => {
       if (!tasks.includes(entry.taskId)) {
          tasks.push(entry.taskId);
       }
@@ -140,4 +125,162 @@ const getTasks = () => {
    return tasks;
 }
 
-export { getData as getData, processData, setData, clearData, calculateNormalizeFactors, getEpoques, getParticipants, getTasks }
+/**
+ * Method to add a renderer to the list of renderers
+ */
+const addRenderer = renderer => {
+   dataStore.listRenderers.push(renderer);
+}
+
+/**
+ * Method to add a gui to the list of guis
+ */
+const addGui = gui => {
+   dataStore.listGuis.push(gui);
+}
+
+/**
+ * Method to remove all renderers and guis
+ */
+const removeRenderersAndGuis = () => {
+   removeAllRenderers();
+   removeAllGuis();
+}
+
+const removeAllRenderers = () => {
+   for (let renderer of dataStore.listRenderers) {
+      removeRenderer(renderer);
+   }
+   dataStore.listRenderers = [];
+}
+
+const removeAllGuis = () => {
+   for (let gui of dataStore.listGuis) {
+      removeGui(gui);
+   }
+   dataStore.listGuis = [];
+}
+
+const removeRenderer = renderer => {
+   renderer.dispose();
+   let canvasElement = document.getElementsByTagName("canvas");
+   if (canvasElement.length > 0) {
+      canvasElement[0].remove();
+   }
+}
+
+const removeGui = gui => {
+   gui.destroy();
+}
+
+
+// ///////////////////
+// GETTERS
+// ///////////////////
+const getDataStore = () => {
+   return dataStore;
+}
+
+const getOriginalData = () => {
+   return dataStore.originalData;
+}
+
+const getAttributeNames = () => {
+   return dataStore.attributeNames;
+}
+
+const getDataType = () => {
+   return dataStore.dataType;
+}
+
+const getVisualizationData = () => {
+   return dataStore.visualizationData;
+}
+
+const getListTreeOfBuildings = () => {
+   return dataStore.listTreeOfBuildings;
+}
+
+const getListModelTrees = () => {
+   return dataStore.listModelTrees;
+}
+
+const getListRenderers = () => {
+   return dataStore.listRenderers;
+}
+
+const getListGuis = () => {
+   return dataStore.listGuis;
+}
+
+
+// ///////////////////
+// SETTERS
+// ///////////////////
+
+/**
+ * Method to set ...
+ * - the original data
+ * - the attribute names
+ * - the data type
+ * 
+ * @param {String} data // the data in csv format separated by commas and new lines for each new record
+ * @param {String} dataType // the type of the data (e.g. "eye-tracking-java-source-code")
+ */
+const setOriginalData = (data, dataType) => {
+
+   let lines = data.split("\n");
+
+   // get the attribute names (first line of the csv file, and remove it from "lines")
+   let attributeNames = lines.shift().split(",");
+   attributeNames = attributeNames.map(attributeName => {
+      // remove the spaces and make the first letter lowercase
+      return attributeName.slice(0, 1).toLowerCase() + attributeName.replace(" ", "").slice(1);
+   });
+
+   // iterate over all lines and add them to the dataStore
+   lines.forEach(line => {
+      // create a new object for each line
+      let dataObject = {};
+      let values = line.split(",");
+      for (let i = 0; i < attributeNames.length; i++) {
+         dataObject[attributeNames[i]] = values[i];
+      }
+      dataStore.originalData.push(dataObject);
+   });
+
+   // set the attribute names and the data type
+   dataStore.attributeNames = attributeNames;
+   dataStore.dataType = dataType;
+}
+
+/**
+ * Method to set the visualization data
+ * 
+ * @param {Array} data 
+ */
+const setVisualizationData = data => {
+   dataStore.visualizationData = data;
+}
+
+export {
+   processOriginalData,
+   clearData,
+   getEpoques,
+   getParticipants,
+   getTasks,
+   addRenderer,
+   addGui,
+   removeRenderersAndGuis,
+   getDataStore,
+   getOriginalData,
+   getAttributeNames,
+   getDataType,
+   getVisualizationData,
+   getListTreeOfBuildings,
+   getListModelTrees,
+   getListRenderers,
+   getListGuis,
+   setOriginalData,
+   setVisualizationData
+}

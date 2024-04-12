@@ -1,346 +1,121 @@
-import * as THREE from "three";
-import { Renderer } from "../visualization/Renderer";
-import { VisualControls } from "../visualization/VisualControls";
-import { TreeOfBuildings } from "../visualization/TreeOfBuildings";
-import { LightSettings } from "../visualization/LightSettings";
-import { Gui } from "../visualization/Gui";
-import { MouseControls } from "../visualization/MouseControls";
-import { addSlider, addSliderEyeTracking } from "../visualization/timeline";
-import { calculateNormalizeFactors, getData, getEpoques } from "../data";
-import { Plane } from "../visualization/Plane";
-import { Building } from "../visualization/Building";
-// This is for VR Button
-import { VRButton } from "three/examples/jsm/webxr/VRButton";
+import { getAttributeNames, getDataType, getOriginalData, getParticipants, getTasks, setVisualizationData } from "../data";
+import { visualize } from "../visualization/visualize";
+import { buildTreesOfBuildings } from "../visualization/TreeOfBuildings";
+import { getMapping, updateMapping } from "./cookieManager";
 
-const buildTreesOfBuildings = (data, metaphorSelection) => {
+const buttonStartVisualize = document.getElementById("button-start-visualize");
 
-   let treeOfBuildingsList = [];
+const dimensionAttributeSelection = document.getElementById("dimension-attribute-selection");
+const heightAttributeSelection = document.getElementById("height-attribute-selection");
+const colorAttributeSelection = document.getElementById("color-attribute-selection");
 
-   if (data.dataType === "java-source-code") {
-      let epoques = getEpoques();
+const prepareVisualizeFrame = () => {
 
-      for (let epoque in epoques) {
-         const treeOfBuildings = new TreeOfBuildings(epoque);
-         let factors = calculateNormalizeFactors(metaphorSelection);
-         epoques[epoque].forEach(entry => {
-            treeOfBuildings.addBuilding(entry, "java-source-code", metaphorSelection, factors);
-         });
+   dimensionAttributeSelection.replaceChildren();
+   heightAttributeSelection.replaceChildren();
+   colorAttributeSelection.replaceChildren();
 
-         let listOfVisibleBuildings = [];
-         treeOfBuildings.list.forEach(building => {
-            building.visible = false;
-            building.buildingData.forEach(buildingData => {
-               if (buildingData.timestamp == treeOfBuildings.timestamp) {
-                  building.visible = true;
-                  listOfVisibleBuildings.push(building);
-                  if (metaphorSelection.dimension !== undefined) {
-                     building.scale.x = buildingData[metaphorSelection.dimension] * factors.dimension;
-                  } else {
-                     building.scale.x = 1;
-                  }
-                  building.scale.z = building.scale.x;
-                  if (metaphorSelection.height !== undefined) {
-                     building.scale.y = buildingData[metaphorSelection.height] * factors.height;
-                  } else {
-                     building.scale.y = 1;
-                  }
-                  building.position.y = building.scale.y / 2;
-               }
-            });
-         });
+   getAttributeNames().forEach(attributeName => {
+      const newElement = document.createElement("option");
+      newElement.value = attributeName;
+      newElement.innerText = attributeName;
+      dimensionAttributeSelection.appendChild(newElement.cloneNode(true));
+      heightAttributeSelection.appendChild(newElement.cloneNode(true));
+      colorAttributeSelection.appendChild(newElement.cloneNode(true));
+   })
 
-         treeOfBuildings.buildTreeStructureWithList(listOfVisibleBuildings);
-         treeOfBuildings.putOnScreen(treeOfBuildings.baseNode);
-         treeOfBuildings.adjustChildrenLayerPositionY(treeOfBuildings.baseNode);
-         treeOfBuildingsList.push(treeOfBuildings);
-      }
-   } else {
-      const treeOfBuildings = new TreeOfBuildings();
-      let factors = calculateNormalizeFactors(metaphorSelection);
-      data.data.forEach(entry => {
-         treeOfBuildings.addBuilding(entry, data.dataType, metaphorSelection, factors);
+   if (getDataType() !== "java-source-code") {
+      document.getElementById("participant").style.display = "block";
+      document.getElementById("taskId").style.display = "block";
+      document.getElementById("participant-label").style.display = "block";
+      document.getElementById("taskId-label").style.display = "block";
+
+      getParticipants().forEach(participant => {
+         let newElement = document.createElement("option");
+         newElement.value = participant;
+         newElement.innerText = `participant - ${participant}`;
+         document.getElementById("participant").appendChild(newElement);
       });
 
-      treeOfBuildings.buildTreeStructure();
-      treeOfBuildings.putOnScreen(treeOfBuildings.baseNode);
-      treeOfBuildings.adjustChildrenLayerPositionY(treeOfBuildings.baseNode);
-      treeOfBuildingsList.push(treeOfBuildings);
-   }
-   return treeOfBuildingsList;
-}
+      getTasks().forEach(task => {
+         let newElement = document.createElement("option");
+         newElement.value = task;
+         newElement.innerText = `task - ${task}`;
+         document.getElementById("taskId").appendChild(newElement);
+      });
 
-let rendererList = [];
-let guiList = [];
-
-const removeAllRenderers = () => {
-   for (let renderer of rendererList) {
-      removeRenderer(renderer.getRenderer());
-   }
-   rendererList = [];
-}
-
-const removeAllGuis = () => {
-   for (let gui of guiList) {
-      removeGui(gui.getGui());
-   }
-   guiList = [];
-}
-
-const removeRenderer = renderer => {
-   renderer.dispose();
-   let canvasElement = document.getElementsByTagName("canvas");
-   if (canvasElement.length > 0) {
-      canvasElement[0].remove();
-   }
-}
-
-const removeGui = gui => {
-   gui.destroy();
-}
-
-const visualize = treeOfBuildingsList => {
-   removeAllRenderers();
-   removeAllGuis();
-
-   let listOfModelTrees = createModelTree(treeOfBuildingsList);
-
-   const renderer = new Renderer();
-   document.body.appendChild(renderer.getRenderer().domElement);
-
-   const scene = new THREE.Scene();
-
-   const visualControls = new VisualControls(
-      renderer.getRenderer()
-   );
-
-   renderer.getRenderer().render(scene, visualControls.getCamera());
-
-   window.onresize = () => {
-      renderer.getRenderer().setPixelRatio(window.devicePixelRatio);
-      renderer.getRenderer().setSize(window.innerWidth, window.innerHeight);
-      visualControls.getCamera().aspect = window.innerWidth / window.innerHeight;
-      visualControls.getCamera().updateProjectionMatrix();
-   };
-
-   const lightSettings = new LightSettings();
-   scene.add(lightSettings.getAmbientLight());
-   scene.add(lightSettings.getDirectionalLight());
-   scene.add(lightSettings.getDirectionalLightHelper());
-
-   new MouseControls(document, visualControls.getCamera(), scene, renderer);
-
-   scene.add(treeOfBuildingsList[0].baseNode);
-
-   let gui = new Gui(scene, treeOfBuildingsList[0]);
-   guiList.push(gui);
-
-   if (treeOfBuildingsList.length === 1) {
-      addSliderEyeTracking(treeOfBuildingsList[0], listOfModelTrees);
    } else {
-      addSlider(treeOfBuildingsList, scene, listOfModelTrees);
-   }
+      let participant = document.getElementById("participant");
+      let taskId = document.getElementById("taskId");
 
-   // TODO Uncomment this for VR button!
-   document.body.appendChild(VRButton.createButton(renderer.getRenderer()));
+      participant.style.display = "none";
+      taskId.style.display = "none";
+      document.getElementById("participant-label").style.display = "none";
+      document.getElementById("taskId-label").style.display = "none";
 
-   function animate(time) {
-      renderer.getRenderer().render(scene, visualControls.getCamera());
-   }
-   renderer.getRenderer().setAnimationLoop(animate);
-
-   rendererList.push(renderer);
-}
-
-const createModelTree = treeOfBuildingsList => {
-   let listOfModelTrees = [];
-   for (let treeOfBuildings of treeOfBuildingsList) {
-
-      let check = [treeOfBuildings.baseNode]
-      let seen = []
-      let container = document.createElement("div");
-      let allNewElements = []
-
-      while (check.length > 0) {
-         let current = check.pop();
-         seen.push(current);
-         let filtered = current.children.filter(child => child instanceof Plane || child instanceof Building);
-         filtered.forEach(e => {
-            check.push(e);
-         })
-
-         let newElement = document.createElement("div");
-         newElement.classList.add("model-tree-element");
-         newElement.id = current.uuid;
-
-         let colorPicker = document.createElement("input");
-         colorPicker.type = "color";
-         colorPicker.id = newElement.id;
-         colorPicker.value = "#ffffff";
-
-         if (current instanceof Plane) {
-            newElement.type = "plane";
-            newElement.expanded = "true";
-
-            let folderElement = document.createElement("div");
-            folderElement.classList.add("model-tree-element");
-            folderElement.style.fontWeight = "bold";
-
-            if (current.nodeName.lastIndexOf(";") !== -1) {
-               folderElement.innerText = "\u25BF " + current.nodeName.substring(current.nodeName.lastIndexOf(";") + 1);
-            } else {
-               folderElement.innerText = "\u25BF " + current.nodeName;
-            }
-
-            folderElement.style.display = "flex";
-            folderElement.style.alignItems = "center";
-
-            folderElement.appendChild(colorPicker);
-
-            colorPicker.addEventListener("input", () => {
-               // can I replace this loop with just the 'current' object?
-               for (let node of seen) {
-                  if (node.uuid === colorPicker.id) {
-                     node.children[0].material.color.set(colorPicker.value);
-                  }
-               }
-            });
-
-            newElement.appendChild(folderElement);
-
-         } else {
-            newElement.type = "building";
-            newElement.style.display = "flex";
-            newElement.style.alignItems = "center";
-
-            if (current.buildingName.lastIndexOf(";") !== -1) {
-               newElement.innerText = current.buildingName.substring(current.buildingName.lastIndexOf(";") + 1);
-            } else {
-               newElement.innerText = current.buildingName;
-            }
-
-            newElement.appendChild(colorPicker);
-
-            colorPicker.addEventListener("input", () => {
-               // can I just replace this with the 'current' object?
-               for (let node of seen) {
-                  if (node.uuid === colorPicker.id) {
-                     if (node instanceof Building) {
-                        node.setBuildingBaseColor(new THREE.Color(colorPicker.value));
-                        node.setBuildingRoofColor(new THREE.Color(colorPicker.value));
-                     }
-                  }
-               }
-            });
-         }
-
-         allNewElements.push(newElement);
-
-         if (current.nodeName !== "project_base_node") {
-            for (let i of allNewElements) {
-               if (i.id === current.parent.uuid) {
-                  i.appendChild(newElement);
-                  if (newElement.type == "building") {
-                     newElement.style.marginLeft = "20px";
-                  } else {
-                     newElement.style.marginLeft = 15 + "px";
-                  }
-                  break;
-               }
-            }
-         } else {
-            container.appendChild(newElement);
-         }
-
-         // Listeners
-         if (newElement.type === "building" || newElement.type === "plane") {
-            let element = newElement;
-            if (newElement.type === "plane") {
-               element = newElement.childNodes[0];
-            }
-            element.addEventListener("mouseenter", function () {
-               if (current instanceof Building) {
-                  let color = current.material[0].color;
-                  color.r *= 5;
-                  color.g *= 5;
-                  color.b *= 5;
-                  current.material[0].color.set(color);
-                  current.material[1].color.set(color);
-                  let roofColor = current.material[2].color;
-                  roofColor.r *= 5;
-                  roofColor.g *= 5;
-                  roofColor.b *= 5;
-                  current.material[2].color.set(roofColor);
-                  current.material[3].color.set(color);
-                  current.material[4].color.set(color);
-                  current.material[5].color.set(color);
-                  element.style.color = "blue";
-                  // element.style.boxShadow = '0px 0px 4px rgba(0, 0, 0, 0.5)';
-               } else {
-                  let color = current.children[0].material.color;
-                  color.r *= 1.5;
-                  color.g *= 1.5;
-                  color.b *= 1.5;
-                  current.children[0].material.color.set(color);
-                  element.style.color = "blue";
-                  // element.style.boxShadow = '0px 0px 4px rgba(0, 0, 0, 0.5)';
-               }
-            })
-
-            element.addEventListener("mouseleave", function () {
-               if (current instanceof Building) {
-                  let color = current.material[0].color;
-                  color.r /= 5;
-                  color.g /= 5;
-                  color.b /= 5;
-                  current.material[0].color.set(color);
-                  current.material[1].color.set(color);
-                  let roofColor = current.material[2].color;
-                  roofColor.r /= 5;
-                  roofColor.g /= 5;
-                  roofColor.b /= 5;
-                  current.material[2].color.set(roofColor);
-                  current.material[3].color.set(color);
-                  current.material[4].color.set(color);
-                  current.material[5].color.set(color);
-                  element.style.color = "black";
-                  // element.style.boxShadow = "none";
-               } else {
-                  let color = current.children[0].material.color;
-                  color.r /= 1.5;
-                  color.g /= 1.5;
-                  color.b /= 1.5;
-                  current.children[0].material.color.set(color);
-                  element.style.color = "black";
-                  // element.style.boxShadow = "none";
-               }
-            })
-
-            element.addEventListener("click", e => {
-               if (e.target.type === "color") return;
-               if (newElement.type === "building") {
-               } else {
-                  element.parentElement.expanded = element.parentElement.expanded === "true" ? "false" : "true";
-                  let colorPickerElement = element.children[0];
-                  element.innerText = element.parentElement.expanded === "true" ?
-                     element.innerText.replace("\u25B8", "\u25BF") :
-                     element.innerText.replace("\u25BF", "\u25B8");
-                  element.appendChild(colorPickerElement);
-                  let childrenToToggle = element.parentElement.children;
-                  for (let i = 1; i < childrenToToggle.length; i++) {
-                     if (childrenToToggle[i].type === "building") {
-                        childrenToToggle[i].style.display = childrenToToggle[i].style.display === "none" ? "flex" : "none";
-                     } else {
-                        childrenToToggle[i].style.display = childrenToToggle[i].style.display === "none" ? "block" : "none";
-                     }
-                  }
-               }
-            })
-         }
+      while (participant.firstChild) {
+         participant.removeChild(participant.firstChild);
       }
-      listOfModelTrees.push(container);
+
+      while (taskId.firstChild) {
+         taskId.removeChild(taskId.firstChild);
+      }
    }
 
-   return listOfModelTrees;
+   // get a mapping from the cookies_manager
+   let mapping = getMapping();
+   if (mapping.length > 0) {
+      mapping = JSON.parse(mapping[0].split('=')[1]).mapping;
+      dimensionAttributeSelection.value = mapping.dimension;
+      heightAttributeSelection.value = mapping.height;
+      colorAttributeSelection.value = mapping.color;
+      participant.value = mapping.participant;
+      taskId.value = mapping.taskId;
+   }
 }
 
-export { buildTreesOfBuildings, visualize, removeAllRenderers, removeAllGuis, createModelTree }
+buttonStartVisualize.addEventListener("click", e => {
+   e.preventDefault();
+
+   let metaphorSelection = {
+      dimension: dimensionAttributeSelection.value,
+      height: heightAttributeSelection.value,
+      color: colorAttributeSelection.value
+   }
+   let citySelection = {
+      dimension: document.getElementById("city-dimension").value,
+      spread: document.getElementById("city-spread").value
+   }
+   document.getElementById("frame-visualize").style.display = "none";
+   document.getElementById("view-data").style.display = "none";
+
+   let data = getOriginalData();
+   let participant = document.getElementById("participant").value;
+   let taskId = document.getElementById("taskId").value;
+
+   // update the mapping in the cookies_manager
+   const mapping = {
+      dimension: metaphorSelection.dimension,
+      height: metaphorSelection.height,
+      color: metaphorSelection.color,
+      participant: participant,
+      taskId: taskId
+   }
+   updateMapping(mapping);
+
+   // filter data depending on participant and task selection
+   if (getDataType() !== "java-source-code") {
+      data = data.filter(entry => {
+         return entry.participant === participant.toString() && entry.taskId === taskId.toString();
+      });
+
+   }
+
+   setVisualizationData(data);
+
+   let treeOfBuildingsList = buildTreesOfBuildings(metaphorSelection);
+
+   visualize(treeOfBuildingsList, metaphorSelection);
+});
+
+export { prepareVisualizeFrame };

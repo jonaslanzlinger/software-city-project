@@ -1,3 +1,11 @@
+import { getVisualizationData } from "./data";
+
+/**
+ * Method to return a date in the format "YYYY-MM-DD, HH:MM:SS:SSS"
+ * 
+ * @param {Date} date 
+ * @returns {String} // Date in the format "YYYY-MM-DD, HH:MM:SS:SSS"
+ */
 const formatDate = date => {
    const year = date.getFullYear();
    const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -18,7 +26,11 @@ const formatDate = date => {
  * @param {number} b // between 0-255 
  * @returns {array[float]} // array of floats [h, s, l] where h is between 0-360, s is between 0-100 and l is between 0-100
  */
-const rgbToHsl = (r, g, b) => {
+const rgbToHsl = color => {
+   let r = color.r;
+   let g = color.g;
+   let b = color.b;
+
    r /= 255, g /= 255, b /= 255;
    var max = Math.max(r, g, b), min = Math.min(r, g, b);
    var h, s, l = (max + min) / 2;
@@ -35,7 +47,26 @@ const rgbToHsl = (r, g, b) => {
       }
       h /= 6;
    }
-   return [h * 360, s * 100, l * 100];
+
+   return { h, s, l };
+}
+
+/**
+ * Method to convert a hex color to an RGB object
+ * 
+ * @param {String} hex 
+ * @returns RGB object
+ */
+const hexToRgb = hex => {
+   // Remove the hash at the start if it's there
+   hex = hex.replace(/^#/, '');
+
+   // Parse the hex string
+   const r = parseInt(hex.substring(0, 2), 16);
+   const g = parseInt(hex.substring(2, 4), 16);
+   const b = parseInt(hex.substring(4, 6), 16);
+
+   return { r, g, b };
 }
 
 /**
@@ -56,4 +87,28 @@ const timestampToDate = timestamp => {
    return new Date(year, month, day, hour, minute, second, millisecond);
 }
 
-export { formatDate, rgbToHsl, timestampToDate }
+/**
+ * Method to normalize the originalData in the dataStore accordingly...
+ * 
+ * The fixed height of a Plane element is 0.2 units,
+ * so the height factor is calculated to keep the buildings dimensions and height
+ * within a visually appealing range of:
+ * - dimension: 10.0 units
+ * - height: 15.0 units
+ * 
+ * @param {Object} metaphorSelection
+ */
+const calculateNormalizeFactors = metaphorSelection => {
+   let maxDimensionValue = 0;
+   let maxHeightValue = 0;
+   getVisualizationData().forEach(entry => {
+      maxDimensionValue = parseFloat(entry[metaphorSelection.dimension]) > maxDimensionValue ? parseFloat(entry[metaphorSelection.dimension]) : maxDimensionValue;
+      maxHeightValue = parseFloat(entry[metaphorSelection.height]) > maxHeightValue ? parseFloat(entry[metaphorSelection.height]) : maxHeightValue;
+   });
+
+   let dimensionFactor = 15 / maxDimensionValue;
+   let heightFactor = 15 / maxHeightValue;
+   return { dimension: dimensionFactor, height: heightFactor };
+}
+
+export { formatDate, rgbToHsl, hexToRgb, timestampToDate, calculateNormalizeFactors }

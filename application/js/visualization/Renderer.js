@@ -1,19 +1,22 @@
 import * as THREE from "three";
+import { addRenderer } from "../data";
+import { Color } from "../Color";
 
-class Renderer {
+class Renderer extends THREE.WebGLRenderer {
+
    constructor() {
-      this.renderer = new THREE.WebGLRenderer({ antialias: true });
-      this.renderer.setSize(window.innerWidth, window.innerHeight);
-      this.renderer.shadowMap.enabled = true;
-      this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-      this.renderer.setClearColor(new THREE.Color("hsl(0, 0%, 80%)"));
+      super({ antialias: true });
+      this.setSize(window.innerWidth, window.innerHeight);
+      this.shadowMap.enabled = true;
+      this.shadowMap.type = THREE.PCFSoftShadowMap;
+      this.setClearColor(new Color({ h: 0, s: 0, l: 0.8 }));
       // This is for VR Button
-      this.renderer.xr.enabled = true;
+      this.xr.enabled = true;
+
+      // append this renderer to the list of renderers in the dataStore
+      addRenderer(this);
    }
 
-   getRenderer() {
-      return this.renderer;
-   }
 }
 
 export { Renderer }
