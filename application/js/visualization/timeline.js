@@ -1,3 +1,4 @@
+import { getNormalizer } from "../data.js";
 import { formatDate } from "../utils.js";
 import { Plane } from "./Plane.js";
 
@@ -223,10 +224,8 @@ const addSliderEyeTracking = (treeOfBuildings, listOfModelTrees) => {
                building.setColorLuminance(luminance, ratio);
 
                // Height
-               let heightDifference = heightCumulativeValue - building.scale.y;
-               let moveBuildingYPosBy = heightDifference / 2;
-               building.scale.y = heightCumulativeValue;
-               building.position.y += moveBuildingYPosBy;
+               building.scale.y = getNormalizer().normalizeHeight(heightCumulativeValue);
+               building.position.y = building.scale.y / 2 + 0.1;
 
             } else {
                // Color
@@ -236,10 +235,8 @@ const addSliderEyeTracking = (treeOfBuildings, listOfModelTrees) => {
                building.setColorLuminance(luminance, ratio);
 
                // Height
-               let heightDifference = heightSnapshotsValue - building.scale.y;
-               let moveBuildingYPosBy = heightDifference / 2;
-               building.scale.y = heightSnapshotsValue;
-               building.position.y += moveBuildingYPosBy;
+               building.scale.y = getNormalizer().normalizeHeight(heightSnapshotsValue);
+               building.position.y = building.scale.y / 2 + 0.1;
             }
          }
       }

@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { Color } from "../Color";
 
 class Plane extends THREE.Group {
+
    constructor(nodeName) {
       super();
       const groupGeometry = new THREE.BoxGeometry();

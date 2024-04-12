@@ -8,10 +8,11 @@ let dataStore = {
    visualizationData: [],
    listTreeOfBuildings: [],
    listModelTrees: [],
+   metaphorSelection: {},
+   normalizer: null,
    listRenderers: [],
    listGuis: []
 };
-
 
 /**
  * Method to process the originalData according to the config
@@ -71,6 +72,8 @@ const clearData = () => {
    dataStore.visualizationData = [];
    dataStore.listTreeOfBuildings = [];
    dataStore.listModelTrees = [];
+   dataStore.metaphorSelection = {};
+   dataStore.normalizer = null;
    dataStore.listRenderers = [];
    dataStore.listGuis = [];
 }
@@ -205,6 +208,14 @@ const getListModelTrees = () => {
    return dataStore.listModelTrees;
 }
 
+const getMetaphorSelection = () => {
+   return dataStore.metaphorSelection;
+}
+
+const getNormalizer = () => {
+   return dataStore.normalizer;
+}
+
 const getListRenderers = () => {
    return dataStore.listRenderers;
 }
@@ -263,6 +274,20 @@ const setVisualizationData = data => {
    dataStore.visualizationData = data;
 }
 
+/**
+ * Method to set the metaphor selection
+ * 
+ * @param {Object} metaphorSelection // mapping of metaphor selection
+ */
+const setMetaphorSelection = metaphorSelection => {
+   dataStore.metaphorSelection = metaphorSelection;
+}
+
+const setNormalizer = normalizer => {
+   dataStore.normalizer = normalizer;
+}
+
+
 export {
    processOriginalData,
    clearData,
@@ -279,8 +304,12 @@ export {
    getVisualizationData,
    getListTreeOfBuildings,
    getListModelTrees,
+   getMetaphorSelection,
+   getNormalizer,
    getListRenderers,
    getListGuis,
    setOriginalData,
-   setVisualizationData
+   setVisualizationData,
+   setMetaphorSelection,
+   setNormalizer
 }

@@ -87,28 +87,4 @@ const timestampToDate = timestamp => {
    return new Date(year, month, day, hour, minute, second, millisecond);
 }
 
-/**
- * Method to normalize the originalData in the dataStore accordingly...
- * 
- * The fixed height of a Plane element is 0.2 units,
- * so the height factor is calculated to keep the buildings dimensions and height
- * within a visually appealing range of:
- * - dimension: 10.0 units
- * - height: 15.0 units
- * 
- * @param {Object} metaphorSelection
- */
-// const calculateNormalizeFactors = metaphorSelection => {
-//    let maxDimensionValue = 0;
-//    let maxHeightValue = 0;
-//    getVisualizationData().forEach(entry => {
-//       maxDimensionValue = parseFloat(entry[metaphorSelection.dimension]) > maxDimensionValue ? parseFloat(entry[metaphorSelection.dimension]) : maxDimensionValue;
-//       maxHeightValue = parseFloat(entry[metaphorSelection.height]) > maxHeightValue ? parseFloat(entry[metaphorSelection.height]) : maxHeightValue;
-//    });
-
-//    let dimensionFactor = 15 / maxDimensionValue;
-//    let heightFactor = 15 / maxHeightValue;
-//    return { dimension: dimensionFactor, height: heightFactor };
-// }
-
 export { formatDate, rgbToHsl, hexToRgb, timestampToDate }

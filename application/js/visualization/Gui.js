@@ -1,6 +1,6 @@
 import * as dat from "dat.gui";
 import * as THREE from "three";
-import { addGui } from "../data";
+import { addGui, getNormalizer } from "../data";
 import { hexToRgb, rgbToHsl } from "../utils";
 import { Color } from "../Color";
 
@@ -15,7 +15,7 @@ class Gui extends dat.GUI {
          apply: function () {
             for (let treeOfBuildings of listTreeOfBuildings) {
                treeOfBuildings.list.forEach(building => {
-                  if (building.originalScaleY >= this.height) {
+                  if (building.scale.y >= this.height) {
                      building.setBaseColor(rgbToHsl(hexToRgb(this.color)));
                   }
                });
@@ -29,7 +29,7 @@ class Gui extends dat.GUI {
 
       let thresholdsFolder = this.addFolder("Thresholds");
       thresholdsFolder
-         .add(this.optionsThresholds, "height", 0, listTreeOfBuildings[0].getHighestBuilding())
+         .add(this.optionsThresholds, "height", 0, getNormalizer().heightRange.max)
          .name("Height");
       thresholdsFolder.addColor(this.optionsThresholds, "color").name("Color");
       thresholdsFolder.add(this.optionsThresholds, "apply").name("Apply!");
@@ -46,7 +46,7 @@ class Gui extends dat.GUI {
          .add(this.optionsHeightMetaphor, "scale", 1, 200)
          .name("Scale (%)")
          .onChange(e => {
-            let valueScale = e / 100 / (listTreeOfBuildings[0].getHighestBuilding() / 100);
+            let valueScale = e / 100 / (getNormalizer().heightRange.max / 100);
             let valueNormalize = this.optionsHeightMetaphor.normalize / 100;
             this.calculateHeightMetaphor(valueScale, valueNormalize, listTreeOfBuildings[0]);
          });
@@ -58,7 +58,7 @@ class Gui extends dat.GUI {
             let valueScale =
                this.optionsHeightMetaphor.scale /
                100 /
-               (treeOfBuildings.getHighestBuilding() / 100);
+               (getNormalizer().heightRange.max / 100);
             let valueNormalize = e / 100;
             this.calculateHeightMetaphor(valueScale, valueNormalize, listTreeOfBuildings[0]);
          });

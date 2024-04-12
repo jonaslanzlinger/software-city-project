@@ -1,8 +1,13 @@
 import * as THREE from "three";
 import { Color } from "../Color";
+import { getMetaphorSelection } from "../data";
 
 class Building extends THREE.Mesh {
-   constructor(buildingId, data, dataType, metaphorSelection, factors) {
+
+   metaphorSelection = getMetaphorSelection();
+   buildingData = [];
+
+   constructor(buildingId, data) {
 
       const boxGeometry = new THREE.BoxGeometry();
       const boxMaterial = new THREE.MeshBasicMaterial({
@@ -39,13 +44,10 @@ class Building extends THREE.Mesh {
       this.buildingId = buildingId;
       this.buildingName = data.groupingPath.split(";").pop();
       this.buildingGroupingPath = data.groupingPath;
-      this.scale.x = metaphorSelection.dimension === undefined ? 1 : data[metaphorSelection.dimension] * factors.dimension;
-      this.scale.z = this.scale.x;
 
-      this.buildingData = [];
       this.buildingData.push(data);
 
-      this.metaphorSelection = metaphorSelection;
+      this.metaphorSelection = getMetaphorSelection();
 
       // COLOR
       this.baseColor = new Color({ h: 0, s: 0, l: 0.5 });
@@ -131,10 +133,62 @@ class Building extends THREE.Mesh {
          this.material[5].color.setHSL(fassade.h, fassade.s, fassade.l);
       }
 
-      // HEIGHT
-      this.originalScaleY = metaphorSelection.height === undefined ? 1 : data[metaphorSelection.height] * factors.height;
-      this.scale.y = this.originalScaleY;
-      this.position.y = this.scale.y / 2;
+      // DIMENSION & HEIGHT
+      this.recalculateDimension();
+      this.recalculateHeight();
+   }
+
+   recalculateDimension() {
+      if (this.metaphorSelection.dimension === undefined) {
+         this.scale.x = 1;
+         this.scale.z = 1;
+      } else {
+         let totalValue = 0;
+         for (let entry of this.buildingData) {
+            totalValue += parseFloat(entry[this.metaphorSelection.dimension]);
+         }
+         this.scale.x = totalValue;
+         this.scale.z = totalValue;
+      }
+   }
+
+   recalculateHeight() {
+      if (this.metaphorSelection.height === undefined) {
+         this.scale.y = 1;
+         this.position.y = this.scale.y / 2;
+      } else {
+         let totalValue = 0;
+         for (let entry of this.buildingData) {
+            totalValue += parseFloat(entry[this.metaphorSelection.height]);
+         }
+         this.scale.y = totalValue;
+         this.position.y = this.scale.y / 2;
+      }
+   }
+
+   addDataEntry(data) {
+      this.buildingData.push(data);
+      this.recalculateDimension();
+      this.recalculateHeight();
+   }
+
+   getTotalDimensionValue() {
+      return this.scale.x;
+   }
+
+   getTotalHeightValue() {
+      return this.scale.y;
+   }
+
+   getMinHeightValue() {
+      let min = Infinity;
+      for (let entry of this.buildingData) {
+         let value = parseFloat(entry[this.metaphorSelection.height]);
+         if (value <= min) {
+            min = value;
+         }
+      }
+      return min;
    }
 }
 

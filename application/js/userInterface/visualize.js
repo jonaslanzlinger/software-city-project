@@ -1,4 +1,4 @@
-import { getAttributeNames, getDataType, getOriginalData, getParticipants, getTasks, setVisualizationData } from "../data";
+import { getAttributeNames, getDataType, getOriginalData, getParticipants, getTasks, setMetaphorSelection, setVisualizationData } from "../data";
 import { visualize } from "../visualization/visualize";
 import { buildTreesOfBuildings } from "../visualization/TreeOfBuildings";
 import { getMapping, updateMapping } from "./cookieManager";
@@ -102,6 +102,7 @@ buttonStartVisualize.addEventListener("click", e => {
       taskId: taskId
    }
    updateMapping(mapping);
+   setMetaphorSelection(mapping);
 
    // filter data depending on participant and task selection
    if (getDataType() !== "java-source-code") {
@@ -113,9 +114,9 @@ buttonStartVisualize.addEventListener("click", e => {
 
    setVisualizationData(data);
 
-   let treeOfBuildingsList = buildTreesOfBuildings(metaphorSelection);
+   let treeOfBuildingsList = buildTreesOfBuildings();
 
-   visualize(treeOfBuildingsList, metaphorSelection);
+   visualize(treeOfBuildingsList);
 });
 
 export { prepareVisualizeFrame };

@@ -3,7 +3,8 @@ import { Plane } from "./Plane";
 import { Mesh } from "three";
 import pack from "bin-pack";
 // import { calculateNormalizeFactors } from "../utils";
-import { getDataType, getEpoques, getVisualizationData } from "../data";
+import { getDataType, getEpoques, getNormalizer, getVisualizationData, setNormalizer } from "../data";
+import { Normalizer } from "./Normalizer";
 
 /**
  * Class that represents a tree of buildings
@@ -48,14 +49,14 @@ class TreeOfBuildings {
     * @param {Object} factors // factors for the metaphor
     * @returns {void}
     */
-   addBuilding(data, dataType, metaphorSelection, factors) {
-      let newBuilding = new Building(this.getNextBuildingId(), data, dataType, metaphorSelection, factors);
+   addBuilding(data) {
+      let newBuilding = new Building(this.getNextBuildingId(), data);
       for (let building of this.list) {
          if (
             building.buildingGroupingPath + building.buildingName ===
             newBuilding.buildingGroupingPath + newBuilding.buildingName
          ) {
-            building.buildingData.push(newBuilding.buildingData[0]);
+            building.addDataEntry(data);
             return;
          }
       }
@@ -151,19 +152,44 @@ class TreeOfBuildings {
       return null;
    }
 
-   /**
-    * Method that returns the highest building of this TreeOfBuildings
-    * 
-    * @returns {number}
-    */
-   getHighestBuilding() {
-      let max = 0;
+   getMaxDimensionBuilding() {
+      let max = -Infinity;
       this.list.forEach(building => {
-         if (building.originalScaleY >= max) {
-            max = building.originalScaleY;
+         if (building.getTotalDimensionValue() >= max) {
+            max = building.getTotalDimensionValue();
          }
       });
       return max;
+   }
+
+   getMinDimensionBuilding() {
+      let min = Infinity;
+      this.list.forEach(building => {
+         if (building.getTotalDimensionValue() <= min) {
+            min = building.getTotalDimensionValue();
+         }
+      });
+      return min;
+   }
+
+   getMaxHeightBuilding() {
+      let max = -Infinity;
+      this.list.forEach(building => {
+         if (building.getTotalHeightValue() >= max) {
+            max = building.getTotalHeightValue();
+         }
+      });
+      return max;
+   }
+
+   getMinHeightBuilding() {
+      let min = Infinity;
+      this.list.forEach(building => {
+         if (building.getMinHeightValue() <= min) {
+            min = building.getMinHeightValue();
+         }
+      });
+      return min;
    }
 
    /**
@@ -195,6 +221,7 @@ class TreeOfBuildings {
          if (child instanceof Mesh) {
             continue;
          }
+         console.log(child)
          let foundChild = this.putOnScreen(child);
          children.push(foundChild);
       }
@@ -313,7 +340,7 @@ class TreeOfBuildings {
 }
 
 
-const buildTreesOfBuildings = metaphorSelection => {
+const buildTreesOfBuildings = () => {
 
    let listTreeOfBuildings = [];
 
@@ -322,9 +349,8 @@ const buildTreesOfBuildings = metaphorSelection => {
 
       for (let epoque in epoques) {
          const treeOfBuildings = new TreeOfBuildings(epoque);
-         // let factors = calculateNormalizeFactors(metaphorSelection);
          epoques[epoque].forEach(entry => {
-            treeOfBuildings.addBuilding(entry, "java-source-code", metaphorSelection, factors);
+            treeOfBuildings.addBuilding(entry, metaphorSelection);
          });
 
          let listOfVisibleBuildings = [];
@@ -335,13 +361,13 @@ const buildTreesOfBuildings = metaphorSelection => {
                   building.visible = true;
                   listOfVisibleBuildings.push(building);
                   if (metaphorSelection.dimension !== undefined) {
-                     building.scale.x = buildingData[metaphorSelection.dimension] * factors.dimension;
+                     building.scale.x = buildingData[metaphorSelection.dimension];
                   } else {
                      building.scale.x = 1;
                   }
                   building.scale.z = building.scale.x;
                   if (metaphorSelection.height !== undefined) {
-                     building.scale.y = buildingData[metaphorSelection.height] * factors.height;
+                     building.scale.y = buildingData[metaphorSelection.height];
                   } else {
                      building.scale.y = 1;
                   }
@@ -357,10 +383,13 @@ const buildTreesOfBuildings = metaphorSelection => {
       }
    } else {
       const treeOfBuildings = new TreeOfBuildings();
-      let factors = calculateNormalizeFactors(metaphorSelection);
       getVisualizationData().forEach(entry => {
-         treeOfBuildings.addBuilding(entry, getDataType(), metaphorSelection, factors);
+         treeOfBuildings.addBuilding(entry, getDataType());
       });
+
+      // create a normalizer object for this tree of buildings
+      setNormalizer(new Normalizer(treeOfBuildings));
+      getNormalizer().normalizeDimensions(treeOfBuildings);
 
       treeOfBuildings.buildTreeStructure();
       treeOfBuildings.putOnScreen(treeOfBuildings.baseNode);
