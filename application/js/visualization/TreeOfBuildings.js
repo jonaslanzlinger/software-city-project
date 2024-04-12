@@ -2,7 +2,7 @@ import { Building } from "./Building";
 import { Plane } from "./Plane";
 import { Mesh } from "three";
 import pack from "bin-pack";
-import { calculateNormalizeFactors } from "../utils";
+// import { calculateNormalizeFactors } from "../utils";
 import { getDataType, getEpoques, getVisualizationData } from "../data";
 
 /**
@@ -322,7 +322,7 @@ const buildTreesOfBuildings = metaphorSelection => {
 
       for (let epoque in epoques) {
          const treeOfBuildings = new TreeOfBuildings(epoque);
-         let factors = calculateNormalizeFactors(metaphorSelection);
+         // let factors = calculateNormalizeFactors(metaphorSelection);
          epoques[epoque].forEach(entry => {
             treeOfBuildings.addBuilding(entry, "java-source-code", metaphorSelection, factors);
          });

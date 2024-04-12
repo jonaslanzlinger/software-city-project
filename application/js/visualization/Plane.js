@@ -27,14 +27,27 @@ class Plane extends THREE.Group {
       this.nodeName = nodeName;
 
       // Color
+      this.baseColor = new Color({ h: 0, s: 0, l: 0.4 });
+      this.setBaseColor = color => {
+         this.baseColor.setColor(color);
+
+         this.children[0].material.color.setHSL(color.h, color.s, color.l);
+      }
+
       this.highlightPlane = () => {
-         this.children[0].material.color.setHSL(0, 0, 0.6);
+         let color = this.baseColor.getHsl();
+         if (color.l >= 0.5) {
+            color.l -= 0.3;
+         } else {
+            color.l += 0.3;
+         }
+         this.children[0].material.color.setHSL(color.h, color.s, color.l);
       }
 
       this.notHighlightPlane = () => {
-         this.children[0].material.color.setHSL(0, 0, 0.4);
+         let color = this.baseColor.getHsl();
+         this.children[0].material.color.setHSL(color.h, color.s, color.l);
       }
-
    }
 
    addChild(child) {

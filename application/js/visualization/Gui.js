@@ -38,6 +38,9 @@ class Gui extends dat.GUI {
       let metaphorsFolder = this.addFolder("Metaphors");
       metaphorsFolder.open();
 
+      // //////////////////////////
+      // Height Metaphor
+      // //////////////////////////
       let heightMetaphorFolder = metaphorsFolder.addFolder("Height");
       heightMetaphorFolder
          .add(this.optionsHeightMetaphor, "scale", 1, 200)

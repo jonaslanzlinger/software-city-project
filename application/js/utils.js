@@ -98,17 +98,17 @@ const timestampToDate = timestamp => {
  * 
  * @param {Object} metaphorSelection
  */
-const calculateNormalizeFactors = metaphorSelection => {
-   let maxDimensionValue = 0;
-   let maxHeightValue = 0;
-   getVisualizationData().forEach(entry => {
-      maxDimensionValue = parseFloat(entry[metaphorSelection.dimension]) > maxDimensionValue ? parseFloat(entry[metaphorSelection.dimension]) : maxDimensionValue;
-      maxHeightValue = parseFloat(entry[metaphorSelection.height]) > maxHeightValue ? parseFloat(entry[metaphorSelection.height]) : maxHeightValue;
-   });
+// const calculateNormalizeFactors = metaphorSelection => {
+//    let maxDimensionValue = 0;
+//    let maxHeightValue = 0;
+//    getVisualizationData().forEach(entry => {
+//       maxDimensionValue = parseFloat(entry[metaphorSelection.dimension]) > maxDimensionValue ? parseFloat(entry[metaphorSelection.dimension]) : maxDimensionValue;
+//       maxHeightValue = parseFloat(entry[metaphorSelection.height]) > maxHeightValue ? parseFloat(entry[metaphorSelection.height]) : maxHeightValue;
+//    });
 
-   let dimensionFactor = 15 / maxDimensionValue;
-   let heightFactor = 15 / maxHeightValue;
-   return { dimension: dimensionFactor, height: heightFactor };
-}
+//    let dimensionFactor = 15 / maxDimensionValue;
+//    let heightFactor = 15 / maxHeightValue;
+//    return { dimension: dimensionFactor, height: heightFactor };
+// }
 
-export { formatDate, rgbToHsl, hexToRgb, timestampToDate, calculateNormalizeFactors }
+export { formatDate, rgbToHsl, hexToRgb, timestampToDate }

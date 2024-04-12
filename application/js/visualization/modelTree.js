@@ -1,6 +1,7 @@
-import { Plane } from "./Plane.js";
-import { Building } from "./Building.js";
+import { Plane } from "./Plane";
+import { Building } from "./Building";
 import * as THREE from "three";
+import { hexToRgb, rgbToHsl } from "../utils";
 
 const createModelTrees = listTreeOfBuildings => {
    let listOfModelTrees = [];
@@ -28,7 +29,23 @@ const createModelTrees = listTreeOfBuildings => {
          colorPicker.id = newElement.id;
          colorPicker.value = "#ffffff";
 
-         if (current instanceof Plane) {
+         if (current instanceof Building) {
+            newElement.type = "building";
+            newElement.style.display = "flex";
+            newElement.style.alignItems = "center";
+
+            if (current.buildingName.lastIndexOf(";") !== -1) {
+               newElement.innerText = current.buildingName.substring(current.buildingName.lastIndexOf(";") + 1);
+            } else {
+               newElement.innerText = current.buildingName;
+            }
+
+            newElement.appendChild(colorPicker);
+
+            colorPicker.addEventListener("input", () => {
+               current.setBaseColor(rgbToHsl(hexToRgb(colorPicker.value)));
+            });
+         } else if (current instanceof Plane) {
             newElement.type = "plane";
             newElement.expanded = "true";
 
@@ -48,39 +65,11 @@ const createModelTrees = listTreeOfBuildings => {
             folderElement.appendChild(colorPicker);
 
             colorPicker.addEventListener("input", () => {
-               // can I replace this loop with just the 'current' object?
-               for (let node of seen) {
-                  if (node.uuid === colorPicker.id) {
-                     node.children[0].material.color.set(colorPicker.value);
-                  }
-               }
+               current.setBaseColor(rgbToHsl(hexToRgb(colorPicker.value)));
             });
 
             newElement.appendChild(folderElement);
 
-         } else {
-            newElement.type = "building";
-            newElement.style.display = "flex";
-            newElement.style.alignItems = "center";
-
-            if (current.buildingName.lastIndexOf(";") !== -1) {
-               newElement.innerText = current.buildingName.substring(current.buildingName.lastIndexOf(";") + 1);
-            } else {
-               newElement.innerText = current.buildingName;
-            }
-
-            newElement.appendChild(colorPicker);
-
-            colorPicker.addEventListener("input", () => {
-               // can I just replace this with the 'current' object?
-               for (let node of seen) {
-                  if (node.uuid === colorPicker.id) {
-                     if (node instanceof Building) {
-                        node.setBuildingColor(new THREE.Color(colorPicker.value));
-                     }
-                  }
-               }
-            });
          }
 
          allNewElements.push(newElement);
@@ -109,57 +98,22 @@ const createModelTrees = listTreeOfBuildings => {
             }
             element.addEventListener("mouseenter", function () {
                if (current instanceof Building) {
-                  let color = current.material[0].color;
-                  color.r *= 5;
-                  color.g *= 5;
-                  color.b *= 5;
-                  current.material[0].color.set(color);
-                  current.material[1].color.set(color);
-                  let roofColor = current.material[2].color;
-                  roofColor.r *= 5;
-                  roofColor.g *= 5;
-                  roofColor.b *= 5;
-                  current.material[2].color.set(roofColor);
-                  current.material[3].color.set(color);
-                  current.material[4].color.set(color);
-                  current.material[5].color.set(color);
+                  current.highlightBuilding();
                   element.style.color = "blue";
                } else {
-                  let color = current.children[0].material.color;
-                  color.r *= 1.5;
-                  color.g *= 1.5;
-                  color.b *= 1.5;
-                  current.children[0].material.color.set(color);
+                  current.highlightPlane();
                   element.style.color = "blue";
                }
             })
 
             element.addEventListener("mouseleave", function () {
                if (current instanceof Building) {
-                  let color = current.material[0].color;
-                  color.r /= 5;
-                  color.g /= 5;
-                  color.b /= 5;
-                  current.material[0].color.set(color);
-                  current.material[1].color.set(color);
-                  let roofColor = current.material[2].color;
-                  roofColor.r /= 5;
-                  roofColor.g /= 5;
-                  roofColor.b /= 5;
-                  current.material[2].color.set(roofColor);
-                  current.material[3].color.set(color);
-                  current.material[4].color.set(color);
-                  current.material[5].color.set(color);
+                  current.notHighlightBuilding();
                   element.style.color = "black";
-                  // element.style.boxShadow = "none";
                } else {
-                  let color = current.children[0].material.color;
-                  color.r /= 1.5;
-                  color.g /= 1.5;
-                  color.b /= 1.5;
-                  current.children[0].material.color.set(color);
+                  current.notHighlightPlane();
                   element.style.color = "black";
-                  // element.style.boxShadow = "none";
+
                }
             })
 
