@@ -8,9 +8,9 @@ class Normalizer {
    maxHeightBuilding = 0;
    minHeightBuilding = 0;
 
-   // TODO
    guiScaleValue = 1;
    guiNormalizeValue = 1;
+   currentHeightValueMean = 0;
 
    constructor(treeOfBuildings) {
       this.maxDimensionBuilding = treeOfBuildings.getMaxDimensionBuilding();
@@ -39,9 +39,22 @@ class Normalizer {
    normalizeHeight(height) {
       let percent = (height - this.minHeightBuilding) / (this.maxHeightBuilding - this.minHeightBuilding);
       let normalizedHeight = (this.heightRange.max - this.heightRange.min) * percent + this.heightRange.min;
-      return normalizedHeight;
+      if (normalizedHeight > this.currentHeightValueMean) {
+         return (this.currentHeightValueMean + Math.pow(normalizedHeight - this.currentHeightValueMean, this.guiNormalizeValue)) * this.guiScaleValue;
+      } else if (normalizedHeight < this.currentHeightValueMean) {
+         return (this.currentHeightValueMean - Math.pow(this.currentHeightValueMean - normalizedHeight, this.guiNormalizeValue)) * this.guiScaleValue;
+      } else {
+         return normalizedHeight * this.guiScaleValue;
+      }
    }
 
+   setCurrentHeightValueMean(value) {
+      this.currentHeightValueMean = value;
+   }
+
+   getCurrentHeightValueMean() {
+      return this.currentHeightValueMean;
+   }
 }
 
 export { Normalizer }

@@ -134,6 +134,7 @@ class Building extends THREE.Mesh {
       }
 
       // DIMENSION & HEIGHT
+      this.currentHeightValue = 0;
       this.recalculateDimension();
       this.recalculateHeight();
    }

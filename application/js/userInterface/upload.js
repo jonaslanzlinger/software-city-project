@@ -71,6 +71,7 @@ const uploadData = () => {
       frameUpload.style.display = "none";
 
       buildTable();
+      document.getElementById("view-data").style.display = "block";
 
       // show table
       document.getElementById("table-data").style.display = "block";

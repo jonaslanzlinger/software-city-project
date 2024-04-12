@@ -6,7 +6,7 @@ import { Color } from "../Color";
 
 class Gui extends dat.GUI {
 
-   constructor(group, listTreeOfBuildings) {
+   constructor(listTreeOfBuildings) {
       super();
 
       this.optionsThresholds = {
@@ -21,10 +21,6 @@ class Gui extends dat.GUI {
                });
             }
          },
-      };
-      this.optionsHeightMetaphor = {
-         scale: 100,
-         normalize: 100,
       };
 
       let thresholdsFolder = this.addFolder("Thresholds");
@@ -41,46 +37,39 @@ class Gui extends dat.GUI {
       // //////////////////////////
       // Height Metaphor
       // //////////////////////////
+
+      this.optionsHeightMetaphor = {
+         scale: 1.0,
+         normalize: 1.0,
+      };
+
       let heightMetaphorFolder = metaphorsFolder.addFolder("Height");
       heightMetaphorFolder
-         .add(this.optionsHeightMetaphor, "scale", 1, 200)
-         .name("Scale (%)")
-         .onChange(e => {
-            let valueScale = e / 100 / (getNormalizer().heightRange.max / 100);
-            let valueNormalize = this.optionsHeightMetaphor.normalize / 100;
-            this.calculateHeightMetaphor(valueScale, valueNormalize, listTreeOfBuildings[0]);
+         .add(this.optionsHeightMetaphor, "scale", 0.0, 2.0)
+         .name("Scale")
+         .onChange(value => {
+            getNormalizer().setGuiScaleValue(value);
+            listTreeOfBuildings[0].list.forEach(building => {
+               building.scale.y = getNormalizer().normalizeHeight(building.currentHeightValue);
+               building.position.y = building.scale.y / 2 + 0.1;
+            });
          });
 
       heightMetaphorFolder
-         .add(this.optionsHeightMetaphor, "normalize", 0, 200)
-         .name("Normalize (%)")
-         .onChange(e => {
-            let valueScale =
-               this.optionsHeightMetaphor.scale /
-               100 /
-               (getNormalizer().heightRange.max / 100);
-            let valueNormalize = e / 100;
-            this.calculateHeightMetaphor(valueScale, valueNormalize, listTreeOfBuildings[0]);
+         .add(this.optionsHeightMetaphor, "normalize", 0.0, 2.0)
+         .name("Normalize")
+         .onChange(value => {
+            getNormalizer().setGuiNormalizeValue(value);
+            getNormalizer().setCurrentHeightValueMean(listTreeOfBuildings[0].getCurrentHeightValueMean());
+            listTreeOfBuildings[0].list.forEach(building => {
+               building.scale.y = getNormalizer().normalizeHeight(building.currentHeightValue);
+               building.position.y = building.scale.y / 2 + 0.1;
+            });
          });
       heightMetaphorFolder.open();
 
       // append this gui to the list of guis in the dataStore
       addGui(this);
-   }
-
-   calculateHeightMetaphor(valueScale, valueNormalize, treeOfBuildings) {
-      let heightMean = treeOfBuildings.getHeightMean() * valueScale;
-      treeOfBuildings.list.forEach(building => {
-         let buildingHeight = building.originalScaleY * valueScale;
-         if (buildingHeight > heightMean) {
-            building.scale.y = heightMean + Math.pow(buildingHeight - heightMean, valueNormalize);
-            building.scale.y = Math.pow(buildingHeight, valueNormalize);
-         } else {
-            building.scale.y = heightMean - Math.pow(heightMean - buildingHeight, valueNormalize);
-            building.scale.y = Math.pow(buildingHeight, valueNormalize);
-         }
-         building.position.y = building.scale.y / 2 + 0.1;
-      });
    }
 }
 

@@ -61,7 +61,6 @@
         <option value="java-source-code">Java Source Code</option>
         <option value="eye-tracking-java-source-code">Eye Tracking (Java Source Code)</option>
         <option value="eye-tracking-bpmn">Eye Tracking (BPMN)</option>
-        <option value="generic">Generic</option>
       </select>
 
       <button id="button-upload-data" class="btn btn-default">Upload Data</button>
@@ -177,10 +176,10 @@
       <ul>
         <li>
           <p style="font-weight: bold;">Java Source Code</p>
-          Provide at least the following attributes
+          The configuration needs at least the following attributes (names can differ):
           <ul>
-            <li>className - {layer1.layer2.layer3. ...} - example:
-              ch.unisg.application1.package1.class1</li>
+            <li>groupingPath - {layer1;layer2;layer3; ...} - example:
+              ch;unisg;application1;package1;class1</li>
             <li>timestamp - {YYYYMMDDHHmmssSSS} - example: 20240210114054572</li>
           </ul>
           <p>This type of data is used to visualize static Java source code. The timestamp is used
@@ -190,16 +189,18 @@
         </li>
         <li>
           <p style="font-weight: bold;">Eye Tracking (Java Source Code)</p>
-          Provide at least the following attributes
+          The configuration needs at least the following attributes (names can differ):
           <ul>
-            <li>className - {layer1.layer2.layer3. ...} - example:
-              ch.unisg.application1.package1.class1</li>
+            <li>groupingPath - {layer1;layer2;layer3; ...} - example:
+              ch;unisg;application1;package1;class1</li>
             <li>timestamp - {YYYYMMDDHHmmssSSS} - example: 20240210114054572</li>
+            <li>participant - {numeric} - example: 6</li>
+            <li>taskId - {numeric} - example: 4</li>
           </ul>
           <p>This type of data is used to visualize an eye-tracking experiment. The timestamp is
-            used to map the code to a specific point in time. When the user looks on one element
-            for the first time, the element appears in the visualization. All eyeFixation times get
-            accumulated while traversing through time.</p>
+            used to map the code to a specific point in time. The participant and taskId is used to
+            specify an respective experiment. All other attributes can be used for the metaphors.
+          </p>
         </li>
       </ul>
     </div>

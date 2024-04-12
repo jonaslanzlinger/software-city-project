@@ -197,10 +197,10 @@ class TreeOfBuildings {
     * 
     * @returns {number} The mean height of all buildings
     */
-   getHeightMean() {
+   getCurrentHeightValueMean() {
       let sum = 0;
       for (let building of this.list) {
-         sum += building.originalScaleY;
+         sum += building.currentHeightValue;
       }
       return sum / this.list.length;
    }
@@ -221,7 +221,6 @@ class TreeOfBuildings {
          if (child instanceof Mesh) {
             continue;
          }
-         console.log(child)
          let foundChild = this.putOnScreen(child);
          children.push(foundChild);
       }

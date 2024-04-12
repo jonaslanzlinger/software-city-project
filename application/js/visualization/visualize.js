@@ -41,14 +41,12 @@ const visualize = listTreeOfBuildings => {
    const lightSettings = new LightSettings();
    scene.add(lightSettings.getAmbientLight());
    scene.add(lightSettings.getDirectionalLight());
-   scene.add(lightSettings.getDirectionalLightHelper());
 
    new MouseControls(document, visualControls.getCamera(), scene, renderer);
 
    scene.add(listTreeOfBuildings[0].baseNode);
 
-   // TODO here
-   new Gui(scene, listTreeOfBuildings);
+   new Gui(listTreeOfBuildings);
 
    if (getDataType() === "java-source-code") {
       addSlider(listTreeOfBuildings, scene, listModelTrees);

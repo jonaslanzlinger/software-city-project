@@ -226,6 +226,7 @@ const addSliderEyeTracking = (treeOfBuildings, listOfModelTrees) => {
                // Height
                building.scale.y = getNormalizer().normalizeHeight(heightCumulativeValue);
                building.position.y = building.scale.y / 2 + 0.1;
+               building.currentHeightValue = heightCumulativeValue;
 
             } else {
                // Color
@@ -237,6 +238,7 @@ const addSliderEyeTracking = (treeOfBuildings, listOfModelTrees) => {
                // Height
                building.scale.y = getNormalizer().normalizeHeight(heightSnapshotsValue);
                building.position.y = building.scale.y / 2 + 0.1;
+               building.currentHeightValue = heightSnapshotsValue;
             }
          }
       }
