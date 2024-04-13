@@ -239,3 +239,7 @@ input[type="color"]::-webkit-color-swatch {
 #participant-selection #task-selection #participant-selection-label #task-selection-label {
    display: none;
 }
+
+#chart {
+   width: 100%;
+}

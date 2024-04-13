@@ -2,6 +2,8 @@ import * as THREE from "three";
 import { Building } from "./Building";
 import { Plane } from "./Plane";
 import { Mesh } from "three";
+import { getMetaphorSelection } from "../data";
+import { formatDate } from "../utils";
 
 class MouseControls {
 
@@ -10,6 +12,8 @@ class MouseControls {
    previousColor = null;
    previousRoofColor = null;
    allModelTreeElements = document.getElementsByClassName("model-tree-element");
+
+   chart = null;
 
    constructor(document, camera, scene, renderer) {
 
@@ -69,6 +73,85 @@ class MouseControls {
                         newElement.innerHTML = `<strong>${entry}:</strong><br>${objInfo[entry]}`;
                         infoPanelDiv.appendChild(newElement);
                      }
+                  }
+
+                  // clear chart
+                  if (this.chart !== null) {
+                     this.chart.destroy();
+                  }
+
+                  if (obj.object instanceof Building) {
+
+                     let building = obj.object;
+                     let dataHeightMetaphor = [];
+                     let dataColorMetaphor = [];
+
+                     building.buildingData.forEach(dataEntry => {
+                        dataHeightMetaphor.push({
+                           x: dataEntry.timestamp,
+                           y: parseFloat(dataEntry[getMetaphorSelection().height])
+                        });
+                        dataColorMetaphor.push({
+                           x: dataEntry.timestamp,
+                           y: parseFloat(dataEntry[getMetaphorSelection().color])
+                        });
+                     });
+
+                     dataHeightMetaphor.sort((a, b) => a.x - b.x);
+                     dataColorMetaphor.sort((a, b) => a.x - b.x);
+
+                     dataHeightMetaphor = dataHeightMetaphor.map(entry => {
+                        return {
+                           x: formatDate(entry.x),
+                           y: entry.y
+                        }
+                     });
+                     dataColorMetaphor = dataColorMetaphor.map(entry => {
+                        return {
+                           x: formatDate(entry.x),
+                           y: entry.y
+                        }
+                     });
+
+                     let buildingBaseColor = building.baseColor.getRgb();
+
+                     this.chart = new Chart("chart", {
+                        type: "line",
+                        data: {
+                           labels: dataHeightMetaphor.map(entry => entry.x),
+                           datasets: [{
+                              label: `Height - ${getMetaphorSelection().height}`,
+                              fill: false,
+                              lineTension: 0,
+                              borderColor: "rgba(128, 128, 128, 1)",
+                              backgroundColor: "rgba(128, 128, 128, 0.8)",
+                              pointStyle: 'circle',
+                              pointRadius: 5,
+                              pointHoverRadius: 7.5,
+                              data: dataHeightMetaphor
+                           }, {
+                              label: `Color - ${getMetaphorSelection().color}`,
+                              fill: false,
+                              lineTension: 0,
+                              borderColor: `rgba(${buildingBaseColor.r * 255}, ${buildingBaseColor.g * 255}, ${buildingBaseColor.b * 255}, 1)`,
+                              backgroundColor: `rgba(${buildingBaseColor.r * 255}, ${buildingBaseColor.g * 255}, ${buildingBaseColor.b * 255}, 0.8)`,
+                              pointStyle: 'circle',
+                              pointRadius: 5,
+                              pointHoverRadius: 7.5,
+                              data: dataColorMetaphor
+                           }],
+                        },
+                        options: {
+                           layout: {
+                              padding: {
+                                 left: 10,
+                                 right: 10,
+                                 top: 0,
+                                 bottom: 0
+                              }
+                           },
+                        }
+                     });
                   }
                   break;
                }

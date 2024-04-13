@@ -164,7 +164,7 @@ avgEyeFixationDuration,timestamp,className,linesOfCode,linesOfComments,someAttri
 6,20240115091534390,ch.unisg.tapasroster.roster.application.port.in.AssignTaskToExecutorCommand,12,12,8.0
 8,20240115094847125,ch.unisg.tapasroster.roster.application.port.in.TaskEvent,12,12,9.0
 13,20240115095203320,ch.unisg.tapasroster.roster.application.port.out.TaskAssignedToExecutorEvent,12,12,19.0
-2,20240115093257898,ch.unisg.tapasroster.roster.application.port.out.TaskUpdatedEvent,12,12,6.0
+2,20240115093257898,ch.unisg.tapasroster.roster.application.port.out.TaskUpdatedEvent,12,12,12.0
 3,20240115091744073,ch.unisg.tapasroster.roster.application.service.AddExecutorToAvailableExecutorsService,12,12,16.0
 13,20240115094542162,ch.unisg.tapasroster.roster.application.service.AddTaskToAssignmentsService,12,12,24.0
 4,20240115091900641,ch.unisg.tapasroster.roster.application.service.AssignTaskToExecutorService,5.0,12,37.0
@@ -305,7 +305,7 @@ avgEyeFixationDuration,timestamp,className,linesOfCode,linesOfComments,someAttri
 8,20240115090744489,ch.unisg.tapasexecutorcalculator.executorcalculator.application.port.in.AddExecutorToExecutorListCommand,12,12,17.0
 4,20240115091535044,ch.unisg.tapasexecutorcalculator.executorcalculator.application.port.in.AssignedTaskToExecutorCommand,12,12,15.0
 15,20240115094836303,ch.unisg.tapasexecutorcalculator.executorcalculator.application.port.out.NewExecutorAvailableEvent,12,12,8.0
-2,20240115094100810,ch.unisg.tapasexecutorcalculator.executorcalculator.application.port.out.TaskUpdatedEvent,12,12,6.0
+2,20240115094100810,ch.unisg.tapasexecutorcalculator.executorcalculator.application.port.out.TaskUpdatedEvent,12,12,8.0
 12,20240115095642500,ch.unisg.tapasexecutorcalculator.executorcalculator.application.service.AddExecutorToExecutorListService,12,12,212
 4,20240115093332215,ch.unisg.tapasexecutorcalculator.executorcalculator.application.service.AssignedTaskToExecutorService,112,12,42.0
 12,20240115095129847,ch.unisg.tapasexecutorcalculator.executorcalculator.domain.Executor,1.0,12,42.0
@@ -354,7 +354,7 @@ avgEyeFixationDuration,timestamp,className,linesOfCode,linesOfComments,someAttri
 11,20240115095023490,ch.unisg.tapasexecutorprinter.executorprinter.application.port.in.AddExecutorToExecutorListCommand,12,12,17.0
 9,20240115090751882,ch.unisg.tapasexecutorprinter.executorprinter.application.port.in.AssignedTaskToExecutorCommand,12,12,15.0
 4,20240115093816281,ch.unisg.tapasexecutorprinter.executorprinter.application.port.out.NewExecutorAvailableEvent,12,12,8.0
-4,20240115090642279,ch.unisg.tapasexecutorprinter.executorprinter.application.port.out.TaskUpdatedEvent,12,12,6.0
+4,20240115090642279,ch.unisg.tapasexecutorprinter.executorprinter.application.port.out.TaskUpdatedEvent,12,12,8.0
 4,20240115092328555,ch.unisg.tapasexecutorprinter.executorprinter.application.service.AddExecutorToExecutorListService,12,12,212
 10,20240115091012103,ch.unisg.tapasexecutorprinter.executorprinter.application.service.AssignedTaskToExecutorService,112,12,42.0
 13,20240115093948762,ch.unisg.tapasexecutorprinter.executorprinter.domain.Executor,1.0,12,38.0
@@ -368,7 +368,7 @@ avgEyeFixationDuration,timestamp,className,linesOfCode,linesOfComments,someAttri
 14,20240115090138731,ch.unisg.tapasexecutorweatherman.executorweatherman.adapter.out.formats.TaskEventJsonRepresentation,12,12,112
 8,20240115091350193,ch.unisg.tapasexecutorweatherman.executorweatherman.adapter.out.web.PublishTaskUpdatedEventWebAdapter,12,12,37.0
 7,20240115095333394,ch.unisg.tapasexecutorweatherman.executorweatherman.application.port.in.AssignedTaskToExecutorCommand,12,12,15.0
-11,20240115091358674,ch.unisg.tapasexecutorweatherman.executorweatherman.application.port.out.TaskUpdatedEvent,12,12,6.0
+11,20240115091358674,ch.unisg.tapasexecutorweatherman.executorweatherman.application.port.out.TaskUpdatedEvent,12,12,10.0
 4,20240115094118580,ch.unisg.tapasexecutorweatherman.executorweatherman.application.service.AssignedTaskToExecutorService,6.0,12,38.0
 2,20240115090548450,ch.unisg.tapasexecutorweatherman.executorweatherman.domain.Executor,8.0,12,612
 9,20240115091101006,ch.unisg.tapasexecutorweatherman.executorweatherman.domain.Task,12,12,32.0
@@ -398,7 +398,7 @@ avgEyeFixationDuration,timestamp,className,linesOfCode,linesOfComments,someAttri
 10,20240115090543699,ch.unisg.tapasroster.roster.application.port.in.AssignTaskToExecutorCommand,12,12,8.0
 14,20240115090911494,ch.unisg.tapasroster.roster.application.port.in.TaskEvent,12,12,9.0
 2,20240115092855066,ch.unisg.tapasroster.roster.application.port.out.TaskAssignedToExecutorEvent,12,12,19.0
-10,20240115093419864,ch.unisg.tapasroster.roster.application.port.out.TaskUpdatedEvent,12,12,6.0
+10,20240115093419864,ch.unisg.tapasroster.roster.application.port.out.TaskUpdatedEvent,12,12,34.0
 12,20240115091211629,ch.unisg.tapasroster.roster.application.service.AddExecutorToAvailableExecutorsService,12,12,16.0
 15,20240115091803518,ch.unisg.tapasroster.roster.application.service.AddTaskToAssignmentsService,12,12,24.0
 12,20240115094619181,ch.unisg.tapasroster.roster.application.service.AssignTaskToExecutorService,5.0,12,37.0
@@ -545,7 +545,7 @@ avgEyeFixationDuration,timestamp,className,linesOfCode,linesOfComments,someAttri
 6,20240115094318772,ch.unisg.tapasexecutorcalculator.executorcalculator.application.port.in.AddExecutorToExecutorListCommand,12,12,17.0
 7,20240115093525754,ch.unisg.tapasexecutorcalculator.executorcalculator.application.port.in.AssignedTaskToExecutorCommand,12,12,15.0
 9,20240115092651202,ch.unisg.tapasexecutorcalculator.executorcalculator.application.port.out.NewExecutorAvailableEvent,12,12,8.0
-2,20240115091927040,ch.unisg.tapasexecutorcalculator.executorcalculator.application.port.out.TaskUpdatedEvent,12,12,6.0
+2,20240115091927040,ch.unisg.tapasexecutorcalculator.executorcalculator.application.port.out.TaskUpdatedEvent,12,12,4.0
 3,20240115092811455,ch.unisg.tapasexecutorcalculator.executorcalculator.application.service.AddExecutorToExecutorListService,12,12,212
 7,20240115092841002,ch.unisg.tapasexecutorcalculator.executorcalculator.application.service.AssignedTaskToExecutorService,112,12,42.0
 5,20240115094101963,ch.unisg.tapasexecutorcalculator.executorcalculator.domain.Executor,1.0,12,42.0
@@ -947,11 +947,11 @@ avgEyeFixationDuration,timestamp,className,linesOfCode,linesOfComments,someAttri
 8,20240115094948198,ch.unisg.tapasexecutorcalculator.executorcalculator.application.service.AssignedTaskToExecutorService,112,12,42.0
 8,20240115095048198,ch.unisg.tapasexecutorcalculator.executorcalculator.application.service.AssignedTaskToExecutorService,112,12,42.0
 8,20240115095148198,ch.unisg.tapasexecutorcalculator.executorcalculator.application.service.AssignedTaskToExecutorService,112,12,42.0
-50,20240115091619609,ch.unisg.tapasexecutorcalculator.executorcalculator.application.port.out.TaskUpdatedEvent,12,12,6.0
-50,20240115091719609,ch.unisg.tapasexecutorcalculator.executorcalculator.application.port.out.TaskUpdatedEvent,12,12,6.0
-50,20240115091819609,ch.unisg.tapasexecutorcalculator.executorcalculator.application.port.out.TaskUpdatedEvent,12,12,6.0
-50,20240115091919609,ch.unisg.tapasexecutorcalculator.executorcalculator.application.port.out.TaskUpdatedEvent,12,12,6.0
-50,20240115092019609,ch.unisg.tapasexecutorcalculator.executorcalculator.application.port.out.TaskUpdatedEvent,12,12,6.0
-50,20240115092119609,ch.unisg.tapasexecutorcalculator.executorcalculator.application.port.out.TaskUpdatedEvent,12,12,6.0
-50,20240115092219609,ch.unisg.tapasexecutorcalculator.executorcalculator.application.port.out.TaskUpdatedEvent,12,12,6.0
-50,20240115092319609,ch.unisg.tapasexecutorcalculator.executorcalculator.application.port.out.TaskUpdatedEvent,12,12,6.0
+50,20240115091619609,ch.unisg.tapasexecutorcalculator.executorcalculator.application.port.out.TaskUpdatedEvent,12,12,32.0
+50,20240115091719609,ch.unisg.tapasexecutorcalculator.executorcalculator.application.port.out.TaskUpdatedEvent,12,12,24.0
+50,20240115091819609,ch.unisg.tapasexecutorcalculator.executorcalculator.application.port.out.TaskUpdatedEvent,12,12,11.0
+50,20240115091919609,ch.unisg.tapasexecutorcalculator.executorcalculator.application.port.out.TaskUpdatedEvent,12,12,15.0
+50,20240115092019609,ch.unisg.tapasexecutorcalculator.executorcalculator.application.port.out.TaskUpdatedEvent,12,12,33.0
+50,20240115092119609,ch.unisg.tapasexecutorcalculator.executorcalculator.application.port.out.TaskUpdatedEvent,12,12,31.0
+50,20240115092219609,ch.unisg.tapasexecutorcalculator.executorcalculator.application.port.out.TaskUpdatedEvent,12,12,21.0
+50,20240115092319609,ch.unisg.tapasexecutorcalculator.executorcalculator.application.port.out.TaskUpdatedEvent,12,12,16.0
