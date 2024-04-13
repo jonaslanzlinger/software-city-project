@@ -15,18 +15,21 @@
   </script>
   <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js">
   </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+  </script>
   <title>Software City</title>
-  <script type="module" crossorigin src="/software-city-project/assets/index-18Vj4u6t.js"></script>
-  <link rel="stylesheet" crossorigin href="/software-city-project/assets/index-w1Nl2kN2.css">
+  <script type="module" crossorigin src="/software-city-project/assets/index-YuUm8m8g.js"></script>
+  <link rel="stylesheet" crossorigin href="/software-city-project/assets/index-Rie68j8I.css">
 </head>
 
 <body>
 
   <div id="nav" class="container">
     <button id="button-upload" class="btn btn-default">Upload</button>
-    <button id="button-visualize" class="btn btn-default">Visualize</button>
-    <button id="button-view-data" class="btn btn-default">View Data</button>
-    <button id="button-model-tree" class="btn btn-default">Model Tree</button>
+    <button id="button-config" class="btn btn-default" disabled>Config</button>
+    <button id="button-visualize" class="btn btn-default" disabled>Visualize</button>
+    <button id="button-view-data" class="btn btn-default" disabled>View Data</button>
+    <button id="button-model-tree" class="btn btn-default" disabled>Model Tree</button>
   </div>
 
   <div id="view-data" class="container">
@@ -61,11 +64,39 @@
         <option value="java-source-code">Java Source Code</option>
         <option value="eye-tracking-java-source-code">Eye Tracking (Java Source Code)</option>
         <option value="eye-tracking-bpmn">Eye Tracking (BPMN)</option>
-        <option value="generic">Generic</option>
       </select>
 
       <button id="button-upload-data" class="btn btn-default">Upload Data</button>
     </form>
+  </div>
+
+  <div id="frame-config" class="container frame">
+    <i class="fa fa-times fa-lg button-close"></i>
+    <div>
+      <label for="groupingPath-selection" id="groupingPath-selection-label">groupingPath:</label>
+      <select id="groupingPath-selection" name="groupingPath-selection">
+      </select>
+    </div>
+
+    <div>
+      <label for="timestamp-selection" id="timestamp-selection-label">timestamp:</label>
+      <select id="timestamp-selection" name="timestamp-selection">
+      </select>
+    </div>
+
+    <div>
+      <label for="participant-selection" id="participant-selection-label">participant:</label>
+      <select id="participant-selection" name="participant-selection">
+      </select>
+    </div>
+
+    <div>
+      <label for="taskId-selection" id="taskId-selection-label">taskId:</label>
+      <select id="taskId-selection" name="taskId-selection">
+      </select>
+    </div>
+
+    <button id="button-save-config" class="btn btn-default">Save</button>
   </div>
 
   <div id="frame-visualize" class="container frame">
@@ -86,11 +117,11 @@
       </select>
     </div>
 
-    <label id="participant-selection-label" for="participant-selection">Participant:</label>
-    <select id="participant-selection"></select>
+    <label id="participant-label" for="participant">Participant:</label>
+    <select id="participant"></select>
 
-    <label id="task-selection-label" for="task-selection">Task:</label>
-    <select id="task-selection"></select>
+    <label id="taskId-label" for="taskId">Task:</label>
+    <select id="taskId"></select>
 
     <label for="city-dimension">City Dimension:</label>
     <input type="number" id="city-dimension" name="city-dimension"
@@ -110,6 +141,7 @@
   <div id="frame-info" class="container frame">
     <i class="fa fa-times fa-lg button-close"></i>
     <div id="info-panel-div"></div>
+    <canvas id="chart"></canvas>
   </div>
 
   <div id="slider-container">
@@ -118,6 +150,23 @@
     </div>
     <p id="slider-value">2024-01-01, 10:00:00:000</p>
   </div>
+
+  <div id="timeline-modes-container">
+    <div class="timeline-modes-subcontainer">
+      <label for="cumulative">Cumulative</label>
+      <input type="radio" id="cumulative" name="mode" value="cumulative" checked>
+      <label id="aggregated-label" for="aggregated">Aggregated</label>
+      <input type="checkbox" id="aggregated" name="aggregated" value="aggregated" checked>
+    </div>
+
+    <div class="timeline-modes-subcontainer">
+      <label for="snapshots">Snapshots</label>
+      <input type="radio" id="snapshots" name="mode" value="snapshots">
+      <input type="number" id="window-width" min="0" max="100">
+    </div>
+  </div>
+
+
 
   <!-- loading instructions here -->
   <div id="instructions">
@@ -134,10 +183,10 @@
       <ul>
         <li>
           <p style="font-weight: bold;">Java Source Code</p>
-          Provide at least the following attributes
+          The configuration needs at least the following attributes (names can differ):
           <ul>
-            <li>className - {layer1.layer2.layer3. ...} - example:
-              ch.unisg.application1.package1.class1</li>
+            <li>groupingPath - {layer1;layer2;layer3; ...} - example:
+              ch;unisg;application1;package1;class1</li>
             <li>timestamp - {YYYYMMDDHHmmssSSS} - example: 20240210114054572</li>
           </ul>
           <p>This type of data is used to visualize static Java source code. The timestamp is used
@@ -147,21 +196,22 @@
         </li>
         <li>
           <p style="font-weight: bold;">Eye Tracking (Java Source Code)</p>
-          Provide at least the following attributes
+          The configuration needs at least the following attributes (names can differ):
           <ul>
-            <li>className - {layer1.layer2.layer3. ...} - example:
-              ch.unisg.application1.package1.class1</li>
+            <li>groupingPath - {layer1;layer2;layer3; ...} - example:
+              ch;unisg;application1;package1;class1</li>
             <li>timestamp - {YYYYMMDDHHmmssSSS} - example: 20240210114054572</li>
+            <li>participant - {numeric} - example: 6</li>
+            <li>taskId - {numeric} - example: 4</li>
           </ul>
           <p>This type of data is used to visualize an eye-tracking experiment. The timestamp is
-            used to map the code to a specific point in time. When the user looks on one element
-            for the first time, the element appears in the visualization. All eyeFixation times get
-            accumulated while traversing through time.</p>
+            used to map the code to a specific point in time. The participant and taskId is used to
+            specify an respective experiment. All other attributes can be used for the metaphors.
+          </p>
         </li>
       </ul>
     </div>
   </div>
-
 
 
 </body>
