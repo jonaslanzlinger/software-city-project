@@ -9,6 +9,9 @@ const dimensionAttributeSelection = document.getElementById("dimension-attribute
 const heightAttributeSelection = document.getElementById("height-attribute-selection");
 const colorAttributeSelection = document.getElementById("color-attribute-selection");
 
+const frameModelTree = document.getElementById("frame-model-tree");
+const frameInfo = document.getElementById("frame-info");
+
 const prepareVisualizeFrame = () => {
 
    dimensionAttributeSelection.replaceChildren();
@@ -117,6 +120,10 @@ buttonStartVisualize.addEventListener("click", e => {
    let treeOfBuildingsList = buildTreesOfBuildings();
 
    visualize(treeOfBuildingsList);
+
+   frameModelTree.style.display = "block";
+   frameInfo.style.display = "block";
+
 });
 
 export { prepareVisualizeFrame };

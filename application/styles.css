@@ -186,23 +186,26 @@ i {
    max-width: 500px;
 }
 
-#frame-model-tree,
-#frame-info {
-   width: 350px;
-   height: 400px;
+#frame-model-tree {
    cursor: pointer;
    resize: both;
    overflow: auto;
    max-width: unset;
-   left: 190px;
-   top: 260px;
+   width: 20%;
+   height: 55%;
+   top: 32%;
+   left: 10%;
 }
 
 #frame-info {
-   width: 400px;
-   height: 15%;
-   top: 90%;
-   left: 50%;
+   cursor: pointer;
+   resize: both;
+   overflow: auto;
+   max-width: unset;
+   width: 20%;
+   height: 40%;
+   top: 80%;
+   left: 10%;
 }
 
 .model-tree-element {
