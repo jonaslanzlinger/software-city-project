@@ -4,6 +4,7 @@ import { Plane } from "./Plane";
 import { Mesh } from "three";
 import { getMetaphorSelection } from "../data";
 import { formatDate } from "../utils";
+import { drawArrow, removeArrow } from "./arrow";
 
 class MouseControls {
 
@@ -14,6 +15,8 @@ class MouseControls {
    allModelTreeElements = document.getElementsByClassName("model-tree-element");
 
    chart = null;
+
+   arrowObject = null;
 
    constructor(document, camera, scene, renderer) {
 
@@ -152,6 +155,10 @@ class MouseControls {
                            },
                         }
                      });
+                     // display arrow over the building
+                     drawArrow(building)
+                  } else {
+                     removeArrow();
                   }
                   break;
                }

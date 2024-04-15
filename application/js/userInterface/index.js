@@ -4,6 +4,7 @@ import { updateConfig } from "./cookieManager";
 import { uploadData } from "./upload";
 import { buildTable } from "./table";
 import { prepareVisualizeFrame } from "./visualize";
+import { removeArrow } from "../visualization/arrow";
 
 const buttonUpload = document.getElementById("button-upload");
 const buttonConfig = document.getElementById("button-config");
@@ -37,6 +38,7 @@ buttonUpload.addEventListener("click", () => {
    frameConfig.style.display = "none";
    frameVisualize.style.display = "none";
    frameInfo.style.display = "none";
+   removeArrow();
    frameModelTree.style.display = "none";
    if (frameUpload.style.display === "none" || frameUpload.style.display === '') {
       frameUpload.style.display = "block";
@@ -49,6 +51,7 @@ buttonConfig.addEventListener("click", () => {
    frameUpload.style.display = "none";
    frameVisualize.style.display = "none";
    frameInfo.style.display = "none";
+   removeArrow();
    frameModelTree.style.display = "none";
    if (frameConfig.style.display === "none" || frameConfig.style.display === '') {
       frameConfig.style.display = 'block';
@@ -61,6 +64,7 @@ buttonVisualize.addEventListener("click", () => {
    frameUpload.style.display = "none";
    frameConfig.style.display = "none";
    frameInfo.style.display = "none";
+   removeArrow();
    frameModelTree.style.display = "none";
    if (frameVisualize.style.display === "none" || frameVisualize.style.display === '') {
       frameVisualize.style.display = 'block';
@@ -74,6 +78,7 @@ buttonViewData.addEventListener("click", () => {
    frameConfig.style.display = "none";
    frameVisualize.style.display = "none";
    frameInfo.style.display = "none";
+   removeArrow();
    frameModelTree.style.display = "none";
    removeRenderersAndGuis();
    sliderContainer.style.display = "none";
@@ -146,6 +151,7 @@ for (let i = 0; i < buttonsClose.length; i++) {
             break;
          case "frame-info":
             frameInfo.style.display = "none";
+            removeArrow();
             break;
          case "frame-model-tree":
             frameModelTree.style.display = "none";
@@ -160,6 +166,7 @@ document.addEventListener("keydown", e => {
       frameConfig.style.display = "none";
       frameVisualize.style.display = "none";
       frameInfo.style.display = "none";
+      removeArrow();
       frameModelTree.style.display = "none";
    }
 });
