@@ -4,7 +4,8 @@ import { Plane } from "./Plane.js";
 
 const sliderContainer = document.getElementById("slider-container");
 const valueDisplay = document.getElementById("slider-value");
-const sliderThumb = document.getElementById("slider-thumb");
+const sliderThumbT0 = document.getElementById("slider-thumb-t0");
+const sliderThumbT1 = document.getElementById("slider-thumb-t1");
 
 const cumulativeRadio = document.getElementById("cumulative");
 const snapshotsRadio = document.getElementById("snapshots");
@@ -37,23 +38,32 @@ const addSlider = (treeOfBuildingsList, scene, listOfModelTrees) => {
 
    let isDragging = false;
    let SliderOffsetLeft = 0;
+   let draggingSlider = null;
 
-   sliderThumb.addEventListener("mousedown", e => {
+   sliderThumbT0.addEventListener("mousedown", e => {
       isDragging = true;
-      SliderOffsetLeft = e.clientX - sliderThumb.getBoundingClientRect().left;
+      SliderOffsetLeft = e.clientX - sliderThumbT0.getBoundingClientRect().left;
+      draggingSlider = sliderThumbT0;
+   });
+
+   sliderThumbT1.addEventListener("mousedown", e => {
+      isDragging = true;
+      SliderOffsetLeft = e.clientX - sliderThumbT1.getBoundingClientRect().left;
+      draggingSlider = sliderThumbT1;
    });
 
    document.addEventListener("mouseup", () => {
       isDragging = false;
       SliderOffsetLeft = 0;
+      draggingSlider = null;
    });
 
    document.addEventListener("mousemove", e => {
       if (isDragging) {
          const sliderProgressInPixel = e.clientX - slider.getBoundingClientRect().left - SliderOffsetLeft;
-         let newSliderProgressInPixel = Math.min(slider.clientWidth - sliderThumb.clientWidth, Math.max(0, sliderProgressInPixel));
-         sliderThumb.style.left = newSliderProgressInPixel + "px";
-         let sliderProgress = newSliderProgressInPixel / (slider.clientWidth - sliderThumb.clientWidth);
+         let newSliderProgressInPixel = Math.min(slider.clientWidth - draggingSlider.clientWidth, Math.max(0, sliderProgressInPixel));
+         draggingSlider.style.left = newSliderProgressInPixel + "px";
+         let sliderProgress = newSliderProgressInPixel / (slider.clientWidth - draggingSlider.clientWidth);
          let sliderTimestamp = new Date(lowestTimestamp.getTime() + parseInt(sliderProgress * deltaMillis));
          valueDisplay.textContent = formatDate(sliderTimestamp);
 
@@ -98,15 +108,24 @@ const addSliderEyeTracking = (treeOfBuildings, listOfModelTrees) => {
 
    let isDragging = false;
    let SliderOffsetLeft = 0;
+   let draggingSlider = null;
 
-   sliderThumb.addEventListener("mousedown", e => {
+   sliderThumbT0.addEventListener("mousedown", e => {
       isDragging = true;
-      SliderOffsetLeft = e.clientX - sliderThumb.getBoundingClientRect().left;
+      SliderOffsetLeft = e.clientX - sliderThumbT0.getBoundingClientRect().left;
+      draggingSlider = sliderThumbT0;
+   });
+
+   sliderThumbT1.addEventListener("mousedown", e => {
+      isDragging = true;
+      SliderOffsetLeft = e.clientX - sliderThumbT1.getBoundingClientRect().left;
+      draggingSlider = sliderThumbT1;
    });
 
    document.addEventListener("mouseup", () => {
       isDragging = false;
       SliderOffsetLeft = 0;
+      draggingSlider = null;
    });
 
    // if the aggregated checkbox is checked, I want to calculate the
@@ -160,10 +179,11 @@ const addSliderEyeTracking = (treeOfBuildings, listOfModelTrees) => {
 
    document.addEventListener("mousemove", e => {
       if (isDragging) {
+         console.log(slider);
          const sliderProgressInPixel = e.clientX - slider.getBoundingClientRect().left - SliderOffsetLeft;
-         let newSliderProgressInPixel = Math.min(slider.clientWidth - sliderThumb.clientWidth, Math.max(0, sliderProgressInPixel));
-         sliderThumb.style.left = newSliderProgressInPixel + "px";
-         let sliderProgress = newSliderProgressInPixel / (slider.clientWidth - sliderThumb.clientWidth);
+         let newSliderProgressInPixel = Math.min(slider.clientWidth - draggingSlider.clientWidth, Math.max(0, sliderProgressInPixel));
+         draggingSlider.style.left = newSliderProgressInPixel + "px";
+         let sliderProgress = newSliderProgressInPixel / (slider.clientWidth - draggingSlider.clientWidth);
          let sliderTimestamp = new Date(lowestTimestamp.getTime() + parseInt(sliderProgress * deltaMillis));
          valueDisplay.textContent = formatDate(sliderTimestamp);
 
