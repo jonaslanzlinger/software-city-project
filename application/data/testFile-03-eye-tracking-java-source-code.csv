@@ -1,6 +1,6 @@
 avgEyeFixationDuration,timestamp,className,linesOfCode,linesOfComments,someAttribute
 9,20240115090032738,ch.unisg.app.AppApplicationTests,12,12,6.0
-500,20240115095243927,ch.unisg.app.HelloController,12,12,7.0
+50,20240115095243927,ch.unisg.app.HelloController,12,12,7.0
 3,20240115091444714,ch.unisg.app.AppApplication,2.0,12,17.0
 6,20240115092332212,ch.unisg.app.NewExecutorController,1.0,12,67.0
 13,20240115093602638,ch.unisg.app.NewTaskController,5.0,12,97.0

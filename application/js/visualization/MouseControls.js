@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { Building } from "./Building";
 import { Plane } from "./Plane";
 import { Mesh } from "three";
-import { getMetaphorSelection } from "../data";
+import { getListTreeOfBuildings, getMetaphorSelection } from "../data";
 import { formatDate } from "../utils";
 import { drawArrow, removeArrow } from "./arrow";
 
@@ -14,7 +14,9 @@ class MouseControls {
    previousRoofColor = null;
    allModelTreeElements = document.getElementsByClassName("model-tree-element");
 
-   chart = null;
+   chartBuilding = null;
+   chartHeight = null;
+   chartColor = null;
 
    arrowObject = null;
 
@@ -79,8 +81,14 @@ class MouseControls {
                   }
 
                   // clear chart
-                  if (this.chart !== null) {
-                     this.chart.destroy();
+                  if (this.chartBuilding !== null) {
+                     this.chartBuilding.destroy();
+                  }
+                  if (this.chartHeight !== null) {
+                     this.chartHeight.destroy();
+                  }
+                  if (this.chartColor !== null) {
+                     this.chartColor.destroy();
                   }
 
                   if (obj.object instanceof Building) {
@@ -120,7 +128,71 @@ class MouseControls {
 
                      let buildingBaseColor = building.baseColor.getRgb();
 
-                     this.chart = new Chart("chart", {
+                     let allTimestamps = [];
+                     let heightMetaphorDatasets = [];
+                     let colorMetaphorDatasets = [];
+
+                     getListTreeOfBuildings()[0].list.forEach(building => {
+                        for (let entry of building.buildingData) {
+                           if (!allTimestamps.includes(entry.timestamp)) {
+                              allTimestamps.push(entry.timestamp);
+                           }
+                           heightMetaphorDatasets.push({
+                              x: entry.timestamp,
+                              y: parseFloat(entry[getMetaphorSelection().height])
+                           });
+                           colorMetaphorDatasets.push({
+                              x: entry.timestamp,
+                              y: parseFloat(entry[getMetaphorSelection().color])
+                           });
+                        }
+                     });
+
+                     this.chartHeight = new Chart("chartHeight", {
+                        type: 'line',
+                        data: {
+                           datasets: [{
+                              type: 'scatter',
+                              label: 'All Buildings',
+                              data: heightMetaphorDatasets,
+                              order: 2,
+                              backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                           },
+                           {
+                              type: 'line',
+                              label: 'Current Building',
+                              data: dataHeightMetaphor,
+                              order: 1,
+                              backgroundColor: 'rgba(54, 162, 235, 1)',
+                           }],
+                           labels: allTimestamps
+                        },
+                        options: {}
+                     });
+
+                     this.chartColor = new Chart("chartColor", {
+                        type: 'line',
+                        data: {
+                           datasets: [{
+                              type: 'scatter',
+                              label: 'All Buildings',
+                              data: colorMetaphorDatasets,
+                              order: 2,
+                              backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                           },
+                           {
+                              type: 'line',
+                              label: 'Current Building',
+                              data: dataColorMetaphor,
+                              order: 1,
+                              backgroundColor: 'rgba(54, 162, 235, 1)',
+                           }],
+                           labels: allTimestamps
+                        },
+                        options: {}
+                     });
+
+                     this.chart = new Chart("chartBuilding", {
                         type: "line",
                         data: {
                            labels: dataHeightMetaphor.map(entry => entry.x),
@@ -146,16 +218,7 @@ class MouseControls {
                               data: dataColorMetaphor
                            }],
                         },
-                        options: {
-                           layout: {
-                              padding: {
-                                 left: 10,
-                                 right: 10,
-                                 top: 0,
-                                 bottom: 0
-                              }
-                           },
-                        }
+                        options: {}
                      });
                      // display arrow over the building
                      drawArrow(building)

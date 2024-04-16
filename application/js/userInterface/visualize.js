@@ -1,4 +1,4 @@
-import { getAttributeNames, getDataType, getOriginalData, getParticipants, getTasks, setMetaphorSelection, setVisualizationData } from "../data";
+import { getAttributeNames, getDataType, getOriginalData, getParticipants, getTasks, setListTreeOfBuildings, setMetaphorSelection, setVisualizationData } from "../data";
 import { visualize } from "../visualization/visualize";
 import { buildTreesOfBuildings } from "../visualization/TreeOfBuildings";
 import { getMapping, updateMapping } from "./cookieManager";
@@ -118,6 +118,8 @@ buttonStartVisualize.addEventListener("click", e => {
    setVisualizationData(data);
 
    let treeOfBuildingsList = buildTreesOfBuildings();
+
+   setListTreeOfBuildings(treeOfBuildingsList);
 
    visualize(treeOfBuildingsList);
 
