@@ -1,17 +1,16 @@
 import { getNormalizer } from "../../data.js";
 
 /**
+ * 
  * This method is used for calculating the "none" aggregate function.
  * 
  * Here, I want to loop through all buildings and data points of that building
- * and decide if the data point lies within the range of the slider.
+ * and calculate the maxMetaphorValue for all metaphor values that lie within the range of the slider.
  * 
- * If this is the case, then I want to find for each building the data point 
- * with the highest value per metaphor.
+ * By doing this I calculate the maxMetaphorValue per building
+ * and the lastMetaphorValue per building.
  * 
- * Additionally I want to find the last data point for each building.
- * 
- * Then I want to show the ratio between the highest value and the last value
+ * Then I want to show the ratio between the maxMetaphorValue and the lastMetaphorValue
  * as the respective metaphor.
  * 
  */

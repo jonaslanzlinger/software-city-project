@@ -153,54 +153,6 @@ const addSlider = (treeOfBuildings, listOfModelTrees) => {
       draggingSlider = null;
    });
 
-   // TODO at the moment I dont use these 40 lines of code.
-   // but definitely rewrite this, to increase performance
-   let heightMetaphor = treeOfBuildings.list[0].metaphorSelection.height;
-   let colorMetaphor = treeOfBuildings.list[0].metaphorSelection.color;
-   //
-   let heightMaxOccurrences = 0;
-   let heightMaxTotalValue = 0;
-   let heightMaxValue = 0;
-   let colorMaxOccurrences = 0;
-   let colorMaxTotalValue = 0;
-   let colorMaxValue = 0;
-   //
-   for (let building of treeOfBuildings.list) {
-      let heightOccurrences = 0;
-      let heightTotalValue = 0;
-      let heightValue = 0;
-      let colorOccurrences = 0;
-      let colorTotalValue = 0;
-      let colorValue = 0;
-      for (let entry of building.buildingData) {
-         heightOccurrences += 1;
-         heightTotalValue += parseInt(entry[heightMetaphor]);
-         heightValue = parseInt(entry[heightMetaphor]);
-
-         colorOccurrences += 1;
-         colorTotalValue += parseInt(entry[colorMetaphor]);
-         colorValue = parseInt(entry[colorMetaphor]);
-      }
-      if (heightOccurrences > heightMaxOccurrences) {
-         heightMaxOccurrences = heightOccurrences;
-      }
-      if (heightTotalValue > heightMaxTotalValue) {
-         heightMaxTotalValue = heightTotalValue;
-      }
-      if (heightValue > heightMaxValue) {
-         heightMaxValue = heightValue;
-      }
-      if (colorOccurrences > colorMaxOccurrences) {
-         colorMaxOccurrences = colorOccurrences;
-      }
-      if (colorTotalValue > colorMaxTotalValue) {
-         colorMaxTotalValue = colorTotalValue;
-      }
-      if (colorValue > colorMaxValue) {
-         colorMaxValue = colorValue;
-      }
-   }
-
    document.addEventListener("mousemove", e => {
       if (isDragging) {
 
@@ -244,6 +196,7 @@ const addSlider = (treeOfBuildings, listOfModelTrees) => {
          const t1ProgressPercentage = t1ProgressInPixel / (slider.clientWidth - sliderThumbT1.clientWidth);
          const upperRangeBounds = new Date(lowestTimestamp.getTime() + parseInt(t1ProgressPercentage * deltaMillis));
 
+         // here decide which aggregate function to use
          switch (aggregateFunction.value) {
             case "none":
                aggregateFunctionNone(treeOfBuildings, lowerRangeBounds, upperRangeBounds);
