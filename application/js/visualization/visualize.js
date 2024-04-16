@@ -4,7 +4,7 @@ import { VisualControls } from "./VisualControls";
 import { LightSettings } from "./LightSettings";
 import { Gui } from "./Gui";
 import { MouseControls } from "./MouseControls";
-import { addSlider, addSliderEyeTracking } from "./timeline";
+import { addSlider } from "./timeline";
 import { createModelTrees } from "./modelTree";
 // This is for VR Button
 import { VRButton } from "three/examples/jsm/webxr/VRButton";
@@ -49,9 +49,10 @@ const visualize = listTreeOfBuildings => {
    new Gui(listTreeOfBuildings);
 
    if (getDataType() === "java-source-code") {
-      addSlider(listTreeOfBuildings, scene, listModelTrees);
+      // addSlider(listTreeOfBuildings, scene, listModelTrees);
+      addSlider(listTreeOfBuildings[0], listModelTrees);
    } else {
-      addSliderEyeTracking(listTreeOfBuildings[0], listModelTrees);
+      addSlider(listTreeOfBuildings[0], listModelTrees);
    }
 
    // TODO Uncomment this for VR button!

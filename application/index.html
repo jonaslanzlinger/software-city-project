@@ -152,21 +152,11 @@
     <p id="slider-value">2024-01-01, 10:00:00:000</p>
   </div>
 
-  <div id="timeline-modes-container">
-    <div class="timeline-modes-subcontainer">
-      <label for="cumulative">Cumulative</label>
-      <input type="radio" id="cumulative" name="mode" value="cumulative" checked>
-      <label id="aggregated-label" for="aggregated">Aggregated</label>
-      <input type="checkbox" id="aggregated" name="aggregated" value="aggregated" checked>
-    </div>
-
-    <div class="timeline-modes-subcontainer">
-      <label for="snapshots">Snapshots</label>
-      <input type="radio" id="snapshots" name="mode" value="snapshots">
-      <input type="number" id="window-width" min="0" max="100">
-    </div>
-  </div>
-
+  <select id="aggregate-function" name="aggregate-function">
+    <option value="none">-</option>
+    <option value="sum">Sum</option>
+    <option value="integral-curve">Integral Curve</option>
+  </select>
 
 
   <!-- loading instructions here -->

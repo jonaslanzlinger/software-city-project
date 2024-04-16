@@ -1,0 +1,5 @@
+const aggregateFunctionIntegralCurve = () => {
+
+}
+
+export { aggregateFunctionIntegralCurve };

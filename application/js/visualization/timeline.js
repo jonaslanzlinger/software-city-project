@@ -1,6 +1,7 @@
-import { getNormalizer } from "../data.js";
 import { formatDate } from "../utils.js";
-import { Plane } from "./Plane.js";
+import { aggregateFunctionNone } from "./aggregateFunctions/none";
+import { aggregateFunctionSum } from "./aggregateFunctions/sum";
+import { aggregateFunctionIntegralCurve } from "./aggregateFunctions/integralCurve";
 
 const sliderContainer = document.getElementById("slider-container");
 const valueDisplay = document.getElementById("slider-value");
@@ -8,114 +9,105 @@ const sliderThumbT0 = document.getElementById("slider-thumb-t0");
 const sliderThumbT1 = document.getElementById("slider-thumb-t1");
 const sliderWindowWidth = document.getElementById("slider-window-width");
 
-const cumulativeRadio = document.getElementById("cumulative");
-const snapshotsRadio = document.getElementById("snapshots");
-const windowWidth = document.getElementById("window-width");
-
-const checkboxAggregated = document.getElementById("aggregated");
-const labelAggregated = document.getElementById("aggregated-label");
-
-// global variable for timeline mode
-let timelineMode = "cumulative";
+let aggregateFunction = document.getElementById("aggregate-function");
 
 
 // TODO BIG! Refactor this two methods to one method (look for what is common)
-const addSlider = (treeOfBuildingsList, scene, listOfModelTrees) => {
+// const addSlider = (treeOfBuildingsList, scene, listOfModelTrees) => {
 
-   let modelTreeElement = document.getElementById("model-tree");
-   while (modelTreeElement.firstChild) {
-      modelTreeElement.removeChild(modelTreeElement.firstChild);
-   }
-   modelTreeElement.appendChild(listOfModelTrees[0]);
+//    let modelTreeElement = document.getElementById("model-tree");
+//    while (modelTreeElement.firstChild) {
+//       modelTreeElement.removeChild(modelTreeElement.firstChild);
+//    }
+//    modelTreeElement.appendChild(listOfModelTrees[0]);
 
-   let i = 0;
-   let displayedTreeOfBuildings = treeOfBuildingsList[i];
+//    let i = 0;
+//    let displayedTreeOfBuildings = treeOfBuildingsList[i];
 
-   let lowestTimestamp = new Date(treeOfBuildingsList[i].timestamp);
-   let highestTimestamp = new Date(treeOfBuildingsList[treeOfBuildingsList.length - 1].timestamp);
+//    let lowestTimestamp = new Date(treeOfBuildingsList[i].timestamp);
+//    let highestTimestamp = new Date(treeOfBuildingsList[treeOfBuildingsList.length - 1].timestamp);
 
-   let deltaMillis = highestTimestamp - lowestTimestamp;
+//    let deltaMillis = highestTimestamp - lowestTimestamp;
 
-   valueDisplay.textContent = formatDate(lowestTimestamp);
-   sliderContainer.style.display = "block";
+//    valueDisplay.textContent = formatDate(lowestTimestamp);
+//    sliderContainer.style.display = "block";
 
-   let isDragging = false;
-   let SliderOffsetLeft = 0;
-   let draggingSlider = null;
+//    let isDragging = false;
+//    let SliderOffsetLeft = 0;
+//    let draggingSlider = null;
 
-   sliderThumbT0.style.left = "0px";
-   sliderThumbT1.style.left = "0px";
+//    sliderThumbT0.style.left = "0px";
+//    sliderThumbT1.style.left = "0px";
 
-   sliderThumbT0.addEventListener("mousedown", e => {
-      isDragging = true;
-      SliderOffsetLeft = e.clientX - sliderThumbT0.getBoundingClientRect().left;
-      draggingSlider = sliderThumbT0;
-   });
+//    sliderThumbT0.addEventListener("mousedown", e => {
+//       isDragging = true;
+//       SliderOffsetLeft = e.clientX - sliderThumbT0.getBoundingClientRect().left;
+//       draggingSlider = sliderThumbT0;
+//    });
 
-   sliderThumbT1.addEventListener("mousedown", e => {
-      isDragging = true;
-      SliderOffsetLeft = e.clientX - sliderThumbT1.getBoundingClientRect().left;
-      draggingSlider = sliderThumbT1;
-   });
+//    sliderThumbT1.addEventListener("mousedown", e => {
+//       isDragging = true;
+//       SliderOffsetLeft = e.clientX - sliderThumbT1.getBoundingClientRect().left;
+//       draggingSlider = sliderThumbT1;
+//    });
 
-   document.addEventListener("mouseup", () => {
-      isDragging = false;
-      SliderOffsetLeft = 0;
-      draggingSlider = null;
-   });
+//    document.addEventListener("mouseup", () => {
+//       isDragging = false;
+//       SliderOffsetLeft = 0;
+//       draggingSlider = null;
+//    });
 
-   document.addEventListener("mousemove", e => {
-      if (isDragging) {
-         const sliderProgressInPixel = e.clientX - slider.getBoundingClientRect().left - SliderOffsetLeft;
-         let newSliderProgressInPixel = Math.min(slider.clientWidth - draggingSlider.clientWidth, Math.max(0, sliderProgressInPixel));
+//    document.addEventListener("mousemove", e => {
+//       if (isDragging) {
+//          const sliderProgressInPixel = e.clientX - slider.getBoundingClientRect().left - SliderOffsetLeft;
+//          let newSliderProgressInPixel = Math.min(slider.clientWidth - draggingSlider.clientWidth, Math.max(0, sliderProgressInPixel));
 
-         // if the t0 slider is dragged further right than the t1 slider, we want to prevent that
-         // if the t1 slider is dragged further left than the t0 slider, we want to prevent that
-         if (draggingSlider === sliderThumbT0 && newSliderProgressInPixel > parseInt(sliderThumbT1.style.left)) {
-            newSliderProgressInPixel = parseInt(sliderThumbT1.style.left);
-         } else if (draggingSlider === sliderThumbT1 && newSliderProgressInPixel < parseInt(sliderThumbT0.style.left)) {
-            newSliderProgressInPixel = parseInt(sliderThumbT0.style.left);
-         } else {
-            draggingSlider.style.left = newSliderProgressInPixel + "px";
-         }
-         // the dragging slider should be on top of the other slider
-         if (draggingSlider === sliderThumbT0) {
-            sliderThumbT0.style.zIndex = 2;
-            sliderThumbT1.style.zIndex = 1;
-         } else {
-            sliderThumbT1.style.zIndex = 2;
-            sliderThumbT0.style.zIndex = 1;
-         }
+//          // if the t0 slider is dragged further right than the t1 slider, we want to prevent that
+//          // if the t1 slider is dragged further left than the t0 slider, we want to prevent that
+//          if (draggingSlider === sliderThumbT0 && newSliderProgressInPixel > parseInt(sliderThumbT1.style.left)) {
+//             newSliderProgressInPixel = parseInt(sliderThumbT1.style.left);
+//          } else if (draggingSlider === sliderThumbT1 && newSliderProgressInPixel < parseInt(sliderThumbT0.style.left)) {
+//             newSliderProgressInPixel = parseInt(sliderThumbT0.style.left);
+//          } else {
+//             draggingSlider.style.left = newSliderProgressInPixel + "px";
+//          }
+//          // the dragging slider should be on top of the other slider
+//          if (draggingSlider === sliderThumbT0) {
+//             sliderThumbT0.style.zIndex = 2;
+//             sliderThumbT1.style.zIndex = 1;
+//          } else {
+//             sliderThumbT1.style.zIndex = 2;
+//             sliderThumbT0.style.zIndex = 1;
+//          }
 
-         let sliderProgress = newSliderProgressInPixel / (slider.clientWidth - draggingSlider.clientWidth);
-         let sliderTimestamp = new Date(lowestTimestamp.getTime() + parseInt(sliderProgress * deltaMillis));
-         valueDisplay.textContent = formatDate(sliderTimestamp);
+//          let sliderProgress = newSliderProgressInPixel / (slider.clientWidth - draggingSlider.clientWidth);
+//          let sliderTimestamp = new Date(lowestTimestamp.getTime() + parseInt(sliderProgress * deltaMillis));
+//          valueDisplay.textContent = formatDate(sliderTimestamp);
 
-         // redraw the window-width div
-         sliderWindowWidth.style.left = parseInt(sliderThumbT0.style.left) + 10 + "px";
-         sliderWindowWidth.style.width = (parseInt(sliderThumbT1.style.left) - parseInt(sliderThumbT0.style.left)) + "px";
+//          // redraw the window-width div
+//          sliderWindowWidth.style.left = parseInt(sliderThumbT0.style.left) + 10 + "px";
+//          sliderWindowWidth.style.width = (parseInt(sliderThumbT1.style.left) - parseInt(sliderThumbT0.style.left)) + "px";
 
-         const belowList = treeOfBuildingsList.filter(treeOfBuildings => new Date(treeOfBuildings.timestamp) <= sliderTimestamp);
-         const next = belowList.reduce((max, treeOfBuildings) => new Date(treeOfBuildings.timestamp) > new Date(max.timestamp) ? treeOfBuildings : max, treeOfBuildingsList[0]);
-         const newIndex = treeOfBuildingsList.findIndex(treeOfBuildings => treeOfBuildings === next);
+//          const belowList = treeOfBuildingsList.filter(treeOfBuildings => new Date(treeOfBuildings.timestamp) <= sliderTimestamp);
+//          const next = belowList.reduce((max, treeOfBuildings) => new Date(treeOfBuildings.timestamp) > new Date(max.timestamp) ? treeOfBuildings : max, treeOfBuildingsList[0]);
+//          const newIndex = treeOfBuildingsList.findIndex(treeOfBuildings => treeOfBuildings === next);
 
-         if (newIndex !== i) {
-            i = newIndex;
-            scene.remove(...scene.children.filter(child => child instanceof Plane));
-            displayedTreeOfBuildings = next;
-            scene.add(displayedTreeOfBuildings.baseNode);
+//          if (newIndex !== i) {
+//             i = newIndex;
+//             scene.remove(...scene.children.filter(child => child instanceof Plane));
+//             displayedTreeOfBuildings = next;
+//             scene.add(displayedTreeOfBuildings.baseNode);
 
-            while (modelTreeElement.firstChild) {
-               modelTreeElement.removeChild(modelTreeElement.firstChild);
-            }
-            modelTreeElement.appendChild(listOfModelTrees[newIndex]);
-         }
-      }
-   });
-   showTimelineModes();
-}
+//             while (modelTreeElement.firstChild) {
+//                modelTreeElement.removeChild(modelTreeElement.firstChild);
+//             }
+//             modelTreeElement.appendChild(listOfModelTrees[newIndex]);
+//          }
+//       }
+//    });
+// }
 
-const addSliderEyeTracking = (treeOfBuildings, listOfModelTrees) => {
+const addSlider = (treeOfBuildings, listOfModelTrees) => {
 
    let modelTreeElement = document.getElementById("model-tree");
    while (modelTreeElement.firstChild) {
@@ -141,6 +133,8 @@ const addSliderEyeTracking = (treeOfBuildings, listOfModelTrees) => {
    sliderThumbT0.style.left = "0px";
    sliderThumbT1.style.left = "0px";
 
+   aggregateFunction.style.display = "block";
+
    sliderThumbT0.addEventListener("mousedown", e => {
       isDragging = true;
       SliderOffsetLeft = e.clientX - sliderThumbT0.getBoundingClientRect().left;
@@ -159,9 +153,8 @@ const addSliderEyeTracking = (treeOfBuildings, listOfModelTrees) => {
       draggingSlider = null;
    });
 
-   // if the aggregated checkbox is checked, I want to calculate the
-   // aggregated values of the height metaphor and the color metaphor
-   // ...otherwise I only want to calculate based on the last data point for each building
+   // TODO at the moment I dont use these 40 lines of code.
+   // but definitely rewrite this, to increase performance
    let heightMetaphor = treeOfBuildings.list[0].metaphorSelection.height;
    let colorMetaphor = treeOfBuildings.list[0].metaphorSelection.color;
    //
@@ -210,6 +203,8 @@ const addSliderEyeTracking = (treeOfBuildings, listOfModelTrees) => {
 
    document.addEventListener("mousemove", e => {
       if (isDragging) {
+
+         // set position of the dragged slider
          const sliderProgressInPixel = e.clientX - slider.getBoundingClientRect().left - SliderOffsetLeft;
          let newSliderProgressInPixel = Math.min(slider.clientWidth - draggingSlider.clientWidth, Math.max(0, sliderProgressInPixel));
 
@@ -231,6 +226,7 @@ const addSliderEyeTracking = (treeOfBuildings, listOfModelTrees) => {
             sliderThumbT0.style.zIndex = 1;
          }
 
+         // calculate value for the display
          let sliderProgress = newSliderProgressInPixel / (slider.clientWidth - draggingSlider.clientWidth);
          let sliderTimestamp = new Date(lowestTimestamp.getTime() + parseInt(sliderProgress * deltaMillis));
          valueDisplay.textContent = formatDate(sliderTimestamp);
@@ -239,111 +235,31 @@ const addSliderEyeTracking = (treeOfBuildings, listOfModelTrees) => {
          sliderWindowWidth.style.left = parseInt(sliderThumbT0.style.left) + 10 + "px";
          sliderWindowWidth.style.width = (parseInt(sliderThumbT1.style.left) - parseInt(sliderThumbT0.style.left)) + "px";
 
-         // calculate the window width in milliseconds
-         const windowWidthMillis = deltaMillis * windowWidth.value / 100;
+         // calculate the range (lowerRangeBounds = t0)
+         // calculate the range (upperRangeBounds = t1)
+         const t0ProgressInPixel = parseInt(sliderThumbT0.style.left);
+         const t0ProgressPercentage = t0ProgressInPixel / (slider.clientWidth - sliderThumbT0.clientWidth);
+         const lowerRangeBounds = new Date(lowestTimestamp.getTime() + parseInt(t0ProgressPercentage * deltaMillis));
+         const t1ProgressInPixel = parseInt(sliderThumbT1.style.left);
+         const t1ProgressPercentage = t1ProgressInPixel / (slider.clientWidth - sliderThumbT1.clientWidth);
+         const upperRangeBounds = new Date(lowestTimestamp.getTime() + parseInt(t1ProgressPercentage * deltaMillis));
 
-         // Calculating the upper and lower bounds of the window
-         const lowerWindowBoundsTimestamp = sliderTimestamp.getTime() - windowWidthMillis / 2;
-         const lowerWindowBounds = new Date(lowerWindowBoundsTimestamp);
-         const upperWindowBoundsTimestamp = sliderTimestamp.getTime() + windowWidthMillis / 2;
-         const upperWindowBounds = new Date(upperWindowBoundsTimestamp);
-
-         // in this second for-loop, we calculate the total value of the height metaphor
-         // for each building.
-         // depending on the timeline mode selection.
-         // for the cumulative mode, we calculate the total value of the height metaphor up until this point in time
-         // for the snapshots mode, we calculate the total value of the height metaphor for this specific point in time (including the window width)
-         for (let building of treeOfBuildings.list) {
-            let heightCumulativeValue = 0;
-            let heightCumulativeOccurences = 0;
-            let heightSnapshotsValue = 0;
-            let heightSnapshotsOccurences = 0;
-            let colorCumulativeValue = 0;
-            let colorCumulativeOccurences = 0;
-            let colorSnapshotsValue = 0;
-            let colorSnapshotsOccurences = 0;
-            for (let entry of building.buildingData) {
-               // here we collect the data depending on the timeline mode
-               if (timelineMode === "cumulative" && new Date(entry.timestamp) <= sliderTimestamp) {
-
-                  heightCumulativeValue += parseInt(entry[heightMetaphor]);
-                  heightCumulativeOccurences += 1;
-
-                  colorCumulativeValue += parseInt(entry[colorMetaphor]);
-                  colorCumulativeOccurences += 1;
-
-               } else if (timelineMode === "snapshots" && new Date(entry.timestamp) >= lowerWindowBounds && new Date(entry.timestamp) <= upperWindowBounds) {
-
-                  heightSnapshotsValue += parseInt(entry[heightMetaphor]);
-                  heightSnapshotsOccurences += 1;
-
-                  colorSnapshotsValue += parseInt(entry[colorMetaphor]);
-                  colorSnapshotsOccurences += 1;
-               }
-            }
-
-            if (timelineMode === "cumulative") {
-               // Color
-               building.visible = heightCumulativeOccurences > 0;
-               let luminance;
-               let ratio;
-               if (checkboxAggregated.checked) {
-                  luminance = (colorCumulativeValue / colorMaxTotalValue);
-                  ratio = 0.8;
-               } else {
-                  luminance = (colorCumulativeValue / colorMaxValue);
-                  ratio = 0.8;
-               }
-               building.setColorLuminance(luminance, ratio);
-
-               // Height
-               building.scale.y = getNormalizer().normalizeHeight(heightCumulativeValue);
-               building.position.y = building.scale.y / 2 + 0.1;
-               building.currentHeightValue = heightCumulativeValue;
-
-            } else {
-               // Color
-               building.visible = heightSnapshotsOccurences > 0;
-               let luminance = colorSnapshotsValue / colorMaxTotalValue;
-               let ratio = 0.8;
-               building.setColorLuminance(luminance, ratio);
-
-               // Height
-               building.scale.y = getNormalizer().normalizeHeight(heightSnapshotsValue);
-               building.position.y = building.scale.y / 2 + 0.1;
-               building.currentHeightValue = heightSnapshotsValue;
-            }
+         switch (aggregateFunction.value) {
+            case "none":
+               aggregateFunctionNone(treeOfBuildings, lowerRangeBounds, upperRangeBounds);
+               break;
+            case "sum":
+               aggregateFunctionSum(treeOfBuildings, lowerRangeBounds, upperRangeBounds);
+               break;
+            case "integral-curve":
+               aggregateFunctionIntegralCurve(treeOfBuildings, lowerRangeBounds, upperRangeBounds);
+               break;
+            default:
+               console.log("No aggregate function selected");
+               break;
          }
       }
    });
-   showTimelineModes();
 }
 
-const showTimelineModes = () => {
-   document.getElementById("timeline-modes-container").style.display = "block";
-}
-
-/**
- * Method to toggle between cumulative and snapshots mode
- * 
- * Note: This method is called when the user clicks on the radio buttons
- * Note: The checkbox for aggregated values is only displayed in the cumulative mode
- */
-const toggleTimelineMode = () => {
-   if (cumulativeRadio.checked) {
-      windowWidth.style.display = "none";
-      timelineMode = "cumulative";
-      checkboxAggregated.style.display = "block";
-      labelAggregated.style.display = "block";
-   } else {
-      windowWidth.style.display = "block";
-      timelineMode = "snapshots";
-      checkboxAggregated.style.display = "none";
-      labelAggregated.style.display = "none";
-   }
-}
-
-cumulativeRadio.addEventListener("click", toggleTimelineMode);
-snapshotsRadio.addEventListener("click", toggleTimelineMode);
-
-export { addSlider, addSliderEyeTracking };
+export { addSlider };

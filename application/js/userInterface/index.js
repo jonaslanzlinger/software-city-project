@@ -32,7 +32,8 @@ const buttonAlertCloseUploadData = document.getElementById("button-alert-close-u
 const buttonAlertCloseClearData = document.getElementById("button-alert-close-clear-data");
 
 const sliderContainer = document.getElementById("slider-container");
-const timelineModesContainer = document.getElementById("timeline-modes-container");
+
+const aggregateFunction = document.getElementById("aggregate-function");
 
 buttonUpload.addEventListener("click", () => {
    frameConfig.style.display = "none";
@@ -82,7 +83,7 @@ buttonViewData.addEventListener("click", () => {
    frameModelTree.style.display = "none";
    removeRenderersAndGuis();
    sliderContainer.style.display = "none";
-   timelineModesContainer.style.display = "none";
+   aggregateFunction.style.display = "none";
    viewData.style.display = "block";
 });
 
