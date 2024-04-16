@@ -276,6 +276,15 @@ const setVisualizationData = data => {
 }
 
 /**
+ * Method to set the listTreeOfBuildings
+ * 
+ * @param {Array} listTreeOfBuildings // the list of tree of buildings
+ */
+const setListTreeOfBuildings = listTreeOfBuildings => {
+   dataStore.listTreeOfBuildings = listTreeOfBuildings;
+}
+
+/**
  * Method to set the metaphor selection
  * 
  * @param {Object} metaphorSelection // mapping of metaphor selection
@@ -311,6 +320,7 @@ export {
    getListGuis,
    setOriginalData,
    setVisualizationData,
+   setListTreeOfBuildings,
    setMetaphorSelection,
    setNormalizer
 }
