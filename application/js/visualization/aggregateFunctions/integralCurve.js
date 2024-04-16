@@ -29,7 +29,7 @@ const aggregateFunctionIntegralCurve = (treeOfBuildings, lowerRangeBounds, upper
       let heightIntegralCurve = 0;
       let colorIntegralCurve = 0;
       for (let entry of building.buildingData) {
-         if (new Date(entry.timestamp) >= lowerRangeBounds && new Date(entry.timestamp) <= upperRangeBounds) {
+         if (parseInt(entry.timestamp) >= lowerRangeBounds && parseInt(entry.timestamp) <= upperRangeBounds) {
             heightIntegralCurve += parseInt(entry[heightMetaphor]);
             colorIntegralCurve += parseInt(entry[colorMetaphor]);
          }
@@ -47,7 +47,7 @@ const aggregateFunctionIntegralCurve = (treeOfBuildings, lowerRangeBounds, upper
       let colorIntegralCurve = 0;
       for (let entry of building.buildingData) {
          // here we collect the data for all entries that are within the range
-         if (new Date(entry.timestamp) >= lowerRangeBounds && new Date(entry.timestamp) <= upperRangeBounds) {
+         if (parseInt(entry.timestamp) >= lowerRangeBounds && parseInt(entry.timestamp) <= upperRangeBounds) {
             heightIntegralCurve += parseInt(entry[heightMetaphor]);
             colorIntegralCurve += parseInt(entry[colorMetaphor]);
          }

@@ -31,7 +31,8 @@ const processOriginalData = config => {
             // if the dataType is java-source-code, replace the "." with ";"
             dataObject["groupingPath"] = entry[attributeName].replace(/\./g, ";")
          } else if (attributeName === config.timestamp) {
-            dataObject["timestamp"] = timestampToDate(entry[attributeName]);
+            // dataObject["timestamp"] = timestampToDate(entry[attributeName]);
+            dataObject["timestamp"] = entry[attributeName];
          } else if (attributeName === config.participant && dataStore.dataType !== "java-source-code") {
             dataObject["participant"] = entry[attributeName];
          } else if (attributeName === config.taskId && dataStore.dataType !== "java-source-code") {

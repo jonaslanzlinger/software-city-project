@@ -105,13 +105,15 @@ class MouseControls {
 
                      dataHeightMetaphor = dataHeightMetaphor.map(entry => {
                         return {
-                           x: formatDate(entry.x),
+                           // x: formatDate(entry.x),
+                           x: entry.x,
                            y: entry.y
                         }
                      });
                      dataColorMetaphor = dataColorMetaphor.map(entry => {
                         return {
-                           x: formatDate(entry.x),
+                           // x: formatDate(entry.x),
+                           x: entry.x,
                            y: entry.y
                         }
                      });

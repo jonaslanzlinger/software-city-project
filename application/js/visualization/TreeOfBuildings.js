@@ -305,7 +305,7 @@ class TreeOfBuildings {
     * Method that return the lowest timestamp of all buildings
     * in this TreeOfBuildings
     * 
-    * @returns {Date} The lowest timestamp of all buildings
+    * @returns {number} The lowest timestamp of all buildings
     */
    getLowestTimestamp() {
       let lowestTimestamp = Infinity;
@@ -323,7 +323,7 @@ class TreeOfBuildings {
     * Method that return the highest timestamp of all buildings
     * in this TreeOfBuildings
     * 
-    * @returns {Date} The highest timestamp of all buildings
+    * @returns {number} The highest timestamp of all buildings
     */
    getHighestTimestamp() {
       let highestTimestamp = -Infinity;

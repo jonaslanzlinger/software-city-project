@@ -27,7 +27,7 @@ const aggregateFunctionNone = (treeOfBuildings, lowerRangeBounds, upperRangeBoun
       let heightValue = 0;
       let colorValue = 0;
       for (let entry of building.buildingData) {
-         if (new Date(entry.timestamp) >= lowerRangeBounds && new Date(entry.timestamp) <= upperRangeBounds) {
+         if (parseInt(entry.timestamp) >= lowerRangeBounds && parseInt(entry.timestamp) <= upperRangeBounds) {
             heightValue = parseInt(entry[heightMetaphor]);
             colorValue = parseInt(entry[colorMetaphor]);
          }
@@ -45,7 +45,7 @@ const aggregateFunctionNone = (treeOfBuildings, lowerRangeBounds, upperRangeBoun
       let lastColorValue = 0;
       for (let entry of building.buildingData) {
          // here we collect the data for all entries that are within the range
-         if (new Date(entry.timestamp) >= lowerRangeBounds && new Date(entry.timestamp) <= upperRangeBounds) {
+         if (parseInt(entry.timestamp) >= lowerRangeBounds && parseInt(entry.timestamp) <= upperRangeBounds) {
             lastHeightValue = parseInt(entry[heightMetaphor]);
             lastColorValue = parseInt(entry[colorMetaphor]);
          }

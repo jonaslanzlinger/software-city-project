@@ -121,9 +121,10 @@ const addSlider = (treeOfBuildings, listOfModelTrees) => {
 
    const lowestTimestamp = treeOfBuildings.getLowestTimestamp();
    const highestTimestamp = treeOfBuildings.getHighestTimestamp();
-   const deltaMillis = highestTimestamp - lowestTimestamp;
+   const deltaTimestamp = highestTimestamp - lowestTimestamp;
 
-   valueDisplay.textContent = formatDate(lowestTimestamp);
+   // valueDisplay.textContent = formatDate(lowestTimestamp);
+   valueDisplay.textContent = lowestTimestamp;
    sliderContainer.style.display = "block";
 
    let isDragging = false;
@@ -180,8 +181,8 @@ const addSlider = (treeOfBuildings, listOfModelTrees) => {
 
          // calculate value for the display
          let sliderProgress = newSliderProgressInPixel / (slider.clientWidth - draggingSlider.clientWidth);
-         let sliderTimestamp = new Date(lowestTimestamp.getTime() + parseInt(sliderProgress * deltaMillis));
-         valueDisplay.textContent = formatDate(sliderTimestamp);
+         let sliderTimestamp = parseInt(lowestTimestamp) + parseInt(sliderProgress * deltaTimestamp);
+         valueDisplay.textContent = sliderTimestamp;
 
          // redraw the window-width div
          sliderWindowWidth.style.left = parseInt(sliderThumbT0.style.left) + 10 + "px";
@@ -191,10 +192,10 @@ const addSlider = (treeOfBuildings, listOfModelTrees) => {
          // calculate the range (upperRangeBounds = t1)
          const t0ProgressInPixel = parseInt(sliderThumbT0.style.left);
          const t0ProgressPercentage = t0ProgressInPixel / (slider.clientWidth - sliderThumbT0.clientWidth);
-         const lowerRangeBounds = new Date(lowestTimestamp.getTime() + parseInt(t0ProgressPercentage * deltaMillis));
+         const lowerRangeBounds = parseInt(lowestTimestamp) + parseInt(t0ProgressPercentage * deltaTimestamp);
          const t1ProgressInPixel = parseInt(sliderThumbT1.style.left);
          const t1ProgressPercentage = t1ProgressInPixel / (slider.clientWidth - sliderThumbT1.clientWidth);
-         const upperRangeBounds = new Date(lowestTimestamp.getTime() + parseInt(t1ProgressPercentage * deltaMillis));
+         const upperRangeBounds = parseInt(lowestTimestamp) + parseInt(t1ProgressPercentage * deltaTimestamp);
 
          // here decide which aggregate function to use
          switch (aggregateFunction.value) {

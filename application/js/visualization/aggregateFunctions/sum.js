@@ -27,7 +27,7 @@ const aggregateFunctionSum = (treeOfBuildings, lowerRangeBounds, upperRangeBound
       let heightSum = 0;
       let colorSum = 0;
       for (let entry of building.buildingData) {
-         if (new Date(entry.timestamp) >= lowerRangeBounds && new Date(entry.timestamp) <= upperRangeBounds) {
+         if (parseInt(entry.timestamp) >= lowerRangeBounds && parseInt(entry.timestamp) <= upperRangeBounds) {
             heightSum += parseInt(entry[heightMetaphor]);
             colorSum += parseInt(entry[colorMetaphor]);
          }
@@ -45,7 +45,7 @@ const aggregateFunctionSum = (treeOfBuildings, lowerRangeBounds, upperRangeBound
       let colorSum = 0;
       for (let entry of building.buildingData) {
          // here we collect the data for all entries that are within the range
-         if (new Date(entry.timestamp) >= lowerRangeBounds && new Date(entry.timestamp) <= upperRangeBounds) {
+         if (parseInt(entry.timestamp) >= lowerRangeBounds && parseInt(entry.timestamp) <= upperRangeBounds) {
             heightSum += parseInt(entry[heightMetaphor]);
             colorSum += parseInt(entry[colorMetaphor]);
          }
