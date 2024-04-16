@@ -6,6 +6,7 @@ const sliderContainer = document.getElementById("slider-container");
 const valueDisplay = document.getElementById("slider-value");
 const sliderThumbT0 = document.getElementById("slider-thumb-t0");
 const sliderThumbT1 = document.getElementById("slider-thumb-t1");
+const sliderWindowWidth = document.getElementById("slider-window-width");
 
 const cumulativeRadio = document.getElementById("cumulative");
 const snapshotsRadio = document.getElementById("snapshots");
@@ -17,6 +18,8 @@ const labelAggregated = document.getElementById("aggregated-label");
 // global variable for timeline mode
 let timelineMode = "cumulative";
 
+
+// TODO BIG! Refactor this two methods to one method (look for what is common)
 const addSlider = (treeOfBuildingsList, scene, listOfModelTrees) => {
 
    let modelTreeElement = document.getElementById("model-tree");
@@ -40,6 +43,9 @@ const addSlider = (treeOfBuildingsList, scene, listOfModelTrees) => {
    let SliderOffsetLeft = 0;
    let draggingSlider = null;
 
+   sliderThumbT0.style.left = "0px";
+   sliderThumbT1.style.left = "0px";
+
    sliderThumbT0.addEventListener("mousedown", e => {
       isDragging = true;
       SliderOffsetLeft = e.clientX - sliderThumbT0.getBoundingClientRect().left;
@@ -62,10 +68,32 @@ const addSlider = (treeOfBuildingsList, scene, listOfModelTrees) => {
       if (isDragging) {
          const sliderProgressInPixel = e.clientX - slider.getBoundingClientRect().left - SliderOffsetLeft;
          let newSliderProgressInPixel = Math.min(slider.clientWidth - draggingSlider.clientWidth, Math.max(0, sliderProgressInPixel));
-         draggingSlider.style.left = newSliderProgressInPixel + "px";
+
+         // if the t0 slider is dragged further right than the t1 slider, we want to prevent that
+         // if the t1 slider is dragged further left than the t0 slider, we want to prevent that
+         if (draggingSlider === sliderThumbT0 && newSliderProgressInPixel > parseInt(sliderThumbT1.style.left)) {
+            newSliderProgressInPixel = parseInt(sliderThumbT1.style.left);
+         } else if (draggingSlider === sliderThumbT1 && newSliderProgressInPixel < parseInt(sliderThumbT0.style.left)) {
+            newSliderProgressInPixel = parseInt(sliderThumbT0.style.left);
+         } else {
+            draggingSlider.style.left = newSliderProgressInPixel + "px";
+         }
+         // the dragging slider should be on top of the other slider
+         if (draggingSlider === sliderThumbT0) {
+            sliderThumbT0.style.zIndex = 2;
+            sliderThumbT1.style.zIndex = 1;
+         } else {
+            sliderThumbT1.style.zIndex = 2;
+            sliderThumbT0.style.zIndex = 1;
+         }
+
          let sliderProgress = newSliderProgressInPixel / (slider.clientWidth - draggingSlider.clientWidth);
          let sliderTimestamp = new Date(lowestTimestamp.getTime() + parseInt(sliderProgress * deltaMillis));
          valueDisplay.textContent = formatDate(sliderTimestamp);
+
+         // redraw the window-width div
+         sliderWindowWidth.style.left = parseInt(sliderThumbT0.style.left) + 10 + "px";
+         sliderWindowWidth.style.width = (parseInt(sliderThumbT1.style.left) - parseInt(sliderThumbT0.style.left)) + "px";
 
          const belowList = treeOfBuildingsList.filter(treeOfBuildings => new Date(treeOfBuildings.timestamp) <= sliderTimestamp);
          const next = belowList.reduce((max, treeOfBuildings) => new Date(treeOfBuildings.timestamp) > new Date(max.timestamp) ? treeOfBuildings : max, treeOfBuildingsList[0]);
@@ -109,6 +137,9 @@ const addSliderEyeTracking = (treeOfBuildings, listOfModelTrees) => {
    let isDragging = false;
    let SliderOffsetLeft = 0;
    let draggingSlider = null;
+
+   sliderThumbT0.style.left = "0px";
+   sliderThumbT1.style.left = "0px";
 
    sliderThumbT0.addEventListener("mousedown", e => {
       isDragging = true;
@@ -179,13 +210,34 @@ const addSliderEyeTracking = (treeOfBuildings, listOfModelTrees) => {
 
    document.addEventListener("mousemove", e => {
       if (isDragging) {
-         console.log(slider);
          const sliderProgressInPixel = e.clientX - slider.getBoundingClientRect().left - SliderOffsetLeft;
          let newSliderProgressInPixel = Math.min(slider.clientWidth - draggingSlider.clientWidth, Math.max(0, sliderProgressInPixel));
-         draggingSlider.style.left = newSliderProgressInPixel + "px";
+
+         // if the t0 slider is dragged further right than the t1 slider, we want to prevent that
+         // if the t1 slider is dragged further left than the t0 slider, we want to prevent that
+         if (draggingSlider === sliderThumbT0 && newSliderProgressInPixel > parseInt(sliderThumbT1.style.left)) {
+            newSliderProgressInPixel = parseInt(sliderThumbT1.style.left);
+         } else if (draggingSlider === sliderThumbT1 && newSliderProgressInPixel < parseInt(sliderThumbT0.style.left)) {
+            newSliderProgressInPixel = parseInt(sliderThumbT0.style.left);
+         } else {
+            draggingSlider.style.left = newSliderProgressInPixel + "px";
+         }
+         // the dragging slider should be on top of the other slider
+         if (draggingSlider === sliderThumbT0) {
+            sliderThumbT0.style.zIndex = 2;
+            sliderThumbT1.style.zIndex = 1;
+         } else {
+            sliderThumbT1.style.zIndex = 2;
+            sliderThumbT0.style.zIndex = 1;
+         }
+
          let sliderProgress = newSliderProgressInPixel / (slider.clientWidth - draggingSlider.clientWidth);
          let sliderTimestamp = new Date(lowestTimestamp.getTime() + parseInt(sliderProgress * deltaMillis));
          valueDisplay.textContent = formatDate(sliderTimestamp);
+
+         // redraw the window-width div
+         sliderWindowWidth.style.left = parseInt(sliderThumbT0.style.left) + 10 + "px";
+         sliderWindowWidth.style.width = (parseInt(sliderThumbT1.style.left) - parseInt(sliderThumbT0.style.left)) + "px";
 
          // calculate the window width in milliseconds
          const windowWidthMillis = deltaMillis * windowWidth.value / 100;
