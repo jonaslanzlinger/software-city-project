@@ -32,12 +32,12 @@ const aggregateFunctionNone = (treeOfBuildings, lowerRangeBounds, upperRangeBoun
             heightValue = parseInt(entry[heightMetaphor]);
             colorValue = parseInt(entry[colorMetaphor]);
          }
-         if (heightValue > maxHeightValue) {
-            maxHeightValue = heightValue;
-         }
-         if (colorValue > maxColorValue) {
-            maxColorValue = colorValue;
-         }
+      }
+      if (heightValue > maxHeightValue) {
+         maxHeightValue = heightValue;
+      }
+      if (colorValue > maxColorValue) {
+         maxColorValue = colorValue;
       }
    }
 
