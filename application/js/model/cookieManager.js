@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { getAttributeNames } from '../data';
+import { getAttributeNames } from './dataManagement/data';
 
 // stores the config (groupingPath, timestamp, participant, taskId)
 const updateConfig = config => {

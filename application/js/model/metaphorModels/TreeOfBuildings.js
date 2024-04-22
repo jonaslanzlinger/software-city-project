@@ -3,8 +3,8 @@ import { Plane } from "./Plane";
 import { Mesh } from "three";
 import pack from "bin-pack";
 // import { calculateNormalizeFactors } from "../utils";
-import { getDataType, getEpoques, getNormalizer, getVisualizationData, setNormalizer } from "../data";
-import { Normalizer } from "./Normalizer";
+import { getDataType, getEpoques, getNormalizer, getVisualizationData, setNormalizer } from "../dataManagement/data";
+import { Normalizer } from "../../utils/Normalizer";
 
 /**
  * Class that represents a tree of buildings

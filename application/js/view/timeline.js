@@ -1,7 +1,6 @@
-import { formatDate } from "../utils.js";
-import { aggregateFunctionNone } from "./aggregateFunctions/none";
-import { aggregateFunctionSum } from "./aggregateFunctions/sum";
-import { aggregateFunctionIntegralCurve } from "./aggregateFunctions/integralCurve";
+import { aggregateFunctionNone } from "../model/aggregateFunctions/none";
+import { aggregateFunctionSum } from "../model/aggregateFunctions/sum";
+import { aggregateFunctionIntegralCurve } from "../model/aggregateFunctions/integralCurve";
 
 const sliderContainer = document.getElementById("slider-container");
 const valueDisplay = document.getElementById("slider-value");
@@ -109,6 +108,9 @@ let aggregateFunction = document.getElementById("aggregate-function");
 
 const addSlider = (treeOfBuildings, listOfModelTrees) => {
 
+   // TODO
+   // document.getElementById("slider-window-width").style.width = "0px";
+
    let modelTreeElement = document.getElementById("model-tree");
    while (modelTreeElement.firstChild) {
       modelTreeElement.removeChild(modelTreeElement.firstChild);
@@ -123,7 +125,6 @@ const addSlider = (treeOfBuildings, listOfModelTrees) => {
    const highestTimestamp = treeOfBuildings.getHighestTimestamp();
    const deltaTimestamp = highestTimestamp - lowestTimestamp;
 
-   // valueDisplay.textContent = formatDate(lowestTimestamp);
    valueDisplay.textContent = lowestTimestamp;
    sliderContainer.style.display = "block";
 

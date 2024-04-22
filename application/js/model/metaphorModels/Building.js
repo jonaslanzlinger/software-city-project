@@ -1,6 +1,6 @@
 import * as THREE from "three";
-import { Color } from "../Color";
-import { getMetaphorSelection } from "../data";
+import { Color } from "../../utils/Color";
+import { getMetaphorSelection } from "../dataManagement/data";
 
 class Building extends THREE.Mesh {
 

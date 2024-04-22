@@ -1,4 +1,4 @@
-import { getVisualizationData } from "./data";
+import { getVisualizationData } from "../model/dataManagement/data";
 
 /**
  * Method to return a date in the format "YYYY-MM-DD, HH:MM:SS:SSS"

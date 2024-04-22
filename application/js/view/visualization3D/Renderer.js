@@ -1,6 +1,6 @@
 import * as THREE from "three";
-import { addRenderer } from "../data";
-import { Color } from "../Color";
+import { addRenderer } from "../../model/dataManagement/data";
+import { Color } from "../../utils/Color";
 
 class Renderer extends THREE.WebGLRenderer {
 

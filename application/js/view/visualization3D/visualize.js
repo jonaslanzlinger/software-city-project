@@ -2,13 +2,13 @@ import * as THREE from "three";
 import { Renderer } from "./Renderer";
 import { VisualControls } from "./VisualControls";
 import { LightSettings } from "./LightSettings";
-import { Gui } from "./Gui";
-import { MouseControls } from "./MouseControls";
-import { addSlider } from "./timeline";
-import { createModelTrees } from "./modelTree";
+import { Gui } from "../Gui";
+import { MouseControls } from "../../controller/MouseControls";
+import { addSlider } from "../timeline";
+import { createModelTrees } from "../modelTree";
 // This is for VR Button
 import { VRButton } from "three/examples/jsm/webxr/VRButton";
-import { getDataType, removeRenderersAndGuis } from "../data";
+import { getDataType, removeRenderersAndGuis } from "../../model/dataManagement/data";
 
 
 /**

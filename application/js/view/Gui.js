@@ -1,8 +1,6 @@
 import * as dat from "dat.gui";
-import * as THREE from "three";
-import { addGui, getNormalizer } from "../data";
-import { hexToRgb, rgbToHsl } from "../utils";
-import { Color } from "../Color";
+import { addGui, getNormalizer } from "../model/dataManagement/data";
+import { hexToRgb, rgbToHsl } from "../utils/utils";
 
 class Gui extends dat.GUI {
 

@@ -1,7 +1,6 @@
-import { Plane } from "./Plane";
-import { Building } from "./Building";
-import * as THREE from "three";
-import { hexToRgb, rgbToHsl } from "../utils";
+import { Plane } from "../model/metaphorModels/Plane";
+import { Building } from "../model/metaphorModels/Building";
+import { hexToRgb, rgbToHsl } from "../utils/utils";
 
 const createModelTrees = listTreeOfBuildings => {
    let listOfModelTrees = [];

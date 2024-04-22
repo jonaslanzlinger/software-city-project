@@ -1,6 +1,3 @@
-import { timestampToDate } from "./utils";
-
-
 let dataStore = {
    originalData: [],
    attributeNames: [],
@@ -167,10 +164,7 @@ const removeAllGuis = () => {
 
 const removeRenderer = renderer => {
    renderer.dispose();
-   let canvasElement = document.getElementsByTagName("canvas");
-   if (canvasElement.length > 0) {
-      canvasElement[0].remove();
-   }
+   renderer.domElement.remove();
 }
 
 const removeGui = gui => {

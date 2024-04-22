@@ -1,10 +1,9 @@
 import * as THREE from "three";
-import { Building } from "./Building";
-import { Plane } from "./Plane";
+import { Building } from "../model/metaphorModels/Building";
+import { Plane } from "../model/metaphorModels/Plane";
 import { Mesh } from "three";
-import { getListTreeOfBuildings, getMetaphorSelection } from "../data";
-import { formatDate } from "../utils";
-import { drawArrow, removeArrow } from "./arrow";
+import { getListTreeOfBuildings, getMetaphorSelection } from "../model/dataManagement/data";
+import { drawArrow, removeArrow } from "../view/visualization3D/arrow";
 
 class MouseControls {
 

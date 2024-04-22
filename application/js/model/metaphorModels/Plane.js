@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { Color } from "../Color";
+import { Color } from "../../utils/Color";
 
 class Plane extends THREE.Group {
 

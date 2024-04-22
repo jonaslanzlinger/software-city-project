@@ -1,4 +1,4 @@
-import { getNormalizer } from "../../data.js";
+import { getNormalizer } from "../../model/dataManagement/data.js";
 
 /**
  * 
