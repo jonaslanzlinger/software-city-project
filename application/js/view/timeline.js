@@ -10,7 +10,6 @@ const sliderWindowWidth = document.getElementById("slider-window-width");
 
 let aggregateFunction = document.getElementById("aggregate-function");
 
-
 // TODO BIG! Refactor this two methods to one method (look for what is common)
 // const addSlider = (treeOfBuildingsList, scene, listOfModelTrees) => {
 

@@ -311,8 +311,8 @@ class TreeOfBuildings {
       let lowestTimestamp = Infinity;
       for (let building of this.list) {
          for (let entry of building.buildingData) {
-            if (entry.timestamp < lowestTimestamp) {
-               lowestTimestamp = entry.timestamp;
+            if (parseInt(entry.timestamp) < lowestTimestamp) {
+               lowestTimestamp = parseInt(entry.timestamp);
             }
          }
       }
@@ -329,8 +329,8 @@ class TreeOfBuildings {
       let highestTimestamp = -Infinity;
       for (let building of this.list) {
          for (let entry of building.buildingData) {
-            if (entry.timestamp > highestTimestamp) {
-               highestTimestamp = entry.timestamp;
+            if (parseInt(entry.timestamp) > highestTimestamp) {
+               highestTimestamp = parseInt(entry.timestamp);
             }
          }
       }
