@@ -1,7 +1,7 @@
 class Normalizer {
 
-   dimensionRange = { min: 0.2, max: 10.0 };
-   heightRange = { min: 0.2, max: 50.0 };
+   dimensionRange = { min: 1, max: 10.0 };
+   heightRange = { min: 1, max: 30.0 };
 
    maxDimensionBuilding = 0;
    minDimensionBuilding = 0;
