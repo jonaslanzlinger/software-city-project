@@ -38,15 +38,16 @@ class Gui extends dat.GUI {
 
       this.optionsHeightMetaphor = {
          scale: 1.0,
-         normalize: 1.0,
+         normalize: 0.0,
       };
 
       let heightMetaphorFolder = metaphorsFolder.addFolder("Height");
       heightMetaphorFolder
-         .add(this.optionsHeightMetaphor, "scale", 0.0, 2.0)
+         .add(this.optionsHeightMetaphor, "scale", 0.0, 10.0)
          .name("Scale")
          .onChange(value => {
             getNormalizer().setGuiScaleValue(value);
+            getNormalizer().setCurrentHeightValueMean(listTreeOfBuildings[0].getCurrentHeightValueMean());
             listTreeOfBuildings[0].list.forEach(building => {
                building.scale.y = getNormalizer().normalizeHeight(building.currentHeightValue);
                building.position.y = building.scale.y / 2 + 0.1;
@@ -54,7 +55,7 @@ class Gui extends dat.GUI {
          });
 
       heightMetaphorFolder
-         .add(this.optionsHeightMetaphor, "normalize", 0.0, 2.0)
+         .add(this.optionsHeightMetaphor, "normalize", -1.0, 1.0)
          .name("Normalize")
          .onChange(value => {
             getNormalizer().setGuiNormalizeValue(value);

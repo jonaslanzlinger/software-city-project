@@ -1,0 +1,5 @@
+grouping,timestamp,participant,task,dim,height,color,something
+app.Main,1300,1,1,5,5,5,10
+app.Main,1301,1,1,5,5,5,10
+app.Main2,1300,1,1,50,50,50,100
+app.Main2,1301,1,1,50,100,50,100

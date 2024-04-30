@@ -8,8 +8,7 @@ import { addSlider } from "../timeline";
 import { createModelTrees } from "../modelTree";
 // This is for VR Button
 import { VRButton } from "three/examples/jsm/webxr/VRButton";
-import { getDataType, removeRenderersAndGuis } from "../../model/dataManagement/data";
-
+import { getDataStore, getDataType, removeRenderersAndGuis } from "../../model/dataManagement/data";
 
 /**
  * Method to visualize the data in dataStore.visualizationData

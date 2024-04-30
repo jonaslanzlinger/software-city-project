@@ -1,6 +1,6 @@
 class Normalizer {
 
-   dimensionRange = { min: 1, max: 10.0 };
+   dimensionRange = { min: 1, max: 8.0 };
    heightRange = { min: 1, max: 30.0 };
 
    maxDimensionBuilding = 0;
@@ -9,7 +9,7 @@ class Normalizer {
    minHeightBuilding = 0;
 
    guiScaleValue = 1;
-   guiNormalizeValue = 1;
+   guiNormalizeValue = 0;
    currentHeightValueMean = 0;
 
    constructor(treeOfBuildings) {
@@ -40,20 +40,20 @@ class Normalizer {
       });
    }
 
+   // TODO
    normalizeHeight(height) {
       let percent = 0.25;
       // if there is only one building present, set the height to 1/4 of the max value
       if (this.minDimensionBuilding !== this.maxDimensionBuilding) {
          percent = (height - this.minHeightBuilding) / (this.maxHeightBuilding - this.minHeightBuilding);
+         if (this.guiNormalizeValue < 0) {
+            percent = Math.pow(percent, 1 + this.guiNormalizeValue);
+         } else if (this.guiNormalizeValue > 0) {
+            percent = Math.pow(percent, Math.abs(1 / this.guiNormalizeValue));
+         }
       }
-      let normalizedHeight = (this.heightRange.max - this.heightRange.min) * percent + this.heightRange.min;
-      if (normalizedHeight > this.currentHeightValueMean) {
-         return (this.currentHeightValueMean + Math.pow(normalizedHeight - this.currentHeightValueMean, this.guiNormalizeValue)) * this.guiScaleValue;
-      } else if (normalizedHeight < this.currentHeightValueMean) {
-         return (this.currentHeightValueMean - Math.pow(this.currentHeightValueMean - normalizedHeight, this.guiNormalizeValue)) * this.guiScaleValue;
-      } else {
-         return normalizedHeight * this.guiScaleValue;
-      }
+      let normalizedHeight = this.heightRange.min + ((this.heightRange.max - this.heightRange.min) * percent * this.guiScaleValue);
+      return normalizedHeight;
    }
 
    setCurrentHeightValueMean(value) {

@@ -30,7 +30,8 @@ const getConfig = () => {
    // get now the config that has the same attribute names as the attribute names
    configs.forEach(entry => {
       const entryNamesSorted = JSON.parse(entry.split('=')[1]).attributeNames.sort().toString();
-      const attributeNamesSorted = getAttributeNames().sort().toString();
+      // Shallow copy of attributeNames
+      const attributeNamesSorted = getAttributeNames().slice().sort().toString();
 
       if (entryNamesSorted === attributeNamesSorted) {
          return entry;
@@ -68,7 +69,8 @@ const getMapping = () => {
    // get now the mapping that has the same attribute names as the provided attributeNames parameter
    mappings.forEach(entry => {
       const entryNamesSorted = JSON.parse(entry.split('=')[1]).attributeNames.sort().toString();
-      const attributeNamesSorted = getAttributeNames().sort().toString();
+      // Shallow copy of attributeNames
+      const attributeNamesSorted = getAttributeNames().slice().sort().toString();
 
       if (entryNamesSorted === attributeNamesSorted) {
          return entry;
