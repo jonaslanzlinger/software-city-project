@@ -17,14 +17,14 @@ docker-compose up --build
 
 ## Functionalities
 
-> See [functionalities.md]() for a detailed functionality description of SoftwareCity.
+> See [functionalities.md](https://github.com/jonaslanzlinger/software-city-project/blob/main/docs/functionalities.md) for a detailed functionality description of SoftwareCity.
 
 <img src="docs%2Fresources%2Fbanner.png" width="1000">
 
 
 ## Usage example
 
-> See [analysis.md]() for an analysis of some sample repositories which demonstrates the usage of SoftwareCity.
+> See [analysis.md](https://github.com/jonaslanzlinger/software-city-project/blob/main/docs/analysis.md) for an analysis of some sample repositories which demonstrates the usage of SoftwareCity.
 
 
 ## Contact
